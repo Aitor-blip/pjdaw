@@ -19,7 +19,7 @@ CREATE TABLE FOTO(
     idFoto int primary key not null,
     ruta varchar(100) not null, 
     descripcion varchar(100)
-)
+);
 ALTER TABLE PERRO ADD CONSTRAINT FK_FOTO FOREIGN KEY (idFoto) REFERENCES FOTO (idFoto);
 
 
@@ -63,6 +63,17 @@ CREATE TABLE HISTORIAL_MEDICO(
 
 ALTER TABLE HISTORIAL_MEDICO ADD CONSTRAINT FK_HISTORIAL FOREIGN KEY (nChip) REFERENCES PERRO (nChip);
 
+CREATE TABLE ADOPCION_PERROS(
+    nChip int not null,
+    dniPropietario varchar(20) not null,
+    fechaAdopcion date not null
+);
+
+
+ALTER TABLE ADOPCION_PERROS ADD CONSTRAINT FK_NCHIP_ADOPCION_PERROS FOREIGN KEY (nChip) REFERENCES PERRO (nChip);
+ALTER TABLE ADOPCION_PERROS ADD CONSTRAINT FK_DNI_PROPIEATARIO_ADOPCION_PERROS FOREIGN KEY (dniPropietario) REFERENCES PROPIETARIO (dniPropietario);
+
+
 INSERT INTO PERRERA (idperrera,nombrePerrera,nPerros,ubicacion,valoracion) 
     VALUES(1,'Perrera',2,'España','4,2');
 
@@ -82,9 +93,11 @@ INSERT INTO RAZA(idRaza,nombreRaza,ubicacionRaza) VALUES(4,'Pastor Aleman','Alem
 INSERT INTO FOTO(idFoto,ruta,descripcion) VALUES(0,'ruta','foto prueba');
 
 INSERT INTO PERRO(nChip,nombrePerro,fechaNacimiento,fechaEntrada,idperrera,idRaza,dniPropietario)
-    VALUES(188484,'Kyle','2020-01-31','2020-02-01',1,1,0,'19859555G');
+    VALUES(188484,'Kyle','2020-01-31','2020-02-01',1,1,'19859555G');
 
 
 INSERT INTO HISTORIAL_MEDICO(idHistorialMedico,fechaEntrada,observaciones,nChip)
     VALUES(1,'2023-04-2022','S/N',188484);
 
+
+INSERT INTO ADOPCION_PERROS(nChip,dniPropietario,fechaAdopcion) VALUES(188484,'19859555G','2023-04-2022');
