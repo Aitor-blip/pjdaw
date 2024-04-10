@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Animales de Adopcion</title>
-    <link rel="stylesheet" href="../css/estilos.css">
-    <link rel="icon" href="../imagenes/logo.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="../../css/estilos.css">
+    <link rel="icon" href="../../imagenes/logo.jpg" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="animal__adopcion__body">
     <header class="header__adopcion">
         <nav>
             <a href="" class="logo">
-              <img src="../imagenes/logo.jpg" alt="Logo">
+              <img src="../../imagenes/logo.jpg" alt="Logo">
             </a>
             <ul class="lista__enlaces__visible">
               <li class="item">
@@ -121,7 +121,7 @@
                     
                   <div class="animal_card">
                     <a href="#" class="animal__a">
-                        <img src="../imagenes/dog1.jpg" alt="Perro" class="animal__img">
+                        <img src="../../imagenes/dog1.jpg" alt="Perro" class="animal__img">
                     </a>
                     <div class="animal__card__info">
                         <div class="animal__textos">
@@ -143,7 +143,7 @@
                   </div>
                   <div class="animal_card">
                     <a href="#" class="animal__a">
-                        <img src="../imagenes/dog1.jpg" alt="Perro" class="animal__img">
+                        <img src="../../imagenes/dog1.jpg" alt="Perro" class="animal__img">
                     </a>
                     <div class="animal__card__info">
                         <div class="animal__textos">
@@ -165,7 +165,7 @@
                   </div>
                   <div class="animal_card">
                   <a href="#" class="animal__a">
-                      <img src="../imagenes/dog1.jpg" alt="Perro" class="animal__img">
+                      <img src="../../imagenes/dog1.jpg" alt="Perro" class="animal__img">
                   </a>
                   <div class="animal__card__info">
                       <div class="animal__textos">
@@ -187,7 +187,7 @@
                   </div>
                   <div class="animal_card">
                     <a href="#" class="animal__a">
-                        <img src="../imagenes/dog1.jpg" alt="Perro" class="animal__img">
+                        <img src="../../imagenes/dog1.jpg" alt="Perro" class="animal__img">
                     </a>
                     <div class="animal__card__info">
                         <div class="animal__textos">
@@ -209,7 +209,7 @@
                   </div>
                   <div class="animal_card">
                     <a href="#" class="animal__a">
-                        <img src="../imagenes/dog1.jpg" alt="Perro" class="animal__img">
+                        <img src="../../imagenes/dog1.jpg" alt="Perro" class="animal__img">
                     </a>
                     <div class="animal__card__info">
                         <div class="animal__textos">
@@ -231,7 +231,7 @@
                   </div>
                   <div class="animal_card">
                   <a href="#" class="animal__a">
-                      <img src="../imagenes/dog1.jpg" alt="Perro" class="animal__img">
+                      <img src="../../imagenes/dog1.jpg" alt="Perro" class="animal__img">
                   </a>
                   <div class="animal__card__info">
                       <div class="animal__textos">

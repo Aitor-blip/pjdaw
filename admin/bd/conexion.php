@@ -16,5 +16,21 @@
             $consulta->execute();
             return $consulta->fetchAll();            
         }
+
+        public static function getPerrosSinAdoptar(){
+            $sql="SELECT * FROM PERRO WHERE nChip NOT IN(SELECT NCHIP FROM ADOPCION_PERROS)";
+            $consulta = self::$instancia->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetchAll(); 
+        }
+
+        public static function getPerrosParaAdoptar($dni){
+            $sql="SELECT * FROM ADOPCION_PERROS WHERE dniPropietario = '$dni'";
+            $consulta = self::$instancia->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetchAll(); 
+        }
+
+
     }
 ?>
