@@ -145,6 +145,10 @@ a{
     flex-direction: column;
 }
 
+.message{
+    font-size: 5rem;
+}
+
 
 .header__textos{
     flex-direction: column;
@@ -345,3 +349,8 @@ a{
         margin: 0 5rem;
     }
 }
+
+
+
+/*Animales Adopción*/
+

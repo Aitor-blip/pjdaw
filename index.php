@@ -1,6 +1,9 @@
 <?php
     include_once './admin/bd/conexion.php';
+    include_once './admin/clases/perro.php';
     $conexion = bd::crearInstancia();
+    $perro = new Perro('393993','Mar','2022-12-02','2024-02-02',1,1,0,'19859555G');
+    $state = bd::insertPerro($perro);
 ?>
 
 
@@ -28,7 +31,7 @@
                 <i class="fa-solid fa-heart heart"></i>
                 <div class="barra"></div>
                 <li class="lista__element">
-                    <a href="#">Adopta</a>
+                    <a href="./admin/secciones/animales_adopcion.php">Adopta</a>
                 </li>
                 <li class="lista__element">
                     <a href="#">Sign Up</a>
@@ -73,6 +76,13 @@
     </header>
 
     <main>
+
+        <?php
+            if(!$state){?>
+                <h2 style='margin:-20rem 0;'><?php echo bd::$messageError?></h2>
+            <?php  } ?>
+
+        
 
     <section class="hype">
         <h2>Hype de la semana</h2>
