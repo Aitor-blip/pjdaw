@@ -68,12 +68,14 @@ a{
 
 .logo__img{
     width: 100px;
+    max-width: 100px;
     height: 100px;
+    max-height: 100px;
     border-radius: 50%;
 }
 
 .nav-menu{
-    height: 250px;
+    height: 320px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -84,9 +86,10 @@ a{
 @media(min-width:768px){
 
     .nav-menu{
+        width: 90%;
         height: 150px;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: center;
     }
 
     .header{
@@ -95,11 +98,14 @@ a{
     }
 
     .lista__nav{
-        width: 50%;
+        width: 30%;
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
         align-items: center;
-        padding-right: 3rem;
+    }
+
+    .lista__nav li{
+        margin: 0 2rem;
     }
 
     .logo{
