@@ -73,33 +73,85 @@
     </header>
 
     <main>
-        <!--
+
+    <section class="hype">
+        <h2>Hype de la semana</h2>
         <div class="animales container">
+            
             <div class="animal">
                 <img src="./imagenes/dog5.jpg" class="animal__img" alt="Imagen animal">
-                <p class="animal__info">animal Info</p>
+                <div class="header__textos">
+                    <p class="animal__info">Animal Info</p>
+                </div>
             </div>
             <div class="animal">
                 <img src="./imagenes/dog5.jpg" class="animal__img" alt="Imagen animal">
-                <p class="animal__info">animal Info</p>
+                <div class="header__textos">
+                    <p class="animal__info">Animal Info</p>
+                </div>
             </div>
             <div class="animal">
                 <img src="./imagenes/dog5.jpg" class="animal__img" alt="Imagen animal">
-                <p class="animal__info">animal Info</p>
+                <div class="header__textos">
+                    <p class="animal__info">Animal Info</p>
+                </div>
             </div>
             <div class="animal">
                 <img src="./imagenes/dog5.jpg" class="animal__img" alt="Imagen animal">
-                <p class="animal__info">animal Info</p>
+                <div class="header__textos">
+                    <p class="animal__info">Animal Info</p>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div class="banner">
+
+    <div class="banner banner--test">
+        <h3>Encuentra tu mascota ideal</h3>
+        <p>¿Has pensado qué personalidad de mascota estás buscando?</p>
+        <p>¡Sí! Los animales también tienen personalidades y se identifican con sus dueños y su estilo de vida.</p>
+        <p>Averigua qué tipo de adoptable es mejor para ti.</p>
+        <a href="" class="btn__banner btn__banner--test"></a>
+    </div>
+
+    </main>
+    <section class="adoptables">
+        <h2>Adoptables de la semana</h2>
+        <div class="animales container">
+            
+            <div class="animal">
+                <img src="./imagenes/dog5.jpg" class="animal__img" alt="Imagen animal">
+                <div class="header__textos">
+                    <p class="animal__info">Animal Info</p>
+                </div>
+            </div>
+            <div class="animal">
+                <img src="./imagenes/dog5.jpg" class="animal__img" alt="Imagen animal">
+                <div class="header__textos">
+                    <p class="animal__info">Animal Info</p>
+                </div>
+            </div>
+            <div class="animal">
+                <img src="./imagenes/dog5.jpg" class="animal__img" alt="Imagen animal">
+                <div class="header__textos">
+                    <p class="animal__info">Animal Info</p>
+                </div>
+            </div>
+            <div class="animal">
+                <img src="./imagenes/dog5.jpg" class="animal__img" alt="Imagen animal">
+                <div class="header__textos">
+                    <p class="animal__info">Animal Info</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="banner banner--patrocinadores">
             <h3>Nuestros patrocinadores</h3>
         </div>
-    </main>
--->
 
-    <!--<footer class="footer">
+
+    <footer class="footer">
         <nav>
             <ul class="lista__nav">
                 <li class="lista__element"><a href="#">Blog</a></li>
@@ -108,7 +160,6 @@
             </ul>
         </nav>
     </footer>
--->
     
 </body>
 </html>

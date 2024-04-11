@@ -141,6 +141,7 @@ a{
 
 
 .header__textos{
+    flex-direction: column;
     text-align: center;
     line-height: 2.5rem;
 }
@@ -187,7 +188,7 @@ a{
 
 
 .header__form__paragraph span{
-    font-size: 130%;
+    font-size: 80%;
     font-style: bold;
     color: orange;
 }
@@ -209,5 +210,132 @@ a{
 @media(min-width:768px){
     .header__form input,.header__form select{
         width: auto;
+    }
+
+    .header__form__paragraph{
+        font-size: 130%;
+    }
+}
+
+
+.hype{
+    padding-top: 50rem;
+}
+
+.animales{
+    height: 30rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.animal{
+    border-bottom: 4px dashed black;
+    margin: 0 1rem;
+}
+
+.animal__img{
+    width: 80%;
+}
+
+.header__textos{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.animal__info{
+    font-size: .7rem;
+    color: orange;
+}
+
+@media(min-width:768px){
+    .animal{
+        margin: 0 1rem;
+    }
+
+
+    .hype{
+        padding-top: 50rem;
+    }
+}
+
+/*Banner*/
+
+
+.banner{
+    width: 100%;
+    height: 20rem;
+    margin: 5rem 0;
+    padding: 2rem 0;
+}
+
+.banner p{
+    margin-top: 1rem;
+}
+
+.banner > h2,.banner>p{
+    color: black;
+}
+
+.banner--test{
+    background-color: cadetblue;
+}
+
+.banner--patrocinadores{
+    background-color: grey;
+}
+
+/*Adoptables de la semana*/
+.adoptables{
+    padding-top: 50rem;
+}
+
+@media(min-width:768px){
+    .adoptables{
+        padding-top: 20rem;
+    }
+}
+
+
+/*Footer*/
+
+.footer{
+    width: 90%;
+    height: 20rem;
+}
+
+.lista__nav{
+    width: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.lista__nav li{
+    color: black;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin: 1rem 0;
+}
+
+@media(min-width:768px){
+
+    .footer{
+        width: 100%;
+        height: 10rem;
+    }
+
+    .lista__nav{
+        width: 90%;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+    }
+
+    .lista__nav li{
+        margin: 0 5rem;
     }
 }
