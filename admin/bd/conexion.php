@@ -1,13 +1,15 @@
 <?php
+    include_once './variables_bd.php';
      class BD{
         public static $instancia=null;
         public static function crearInstancia(){
             if(!isset(self::$instancia)){
                 //Activamos el control de errores de la bd 
                 $opciones[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
-                self::$instancia = new PDO('mysql:host=localhost;dbname=perros;','root','',$opciones);
-                echo "<p class='subtitle'>Conexión a base de datos realizada</p>";
-                return self::$instancia;
+                //self::$instancia = new PDO('mysql:host='.SERVER.';dbname=perros;','root','aitor2002',$opciones);
+                self::$instancia = new PDO('mysql:host=localhost;dbname=perros;','root','aitor2002',$opciones);
+                //echo "<p class='subtitle'>Conexión a base de datos realizada</p>";
+                
             }
         }
 
