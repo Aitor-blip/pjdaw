@@ -10,6 +10,7 @@ CREATE TABLE PERRO (
     fechaNacimiento date not null,
     fechaEntrada date not null,
     idperrera int not null,
+    peso int not null,
     idRaza int not null,
     idFoto int not null,
     dniPropietario varchar(9) default null
