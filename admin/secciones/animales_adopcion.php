@@ -77,7 +77,7 @@
             <div class="container animales__adopcion__container">
                 <div class="filtros">
                     <h2>Filtrar por:</h2>
-                    <form action="" method="post">
+                    <form action="" method="post" class="form__action">
                         <label for="ciudad">Ciudad,municipio o delegación:</label>
                         <input type="text" name="ciudad" id="ciudad" class="animal__input__text">
 
@@ -131,7 +131,7 @@
                 </div>
                 <div class="animales">
                     
-                  <div class="animal_card">
+                  <div class="animal__card">
                     <a href="#" class="animal__a">
                         <img src="../../imagenes/dog1.jpg" alt="Perro" class="animal__img">
                     </a>
@@ -153,7 +153,7 @@
                         </form>
                     </div>
                   </div>
-                  <div class="animal_card">
+                  <div class="animal__card">
                     <a href="#" class="animal__a">
                         <img src="../../imagenes/dog1.jpg" alt="Perro" class="animal__img">
                     </a>
@@ -175,7 +175,7 @@
                         </form>
                     </div>
                   </div>
-                  <div class="animal_card">
+                  <div class="animal__card">
                   <a href="#" class="animal__a">
                       <img src="../../imagenes/dog1.jpg" alt="Perro" class="animal__img">
                   </a>
@@ -197,7 +197,7 @@
                       </form>
                   </div>
                   </div>
-                  <div class="animal_card">
+                  <div class="animal__card">
                     <a href="#" class="animal__a">
                         <img src="../../imagenes/dog1.jpg" alt="Perro" class="animal__img">
                     </a>
@@ -219,7 +219,7 @@
                         </form>
                     </div>
                   </div>
-                  <div class="animal_card">
+                  <div class="animal__card">
                     <a href="#" class="animal__a">
                         <img src="../../imagenes/dog1.jpg" alt="Perro" class="animal__img">
                     </a>
@@ -241,7 +241,7 @@
                         </form>
                     </div>
                   </div>
-                  <div class="animal_card">
+                  <div class="animal__card">
                   <a href="#" class="animal__a">
                       <img src="../../imagenes/dog1.jpg" alt="Perro" class="animal__img">
                   </a>

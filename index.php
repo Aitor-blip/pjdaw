@@ -2,8 +2,9 @@
     include_once './admin/bd/conexion.php';
     include_once './admin/clases/perro.php';
     $conexion = bd::crearInstancia();
-    $perro = new Perro('393993','Mar','2022-12-02','2024-02-02',1,1,0,'19859555G');
-    $state = bd::insertPerro($perro);
+    $perro = new Perro('188484','Mor','2022-11-02','2024-04-02',2,3,1,'19859555J');
+    //$state = bd::insertPerro($perro);
+    //$state = bd::updatePerro($perro);
 ?>
 
 
@@ -76,11 +77,6 @@
     </header>
 
     <main>
-
-        <?php
-            if(!$state){?>
-                <h2 style='margin:-20rem 0;'><?php echo bd::$messageError?></h2>
-            <?php  } ?>
 
         
 

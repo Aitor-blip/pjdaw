@@ -14,6 +14,10 @@ body{
     
 }
 
+input[type="submit"],button{
+    cursor: pointer;
+}
+
 /*Clases globales*/
 
 .container{
@@ -386,7 +390,26 @@ a{
 }
 
 
+@media(min-width:768px){
+    .nav__adopcion{
+        flex-direction: row;
+        justify-content: space-between;
+        
+    }
+    
+    .nav__adopcion ul{
+        width: 10%;
+        flex-direction: row;
+        justify-content: space-around;
+        margin: 0 5rem;
+    }
 
+    .nav__adopcion ul li{
+        margin: 0 3rem;
+    }
+
+
+}
 
 
 
@@ -415,13 +438,32 @@ a{
     flex-direction: column;
 }
 
+.animal__input__text{
+    padding: 1.4rem;
+    border: 1px solid gainsboro;
+    outline: none;
+    border-radius: 5px;
+    text-align: left;
+    color: black;
+    margin: 2rem 0;
+}
+
 .animales__adopcion__container form label,.animales__adopcion__container form  input{
     margin: .2rem 0 .4rem 0;
 }
 
 .animales__adopcion__container form select{
     margin: .4rem 0;
+    padding: 1rem 3rem;
+    border: 1px solid gainsboro;
+    text-align: center;
+    color: black;
+    font-weight: 700;
+    width: 80%;
+    font-size: .8rem;
 }
+
+
 
 .sizes{
     display: flex;
@@ -446,9 +488,15 @@ a{
 
 .animales{
     display: grid;
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(2,1fr);
     grid-template-rows: repeat(2,1fr);
     width: 90%;
+}
+
+@media(min-width:768px){
+    .animales{
+        grid-template-columns: repeat(3,1fr);
+    }
 }
 
 .animal__card__info{
@@ -461,11 +509,48 @@ a{
 }
 
 .btn__animal__more{
-    padding: 2rem;
+    padding: 1rem;
     background-color: aquamarine;
     border: 1px solid gainsboro;
     text-align: center;
     color: black;
     font-weight: 700;
-    width: 50%;
+    width: 40%;
+    font-size: .7rem;
 }
+
+
+.btn__animal__state{
+    padding: 1rem;
+    background-color: orange;
+    border: 1px solid gainsboro;
+    text-align: center;
+    color: black;
+    font-weight: 700;
+    width: 40%;
+    font-size: .7rem;
+}
+
+.botones input[type="submit"]{
+    margin: 0 1rem;
+}
+
+.botones{
+    padding-bottom: 3rem;
+    
+}
+
+.form__action{
+    padding-bottom: 2rem;
+}
+
+.caracteristicas{
+    margin: 2rem 0 0 0;
+}
+
+hr{
+    width: 100%;
+    border:1px dashed black;
+    margin-top: 2rem;
+}
+
