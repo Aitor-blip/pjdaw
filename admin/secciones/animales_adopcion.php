@@ -10,7 +10,7 @@
 </head>
 <body class="animal__adopcion__body">
     <header class="header__adopcion">
-        <nav>
+        <nav class="nav-menu nav__adopcion">
             <a href="" class="logo">
               <img src="../../imagenes/logo.jpg" alt="Logo">
             </a>
@@ -26,7 +26,7 @@
               
             </ul>
   
-            <ul class="lista__enlaces__visible__first">
+         <!--   <ul class="lista__enlaces__visible__first">
               <li class="item">
                 <a href="#">Perros</a>
               </li>
@@ -68,6 +68,7 @@
                 <a href="#">Netherland</a>
               </li>
             </ul>
+-->
         </nav>
     </header>
 
@@ -90,20 +91,31 @@
                             <option value="otra">Otra</option>
                         </select>
 
-                        <h4>Tamaños :</h4>
+                        <h4 class="form__titulo">Tamaños :</h4>
                         <div class="sizes">
-                            <input type="checkbox" name="grande" value="Grande">Grande
-                            <input type="checkbox" name="mediano" value="Mediano">Mediano
-                            <input type="checkbox" name="small" value="Small">Small                            
+                            <label for="grande">Grande
+                               <input type="checkbox" name="grande" value="grande">
+                            </label>
+                            <label for="mediano">Mediano
+                              <input type="checkbox" name="mediano" id="mediano" value="mediano">
+                            </label>                            
+                            <label for="small">Pequeño
+                              <input type="checkbox" name="small" id="small" value="small">
+                            </label>
                         </div>
                         <hr class="linea">
-
                         <h4 class="form__titulo">Caracteristicas :</h4>
                         <p>Edad:</p>
                         <div class="caracteristicas">
-                            <input type="checkbox" name="cachorro" value="Cachorro">Cachorro
-                            <input type="checkbox" name="adulto" value="Adulto">Adulto
-                            <input type="checkbox" name="joven" value="Joven">Joven                            
+                            <label for="cachorro">Cachorro
+                              <input type="checkbox" name="cachorro" value="Cachorro">
+                            </label>
+                            <label for="adulto">Adulto
+                                <input type="checkbox" name="adulto" value="Adulto">
+                            </label>
+                            <label for="joven">Joven
+                                <input type="checkbox" name="joven" value="Joven">                            
+                            </label>
                         </div>
                         <hr class="linea">
 

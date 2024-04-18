@@ -8,7 +8,7 @@
                 //Activamos el control de errores de la bd 
                 $opciones[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
                 //self::$instancia = new PDO('mysql:host='.SERVER.';dbname=perros;','root','aitor2002',$opciones);
-                self::$instancia = new PDO('mysql:host=localhost;dbname=perros;','root','',$opciones);
+                self::$instancia = new PDO('mysql:host=localhost;dbname=perros;','root','aitor2002',$opciones);
                 //echo "<p class='subtitle'>Conexión a base de datos realizada</p>";
                 
             }
