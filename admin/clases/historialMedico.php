@@ -23,7 +23,7 @@
             return $this->observaciones;
         }
 
-        public function getNChip(){
+        public function getNChipHistorialMedico(){
             return $this->nChip;
         }
     }

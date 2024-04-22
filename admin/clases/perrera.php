@@ -22,7 +22,7 @@
             return $this->nombrePerrera;
          }
 
-         function getNperros(){
+         function getNPerros(){
             return $this->nPerros;
          }
 
