@@ -30,7 +30,7 @@
             return $this->apellido;
          }
 
-         function getFechaNacimeintoPropietario(){
+         function getFechaNacimientoPropietario(){
             return $this->fechaNacimiento;
          }
 
@@ -38,7 +38,7 @@
             return $this->ciudad;
          }
 
-         function getTelefonoCiudad(){
+         function getTelefonoPropietario(){
             return $this->tlf;
          }
 

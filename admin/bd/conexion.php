@@ -1,5 +1,5 @@
 <?php
-     include_once './admin/clases/perro.php';
+     include_once './admin/clases/*.php';
      class BD{
         public static $instancia=null;
         public static $messageError = "";
@@ -150,6 +150,239 @@
                         self::$messageError = "No se puede borrar el perro";
                 } */
 
+                return false;
+            }
+
+        }
+
+
+        /*Raza*/
+        public static function getRazas(){
+            $sql="SELECT * FROM RAZA";
+            $consulta = self::$instancia->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetchAll(); 
+        }
+
+        public static function getRazaByNombreRaza($nombre){
+            $sql="SELECT * FROM RAZA WHERE nombreRaza = '$nombre'";
+            $consulta = self::$instancia->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetchAll(); 
+        }
+
+        public static function getRazaByNombreRazaUbicacion($nombre,$ubicacion){
+            $sql="SELECT * FROM RAZA WHERE nombreRaza = '$nombre' and ubicacionRaza = '$ubicacion'";
+            $consulta = self::$instancia->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetchAll(); 
+        }
+
+        public static function insertRaza($raza){
+
+            try {
+                $idRaza = $raza->getIdRaza();
+                $nombre = $raza->getNombreRaza();
+                $ubicacion = $raza->getUbicacionRaza();
+
+                $sql="INSERT INTO raza (idRaza,nombreRaza,ubicacionRaza) VALUES (:id,:nombre,:ubicacion)";
+
+                $consulta = self::$instancia->prepare($sql);
+                $consulta->bindParam(':id',$idRaza);
+                $consulta->bindParam(':nombre',$nombre);
+                $consulta->bindParam(':ubicacion',$ubicacion);
+                $consulta->execute();
+
+                return true;
+
+            }catch(PDOException $e){
+
+                $code = $e->getCode();
+
+                switch($code){
+                    case 23000 :
+                        self::$messageError = "No se puede insertar el mismo perro dos veces";
+                }
+
+                return false;
+            }
+
+        }
+
+
+        public static function updateRaza($raza ){
+
+            try {
+                $idRaza = $raza->getIdRaza();
+                $nombre = $raza->getNombreRaza();
+                $ubicacion = $raza->getUbicacionRaza();
+
+                //idRaza,nombreRaza,ubicacionRaza
+                $sql= "update perro set nombreRaza = :nombre,ubicacionRaza =:ubicacion where idRaza =:id";
+                $consulta = self::$instancia->prepare($sql);
+                
+                $consulta->bindParam(':nombre',$nombre);
+                $consulta->bindParam(':ubicacion',$ubicacion);   
+                $consulta->bindParam(':id',$idRaza);         
+                $consulta->execute();
+
+                return true;
+
+                }catch(PDOException $e){
+
+                    $code = $e->getCode();
+
+                    switch($code){
+                        case 23000 :
+                            self::$messageError = "No se puede actualizar la misma raza dos veces";
+                    }
+
+                    return false;
+                }
+            
+
+        }
+
+        public static function deleteRaza($id){
+
+            try {
+            $sql="DELETE FROM RAZA WHERE idRaza = :id"; 
+            $consulta = self::$instancia->prepare($sql);
+            $consulta->bindParam(':id',$id);
+            $consulta->execute();
+            return true;
+
+            }catch(PDOException $e){
+
+                $code = $e->getCode();
+                return false;
+            }
+
+        }
+
+
+          /*Propietario*/
+          
+          public static function getPropietarios(){
+            $sql="SELECT * FROM PROPIETARIOS";
+            $consulta = self::$instancia->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetchAll(); 
+        }
+
+        public static function getPropietarioByDni($dni){
+            $sql="SELECT * FROM PROPIETARIO WHERE dniPropietario = '$dni'";
+            $consulta = self::$instancia->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetchAll(); 
+        }
+
+        public static function getPropietarioByNombre($nombre){
+            $sql="SELECT * FROM PROPIETARIO WHERE nombre = '$nombre'";
+            $consulta = self::$instancia->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetchAll(); 
+        }
+
+        public static function insertPropietario($propietario){
+
+            try {
+                $dni = $propietario->getDniPropietario();
+                $nombre = $propietario->getNombrePropietario();
+                $apellido = $propietario->getApellidoPropietario();
+                $fechaNacimiento = $propietario->getFechaNacimientoPropietario();
+                $ciudad = $propietario->getCiudadPropietario();
+                $tlf = $propietario->getTelefonoPropietario();
+                $email = $propietario->getEmailPropietario();
+
+                $sql="INSERT INTO propietario (dniPropietario,nombre,apellido,fechaNacimiento,ciudad,tlf,email)
+                 VALUES (:dni,:nombre,:apellido,:fecha,:ciudad,:tlf,:email)";
+
+                $consulta = self::$instancia->prepare($sql);
+                $consulta->bindParam(':dni',$dni);
+                $consulta->bindParam(':nombre',$nombre);
+                $consulta->bindParam(':apellido',$apellido);
+                $consulta->bindParam(':fecha',$fechaNacimiento);
+                $consulta->bindParam(':ciudad',$ciudad);
+                $consulta->bindParam(':tlf',$tlf);
+                $consulta->bindParam(':email',$email);
+                $consulta->execute();
+
+                return true;
+
+            }catch(PDOException $e){
+
+                $code = $e->getCode();
+
+                switch($code){
+                    case 23000 :
+                        self::$messageError = "No se puede insertar el mismo perro dos veces";
+                }
+
+                return false;
+            }
+
+        }
+
+
+        public static function updatePropietario($propietario ){
+
+            try {
+                $dni = $propietario->getDniPropietario();
+                $nombre = $propietario->getNombrePropietario();
+                $apellido = $propietario->getApellidoPropietario();
+                $fechaNacimiento = $propietario->getFechaNacimientoPropietario();
+                $ciudad = $propietario->getCiudadPropietario();
+                $tlf = $propietario->getTelefonoPropietario();
+                $email = $propietario->getEmailPropietario();
+
+                //idRaza,nombreRaza,ubicacionRaza
+                $sql= "update perro set nombreRaza = :nombre,
+                       apellido =:apellido,
+                       fechaNacimiento=:fecha,
+                       ciudad =:ciudad,
+                       tlf=:tlf,
+                       email=:email where dniPropietario =:dni";
+                $consulta = self::$instancia->prepare($sql);
+                
+                $consulta->bindParam(':nombre',$nombre);
+                $consulta->bindParam(':apellido',$apellido);
+                $consulta->bindParam(':fecha',$fechaNacimiento);
+                $consulta->bindParam(':ciudad',$ciudad);
+                $consulta->bindParam(':tlf',$tlf);
+                $consulta->bindParam(':email',$email);   
+                $consulta->bindParam(':dni',$dni);
+                $consulta->execute();
+
+                return true;
+
+                }catch(PDOException $e){
+
+                    $code = $e->getCode();
+
+                    switch($code){
+                        case 23000 :
+                            self::$messageError = "No se puede actualizar la misma raza dos veces";
+                    }
+
+                    return false;
+                }
+            
+
+        }
+
+        public static function deletePropietario($dni){
+
+            try {
+            $sql="DELETE FROM PROPIETARIO WHERE dnipropietario = :dni"; 
+            $consulta = self::$instancia->prepare($sql);
+            $consulta->bindParam(':dni',$dni);
+            $consulta->execute();
+            return true;
+
+            }catch(PDOException $e){
+
+                $code = $e->getCode();
                 return false;
             }
 
