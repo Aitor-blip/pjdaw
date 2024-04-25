@@ -129,7 +129,7 @@
                       -->
                     </form>
                 </div>
-                <div class="animales">
+                <div class="animales__adopcion">
                     
                   <div class="animal__card">
                     <a href="#" class="animal__a">

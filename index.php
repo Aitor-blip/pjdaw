@@ -1,10 +1,15 @@
 <?php
     include_once './admin/bd/conexion.php';
     include_once './admin/clases/perro.php';
+    include_once './admin/imagenes/variables.php';
     $conexion = bd::crearInstancia();
-    $perro = new Perro('188484','Mor','2022-11-02','2024-04-02',2,3,1,'19859555J');
+    //$perro = new Perro('188484','Mor','2022-11-02','2024-04-02',2,3,1,'19859555J');
     //$state = bd::insertPerro($perro);
     //$state = bd::updatePerro($perro);
+    $_SESSION['dni'] = "19859555G";
+    $dni = $_SESSION['dni'];
+    $hayperrosPropietario = BD::getPerrosByPropietario($dni);
+    
 ?>
 
 
@@ -82,32 +87,40 @@
 
     <section class="hype">
         <h2>Hype de la semana</h2>
-        <div class="animales container">
+        <div class="animales__landing container">
             
-            <div class="animal">
-                <img src="./imagenes/dog5.jpg" class="animal__img" alt="Imagen animal">
+          <div class="animal">
+            <?php
+                if(count($hayperrosPropietario) > 0){
+                    //$nchip = $hayperrosPropietario['nchip'];
+                    //$perro = BD::getPerroByNchip($nchip);
+                    for($i=0;$i<count($hayperrosPropietario);$i++){
+                        $nchip = $hayperrosPropietario[$i]['nChip'];
+                        $perro = bd::getPerroByNchip($nchip);
+                        for($p=0;$p<count($perro);$p++){
+                          $nombrePerro = $perro[$p]['nombrePerro'];
+                          $foto = bd::getFotosByNchip($nchip);
+                          $rutaFotoPerro = RUTA.$foto['ruta'];  
+                        
+                    ?>
+               <img src=<?php echo $rutaFotoPerro; ?> class="animal__img" alt="Imagen animal">
                 <div class="header__textos">
-                    <p class="animal__info">Animal Info</p>
+                    <div class="animal__info">
+                        <p class="animal__nombre"><?php echo $nombrePerro; ?></p>
+                    </div>
                 </div>
+                   
+                <?php
+                            }
+                        }
+                    }
+                
+                ?>
+
+                
             </div>
-            <div class="animal">
-                <img src="./imagenes/dog5.jpg" class="animal__img" alt="Imagen animal">
-                <div class="header__textos">
-                    <p class="animal__info">Animal Info</p>
-                </div>
-            </div>
-            <div class="animal">
-                <img src="./imagenes/dog5.jpg" class="animal__img" alt="Imagen animal">
-                <div class="header__textos">
-                    <p class="animal__info">Animal Info</p>
-                </div>
-            </div>
-            <div class="animal">
-                <img src="./imagenes/dog5.jpg" class="animal__img" alt="Imagen animal">
-                <div class="header__textos">
-                    <p class="animal__info">Animal Info</p>
-                </div>
-            </div>
+          
+            
         </div>
     </section>
 

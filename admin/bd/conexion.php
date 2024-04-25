@@ -1,5 +1,5 @@
 <?php
-     include_once './admin/clases/*.php';
+     @include_once '../snippets/clases.php';
      class BD{
         public static $instancia=null;
         public static $messageError = "";
@@ -23,6 +23,13 @@
 
         /*Perro */
 
+        public static function getPerroByNchip($nchip){
+            $sql = "select * from perro where nchip = '$nchip'";
+            $consulta = self::$instancia->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetchAll();
+        }
+
         public static function getPerrosSinAdoptar(){
             $sql="SELECT * FROM PERRO WHERE nChip NOT IN(SELECT NCHIP FROM ADOPCION_PERROS)";
             $consulta = self::$instancia->prepare($sql);
@@ -32,9 +39,19 @@
 
         public static function getPerrosParaAdoptar($dni){
             $sql="SELECT * FROM ADOPCION_PERROS WHERE dniPropietario = '$dni'";
+            
             $consulta = self::$instancia->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
+        }
+
+        public static function getPerrosByPropietario($dni){
+           $sql = "SELECT dniPropietario,nChip from adopcion_perros 
+           where dniPropietario = '$dni'";
+          // echo $sql;
+           $consulta = self::$instancia->prepare($sql);
+           $consulta->execute();
+           return $consulta->fetchAll(); 
         }
 
         public static function insertPerro($perro){
@@ -638,6 +655,13 @@
             $consulta = self::$instancia->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
+        }
+
+        public static function getFotosByNchip($nchip){
+            $sql="SELECT ruta FROM FOTO WHERE nChip = '$nchip'";
+            $consulta = self::$instancia->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetch(); 
         }
 
         public static function getFotoByRuta($ruta){

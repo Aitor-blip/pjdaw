@@ -236,13 +236,19 @@ a{
     padding-top: 80rem;
 }
 
-.animales{
-    height: 30rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.animales__landing{
+    display: grid;
+    grid-template-columns: repeat(1,1fr);
+    grid-template-rows: repeat(1,1fr);
+    margin: auto;
 }
 
+@media(min-width:768px){
+    .animales__landing{
+        grid-template-columns: repeat(3,1fr);
+        grid-template-rows: repeat(2,1fr);
+    }
+}
 .animal{
     border-bottom: 4px dashed black;
     margin: 0 1rem;
