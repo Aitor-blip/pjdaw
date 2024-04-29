@@ -12,8 +12,9 @@
     $hayperrosPropietario = $bd->getPerrosByPropietario($dni);
     $_SESSION['user'] = "invitado";
 
-    @include_once './admin/templates/headnocss.php';
-    @include_once './admin/clases/menu.php';
+    include_once './admin/templates/headnocss.php';
+    include_once './admin/clases/menu.php';
+    
 ?>
 
 
@@ -29,7 +30,26 @@
 </head>
 <body>
     <header class="header header-min">
-    <?php include './admin/secciones/menu_usuario.php'; ?>
+    <div class="container-fluid">
+    <div class="row">
+        <nav class="navbar navbar-expand navbar-light bg-info bg-gradient d-flex justify-content-end">
+            <ul class="nav navbar-nav">
+                <?php foreach($_SESSION['menu_lista'] as $id=>$item): ?>
+                <li class="nav-item mx-2">
+                    <a class="nav-link fw-bold text-light" href=""><?php echo $_SESSION['menu_lista'][$id];?></a>
+                </li>
+                <?php endforeach; ?>
+                <div class="login d-flex justify-content-center align-items-center">
+                    <a class="nav-link mx-2 btn btn-orange text-light" href="./admin/secciones/login_usuario.php">Login</a>
+                    <a class="nav-link mx-2 btn btn-orange text-light" href="./admin/secciones/registro_usuario.php">Sign Up</a>        
+                </div>
+                    
+                </div>
+            </ul>
+        </nav>
+        
+    </div>
+</div>
     <div class="header__container">
 
             <div class="header__textos">

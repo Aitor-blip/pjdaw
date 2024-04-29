@@ -2,6 +2,19 @@
     session_start();
     @include_once '../templates/headnocss.php';
     @include_once '../clases/menu.php';
+    $enlaceLogin = "";
+    $enlaceRegistrarse="";
+    $ruta = pathinfo("C:/xampp/htdocs/pagina web/admin/secciones/menu_usuario.php");
+    $_SESSION["ruta"] = $ruta['dirname'];
+    $_SESSION["fichero"] = $ruta['basename'];
+    $ruta_total = $_SESSION["ruta"]."/".$_SESSION["fichero"];
+    $_SESSION["ruta_total"] = $ruta_total;
+
+
+    if($ruta == "C:/xampp/htdocs/pagina web/admin/secciones/menu_usuario.php"){
+        $enlaceLogin = "login_usuario.php";
+        $enlaceRegistrarse = "registro_usuario.php";
+    }
 ?>
 
 <div class="container-fluid">
@@ -10,12 +23,12 @@
             <ul class="nav navbar-nav">
                 <?php foreach($_SESSION['menu_lista'] as $id=>$item): ?>
                 <li class="nav-item mx-2">
-                    <a class="nav-link fw-bold text-light" href="#"><?php echo $_SESSION['menu_lista'][$id];?></a>
+                    <a class="nav-link fw-bold text-light" href=""><?php echo $_SESSION['menu_lista'][$id];?></a>
                 </li>
                 <?php endforeach; ?>
                 <div class="login d-flex justify-content-center align-items-center">
-                    <a class="nav-link mx-2 btn btn-orange text-light" href="#">Login</a>
-                    <a class="nav-link mx-2 btn btn-orange text-light" href="#">Sign Up</a>        
+                    <a class="nav-link mx-2 btn btn-orange text-light" href="<?php echo $enlaceLogin;?>">Login</a>
+                    <a class="nav-link mx-2 btn btn-orange text-light" href="<?php echo $enlaceRegistrarse;?>">Sign Up</a>        
                 </div>
                     
                 </div>
