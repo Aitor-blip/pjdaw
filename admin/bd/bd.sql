@@ -68,6 +68,20 @@ CREATE TABLE ADOPCION_PERROS(
     fechaAdopcion date not null
 );
 
+CREATE TABLE USUARIO(
+    idUsuario int primary key auto_increment,
+    email varchar(70) not null,
+    password varchar(70) not null,
+    idRol int not null
+);
+
+CREATE TABLE USUARIO_ROL(
+    idRol int primary key not null,
+    nombre varchar(40) not null
+);
+
+ALTER TABLE USUARIO ADD CONSTRAINT FK_USUARIO_ROL FOREIGN KEY (idRol) REFERENCES USUARIO_ROL (idRol);
+
 
 ALTER TABLE ADOPCION_PERROS ADD CONSTRAINT FK_NCHIP_ADOPCION_PERROS FOREIGN KEY (nChip) REFERENCES PERRO (nChip);
 ALTER TABLE ADOPCION_PERROS ADD CONSTRAINT FK_DNI_PROPIEATARIO_ADOPCION_PERROS FOREIGN KEY (dniPropietario) REFERENCES PROPIETARIO (dniPropietario);
@@ -102,3 +116,11 @@ INSERT INTO HISTORIAL_MEDICO(idHistorialMedico,fechaEntrada,observaciones,nChip)
 
 
 INSERT INTO ADOPCION_PERROS(nChip,dniPropietario,fechaAdopcion) VALUES(188484,'19859555G','2023-04-2022');
+
+
+/*Usuarios*/
+
+INSERT INTO USUARIO_ROL (idRol,nombre) VALUES(1,'Administrador');
+INSERT INTO USUARIO_ROL (idRol,nombre) VALUES(2,'Usuario');
+
+INSERT INTO USUARIO(email,password,idRol) VALUES("a@gmail.com","aitor2002",2);

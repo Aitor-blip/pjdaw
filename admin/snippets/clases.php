@@ -6,5 +6,6 @@
     include_once '../clases/raza.php';
     include_once '../clases/historialMedico.php';
     include_once '../clases/adopcionPerros.php';
+    include_once '../clases/usuario.php';
 
 ?>

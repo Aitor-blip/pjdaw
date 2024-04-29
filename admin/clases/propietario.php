@@ -1,5 +1,5 @@
 <?php
-    class Perrera{
+    class Propietario{
         public $dni;
         public $nombre;
         public $apellido;

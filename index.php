@@ -9,6 +9,7 @@
     $_SESSION['dni'] = "19859555G";
     $dni = $_SESSION['dni'];
     $hayperrosPropietario = BD::getPerrosByPropietario($dni);
+    $_SESSION['user'] = "invitado";
     
 ?>
 
@@ -40,7 +41,7 @@
                     <a href="./admin/secciones/animales_adopcion.php">Adopta</a>
                 </li>
                 <li class="lista__element">
-                    <a href="#">Sign Up</a>
+                    <a href="./admin/secciones/registro_usuario.php">Sign Up</a>
                 </li>
                 <li class="lista__element">
                     <a href="#">Login</a>

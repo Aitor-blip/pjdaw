@@ -1,21 +1,31 @@
 <?php
      @include_once '../snippets/clases.php';
      class BD{
-        public static $instancia=null;
-        public static $messageError = "";
-        public static function crearInstancia(){
-            if(!isset(self::$instancia)){
+        public  $instancia=null;
+        public  $messageError = "";
+        public $conexion = "";
+
+        public function __construct(){
+            $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','');
+        }
+
+        public function getConexion(){
+            return $this->conexion;
+        }
+        public  function crearInstancia(){
+            if(!isset($this->conexion)){
                 //Activamos el control de errores de la bd 
-                $opciones[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
-                //self::$instancia = new PDO('mysql:host='.SERVER.';dbname=perros;','root','aitor2002',$opciones);
-                self::$instancia = new PDO('mysql:host=localhost;dbname=perros;','root','',$opciones);
+                //$this->conexion = new PDO('mysql:host='.SERVER.';dbname=perros;','root','aitor2002',$opciones);
+                $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','');
                 //echo "<p class='subtitle'>Conexión a base de datos realizada</p>";
                 
             }
         }
 
-        public static function consultar($sql){
-            $consulta = self::$instancia->prepare($sql);
+
+
+        public  function consultar($sql){
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll();            
         }
@@ -23,38 +33,38 @@
 
         /*Perro */
 
-        public static function getPerroByNchip($nchip){
+        public  function getPerroByNchip($nchip){
             $sql = "select * from perro where nchip = '$nchip'";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll();
         }
 
-        public static function getPerrosSinAdoptar(){
+        public  function getPerrosSinAdoptar(){
             $sql="SELECT * FROM PERRO WHERE nChip NOT IN(SELECT NCHIP FROM ADOPCION_PERROS)";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
 
-        public static function getPerrosParaAdoptar($dni){
+        public  function getPerrosParaAdoptar($dni){
             $sql="SELECT * FROM ADOPCION_PERROS WHERE dniPropietario = '$dni'";
             
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
 
-        public static function getPerrosByPropietario($dni){
+        public  function getPerrosByPropietario($dni){
            $sql = "SELECT dniPropietario,nChip from adopcion_perros 
            where dniPropietario = '$dni'";
           // echo $sql;
-           $consulta = self::$instancia->prepare($sql);
+           $consulta = $this->conexion->prepare($sql);
            $consulta->execute();
            return $consulta->fetchAll(); 
         }
 
-        public static function insertPerro($perro){
+        public  function insertPerro($perro){
 
             try {
             $nChip = $perro->getNchip();
@@ -70,7 +80,7 @@
            $sql="INSERT INTO perro (nchip,nombrePerro,fechaNacimiento,fechaEntrada,idperrera,idRaza,idFoto,dniPropietario) 
            VALUES (:nChip,:nombrePerro,:fechaNacimiento,:fechaEntrada,:idPerrera,:idRaza,:idFoto,:dniPropietario)";
 
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->bindParam(':nChip',$nChip);
             $consulta->bindParam(':nombrePerro',$nombrePerro);
             $consulta->bindParam(':fechaEntrada',$fechaEntrada);
@@ -98,7 +108,7 @@
         }
 
 
-        public static function updatePerro($perro){
+        public  function updatePerro($perro){
 
             try {
              /*   echo $perro->getNchip()."\n";
@@ -122,7 +132,7 @@
                 $sql= "update perro set nombrePerro = :nombrePerro,fechaNacimiento = :fechaNacimiento,
                 fechaEntrada = :fechaEntrada,idperrera=:idPerrera,idRaza=:idRaza,idFoto=:idFoto,
                 dniPropietario = :dniPropietario where nChip = :nChip";
-                $consulta = self::$instancia->prepare($sql);
+                $consulta = $this->conexion->prepare($sql);
                 
                 $consulta->bindParam(':nombrePerro',$nombrePerro);
                 $consulta->bindParam(':fechaNacimiento',$fechaNacimiento);   
@@ -151,11 +161,11 @@
 
         }
 
-        public static function deletePerro($nChip){
+        public  function deletePerro($nChip){
 
             try {
             $sql="DELETE FROM PERRO WHERE nChip = :nChip"; 
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->bindParam(':nChip',$nChip);
             $consulta->execute();
             return true;
@@ -177,28 +187,28 @@
 
           /*Propietario*/
           
-          public static function getPropietarios(){
+          public  function getPropietarios(){
             $sql="SELECT * FROM PROPIETARIOS";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
 
-        public static function getPropietarioByDni($dni){
+        public  function getPropietarioByDni($dni){
             $sql="SELECT * FROM PROPIETARIO WHERE dniPropietario = '$dni'";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
 
-        public static function getPropietarioByNombre($nombre){
+        public  function getPropietarioByNombre($nombre){
             $sql="SELECT * FROM PROPIETARIO WHERE nombre = '$nombre'";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
 
-        public static function insertPropietario($propietario){
+        public  function insertPropietario($propietario){
 
             try {
                 $dni = $propietario->getDniPropietario();
@@ -212,7 +222,7 @@
                 $sql="INSERT INTO propietario (dniPropietario,nombre,apellido,fechaNacimiento,ciudad,tlf,email)
                  VALUES (:dni,:nombre,:apellido,:fecha,:ciudad,:tlf,:email)";
 
-                $consulta = self::$instancia->prepare($sql);
+                $consulta = $this->conexion->prepare($sql);
                 $consulta->bindParam(':dni',$dni);
                 $consulta->bindParam(':nombre',$nombre);
                 $consulta->bindParam(':apellido',$apellido);
@@ -239,7 +249,7 @@
         }
 
 
-        public static function updatePropietario($propietario ){
+        public  function updatePropietario($propietario ){
 
             try {
                 $dni = $propietario->getDniPropietario();
@@ -257,7 +267,7 @@
                        ciudad =:ciudad,
                        tlf=:tlf,
                        email=:email where dniPropietario =:dni";
-                $consulta = self::$instancia->prepare($sql);
+                $consulta = $this->conexion->prepare($sql);
                 
                 $consulta->bindParam(':nombre',$nombre);
                 $consulta->bindParam(':apellido',$apellido);
@@ -285,11 +295,11 @@
 
         }
 
-        public static function deletePropietario($dni){
+        public  function deletePropietario($dni){
 
             try {
             $sql="DELETE FROM PROPIETARIO WHERE dnipropietario = :dni"; 
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->bindParam(':dni',$dni);
             $consulta->execute();
             return true;
@@ -305,28 +315,28 @@
 
 
         /*Raza*/
-        public static function getRazas(){
+        public  function getRazas(){
             $sql="SELECT * FROM RAZA";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
 
-        public static function getRazaByNombreRaza($nombre){
+        public  function getRazaByNombreRaza($nombre){
             $sql="SELECT * FROM RAZA WHERE nombreRaza = '$nombre'";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
 
-        public static function getRazaByNombreRazaUbicacion($nombre,$ubicacion){
+        public  function getRazaByNombreRazaUbicacion($nombre,$ubicacion){
             $sql="SELECT * FROM RAZA WHERE nombreRaza = '$nombre' and ubicacionRaza = '$ubicacion'";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
 
-        public static function insertRaza($raza){
+        public  function insertRaza($raza){
 
             try {
                 $idRaza = $raza->getIdRaza();
@@ -335,7 +345,7 @@
 
                 $sql="INSERT INTO raza (idRaza,nombreRaza,ubicacionRaza) VALUES (:id,:nombre,:ubicacion)";
 
-                $consulta = self::$instancia->prepare($sql);
+                $consulta = $this->conexion->prepare($sql);
                 $consulta->bindParam(':id',$idRaza);
                 $consulta->bindParam(':nombre',$nombre);
                 $consulta->bindParam(':ubicacion',$ubicacion);
@@ -358,7 +368,7 @@
         }
 
 
-        public static function updateRaza($raza ){
+        public  function updateRaza($raza ){
 
             try {
                 $idRaza = $raza->getIdRaza();
@@ -367,7 +377,7 @@
 
                 //idRaza,nombreRaza,ubicacionRaza
                 $sql= "update perro set nombreRaza = :nombre,ubicacionRaza =:ubicacion where idRaza =:id";
-                $consulta = self::$instancia->prepare($sql);
+                $consulta = $this->conexion->prepare($sql);
                 
                 $consulta->bindParam(':nombre',$nombre);
                 $consulta->bindParam(':ubicacion',$ubicacion);   
@@ -391,11 +401,11 @@
 
         }
 
-        public static function deleteRaza($id){
+        public  function deleteRaza($id){
 
             try {
             $sql="DELETE FROM RAZA WHERE idRaza = :id"; 
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->bindParam(':id',$id);
             $consulta->execute();
             return true;
@@ -413,29 +423,29 @@
 
 
         /* Perrera */
-        public static function getPerreras(){
+        public  function getPerreras(){
             $sql="SELECT * FROM PERRERA";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
         
-        public static function getPerreraById($id){
+        public  function getPerreraById($id){
             $sql="SELECT * FROM PROPIETARIO WHERE idperrera = $id";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
 
-        public static function getPerreraByNombre($nombre){
+        public  function getPerreraByNombre($nombre){
             $sql="SELECT * FROM PROPIETARIO WHERE 
             nombrePerrera = '$nombre'";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
 
-        public static function insertPerrera($perrera){
+        public  function insertPerrera($perrera){
 
             try {
                 $idPerrera = $perrera->getIdPerrera();
@@ -447,7 +457,7 @@
                 $sql="INSERT INTO perrera (idperrera,nombrePerrera,nPerros,ubicacion,valoracion)
                  VALUES (:id,:nombre,:nperros,:ubicacion,:valoracion)";
 
-                $consulta = self::$instancia->prepare($sql);
+                $consulta = $this->conexion->prepare($sql);
                 $consulta->bindParam(':id',$idPerrera);
                 $consulta->bindParam(':nombre',$nombrePerrera);
                 $consulta->bindParam(':nperros',$nPerrosPerrera);
@@ -471,7 +481,7 @@
         }
 
 
-        public static function updatePerrera($perrera ){
+        public  function updatePerrera($perrera ){
 
             try {
                 $idPerrera = $perrera->getIdPerrera();
@@ -486,7 +496,7 @@
                        ubicacion=:ubicacion,
                        valoracion =:valoracion
                        where idperrera =:id";
-                $consulta = self::$instancia->prepare($sql);
+                $consulta = $this->conexion->prepare($sql);
                 
                 $consulta->bindParam(':nombre',$nombrePerrera);
                 $consulta->bindParam(':nperros',$nPerrosPerrera);
@@ -512,11 +522,11 @@
 
         }
 
-        public static function deletePerrera($id){
+        public  function deletePerrera($id){
 
             try {
             $sql="DELETE FROM PERRERA WHERE idperrera = :id"; 
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->bindParam(':id',$id);
             $consulta->execute();
             return true;
@@ -532,29 +542,29 @@
 
         /*Historial Médico */
 
-         public static function getHistorialesMedicos(){
+         public  function getHistorialesMedicos(){
             $sql="SELECT * FROM HISTORIAL_MEDICO";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
         
-        public static function getHistorialesMedicosById($id){
+        public  function getHistorialesMedicosById($id){
             $sql="SELECT * FROM HISTORIAL_MEDICO WHERE idHistorialMedico = $id";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
 
-        public static function getHistorialesMedicosByFechaEntrada($fecha){
+        public  function getHistorialesMedicosByFechaEntrada($fecha){
             $sql="SELECT * FROM HISTORIAL_MEDICO WHERE 
             fechaEntrada = '$fecha'";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
 
-        public static function insertHistorialMedico($historialMedico){
+        public  function insertHistorialMedico($historialMedico){
 
             try {
                 $idHistorialMedico = $historialMedico->getIdHistorialMedico();
@@ -565,7 +575,7 @@
                 $sql="INSERT INTO historial_medico (idHistorialMedico,fechaEntrada,observaciones,nChip)
                  VALUES (:id,:fecha,:observaciones,:nchip)";
 
-                $consulta = self::$instancia->prepare($sql);
+                $consulta = $this->conexion->prepare($sql);
                 $consulta->bindParam(':id',$idHistorialMedico);
                 $consulta->bindParam(':fecha',$fechaEntradaHistorialMedico);
                 $consulta->bindParam(':observaciones',$observacionesHistorialMedico);
@@ -588,7 +598,7 @@
         }
 
 
-        public static function updateHistorialMedico($historialMedico ){
+        public  function updateHistorialMedico($historialMedico ){
 
             try {
                 $idHistorialMedico = $historialMedico->getIdHistorialMedico();
@@ -601,7 +611,7 @@
                        observaciones =:observaciones,
                        nChip=:nchip
                        where idHistorialMedico =:id";
-                $consulta = self::$instancia->prepare($sql);
+                $consulta = $this->conexion->prepare($sql);
                 $consulta->bindParam(':fecha',$fechaEntradaHistorialMedico);
                 $consulta->bindParam(':observaciones',$observacionesHistorialMedico);
                 $consulta->bindParam(':nchip',$nChipHistorialMedico);
@@ -625,11 +635,11 @@
 
         }
 
-        public static function deleteHistorialMedico($id){
+        public  function deleteHistorialMedico($id){
 
             try {
             $sql="DELETE FROM historial_medico WHERE idHistorialMedico = :id"; 
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->bindParam(':id',$id);
             $consulta->execute();
             return true;
@@ -643,36 +653,36 @@
         }
 
         /*Foto */
-        public static function getFotos(){
+        public  function getFotos(){
             $sql="SELECT * FROM FOTO";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
         
-        public static function getFotosById($id){
+        public  function getFotosById($id){
             $sql="SELECT * FROM FOTO WHERE idFoto = $id";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
 
-        public static function getFotosByNchip($nchip){
+        public  function getFotosByNchip($nchip){
             $sql="SELECT ruta FROM FOTO WHERE nChip = '$nchip'";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetch(); 
         }
 
-        public static function getFotoByRuta($ruta){
+        public  function getFotoByRuta($ruta){
             $sql="SELECT * FROM FOTO WHERE 
             ruta = '$ruta'";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
 
-        public static function insertFoto($foto){
+        public  function insertFoto($foto){
 
             try {
                 $idFoto = $foto->getIdFoto();
@@ -682,7 +692,7 @@
                 $sql="INSERT INTO foto (idFoto,ruta,descripcion)
                  VALUES (:id,:ruta,:descripcion)";
 
-                $consulta = self::$instancia->prepare($sql);
+                $consulta = $this->conexion->prepare($sql);
                 $consulta->bindParam(':id',$idFoto);
                 $consulta->bindParam(':ruta',$rutaFoto);
                 $consulta->bindParam(':descripcion',$descripcionFoto);
@@ -704,7 +714,7 @@
         }
 
 
-        public static function updateFoto($foto){
+        public  function updateFoto($foto){
 
             try {
                 $idFoto = $foto->getIdFoto();
@@ -715,7 +725,7 @@
                 $sql= "update foto set ruta =:ruta,
                        descripcion=:nchip
                        where idFoto = :id";
-                $consulta = self::$instancia->prepare($sql);
+                $consulta = $this->conexion->prepare($sql);
                 $consulta->bindParam(':ruta',$rutaFoto);
                 $consulta->bindParam(':descripcion',$descripcionFoto);
                 $consulta->bindParam(':id',$idFoto);
@@ -738,11 +748,11 @@
 
         }
 
-        public static function deleteFoto($id){
+        public  function deleteFoto($id){
 
             try {
             $sql="DELETE FROM foto WHERE idFoto = :id"; 
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->bindParam(':id',$id);
             $consulta->execute();
             return true;
@@ -758,43 +768,43 @@
 
         /*Adopcion Perros*/
 
-        public static function getAdopcionPerros(){
+        public  function getAdopcionPerros(){
             $sql="SELECT * FROM ADOPCION_PERROS";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
         
-        public static function getAdopcionPerrosByNchip($nchip){
+        public  function getAdopcionPerrosByNchip($nchip){
             $sql="SELECT * FROM ADOPCION_PERROS WHERE nChip = '$nchip'";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
 
-        public static function getAdopcionPerrosByDniPropietario($dni){
+        public  function getAdopcionPerrosByDniPropietario($dni){
             $sql="SELECT * FROM ADOPCION_PERROS WHERE dniPropietario = '$dni'";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
 
-        public static function getAdopcionPerrosByDniPropietarioAndNChip($nchip,$dni){
+        public  function getAdopcionPerrosByDniPropietarioAndNChip($nchip,$dni){
             $sql="SELECT * FROM ADOPCION_PERROS WHERE nChip = '$nchip' and 
                                                   dniPropietario = '$dni'";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
 
-        public static function getAdopcionPerrosByFechaAdopcion($fecha){
+        public  function getAdopcionPerrosByFechaAdopcion($fecha){
             $sql="SELECT * FROM ADOPCION_PERROS WHERE fechaAdopcion = '$fecha'";
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
 
-        public static function insertAdopcionPerro($adopcionPerro){
+        public  function insertAdopcionPerro($adopcionPerro){
 
             try {
                 $nChipAdopcionPerros = $adopcionPerro->getNChipAdopcionPerros();
@@ -804,7 +814,7 @@
                 $sql="INSERT INTO adopcion_perros (nChip,dniPropietario,fechaAdopcion)
                  VALUES (:nchip,:dni,:fecha)";
 
-                $consulta = self::$instancia->prepare($sql);
+                $consulta = $this->conexion->prepare($sql);
                 $consulta->bindParam(':nchip',$nChipAdopcionPerros);
                 $consulta->bindParam(':dni',$dniPropietarioAdopcionPerros);
                 $consulta->bindParam(':fecha',$fechaAdopcionPerros);
@@ -826,7 +836,7 @@
         }
 
 
-        public static function updateAdopcionPerro($adopcionPerro){
+        public  function updateAdopcionPerro($adopcionPerro){
 
             try {
                 $nChipAdopcionPerros = $adopcionPerro->getNChipAdopcionPerros();
@@ -837,7 +847,7 @@
                 $sql= "update adopcion_perro set dniPropietario =:dni,
                        fechaAdopcion=:fecha
                        where nChip = :nchip";
-                $consulta = self::$instancia->prepare($sql);
+                $consulta = $this->conexion->prepare($sql);
                 $consulta->bindParam(':dni',$dniPropietarioAdopcionPerros);
                 $consulta->bindParam(':fecha',$fechaAdopcionPerros);
                 $consulta->bindParam(':nchip',$nChipAdopcionPerros);
@@ -860,11 +870,11 @@
 
         }
 
-        public static function deleteAdopcionPerro($nchip){
+        public  function deleteAdopcionPerro($nchip){
 
             try {
             $sql="DELETE FROM adopcion_perro WHERE nChip = :nchip"; 
-            $consulta = self::$instancia->prepare($sql);
+            $consulta = $this->conexion->prepare($sql);
             $consulta->bindParam(':nchip',$nchip);
             $consulta->execute();
             return true;
@@ -877,6 +887,45 @@
 
         }
 
+        /*Usuario */
+        public function insertUsuario($usuario){
+
+            try {
+            $email = $usuario->getEmail();
+            $password = $usuario->getPassword();
+            $idRol = $usuario->getIdRol();
+            
+        
+           $sql="INSERT INTO usuario (email,password,idRol) VALUES (:email,:pass,:idRol)";
+
+            $consulta = $this->conexion->prepare($sql);
+            $consulta->bindParam(':email',$email);
+            $consulta->bindParam(':pass',$password);
+            $consulta->bindParam(':idRol',$idRol);
+            $consulta->execute();
+
+            return true;
+
+            }catch(PDOException $e){
+
+                $code = $e->getCode();
+
+                switch($code){
+                    case 23000 :
+                        self::$messageError = "No se puede insertar el mismo perro dos veces";
+                }
+
+                return false;
+            }
+
+        }
+
+        public function getEmailAndPasswordUsuarioByEmail($email){
+            $sql="SELECT * FROM usuario WHERE email = '$email'";
+            $consulta = $this->conexion->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetchAll();
+        }
 
 
 
