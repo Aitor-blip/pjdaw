@@ -2,16 +2,20 @@
     include_once './admin/bd/conexion.php';
     include_once './admin/clases/perro.php';
     include_once './admin/imagenes/variables.php';
-    $conexion = bd::crearInstancia();
+    $bd = new BD();
+    $conexion = $bd->getConexion();
     //$perro = new Perro('188484','Mor','2022-11-02','2024-04-02',2,3,1,'19859555J');
     //$state = bd::insertPerro($perro);
     //$state = bd::updatePerro($perro);
     $_SESSION['dni'] = "19859555G";
     $dni = $_SESSION['dni'];
-    $hayperrosPropietario = BD::getPerrosByPropietario($dni);
+    $hayperrosPropietario = $bd->getPerrosByPropietario($dni);
     $_SESSION['user'] = "invitado";
-    
+
+    @include_once './admin/templates/headnocss.php';
+    @include_once './admin/clases/menu.php';
 ?>
+
 
 
 <!DOCTYPE html>
@@ -25,30 +29,7 @@
 </head>
 <body>
     <header class="header header-min">
-        <nav class="nav-menu">
-            <a href="./index.php" class="logo">
-                <img src="./imagenes/logo.png" alt="Imagen Logo" class="logo__img">
-            </a>
-
-           
-
-            
-
-            <ul class="lista__nav lista--header ">
-                <i class="fa-solid fa-heart heart"></i>
-                <div class="barra"></div>
-                <li class="lista__element">
-                    <a href="./admin/secciones/animales_adopcion.php">Adopta</a>
-                </li>
-                <li class="lista__element">
-                    <a href="./admin/secciones/registro_usuario.php">Sign Up</a>
-                </li>
-                <li class="lista__element">
-                    <a href="#">Login</a>
-                </li>
-            </ul>
-        </nav>
-
+    <?php include './admin/secciones/menu_usuario.php'; ?>
     <div class="header__container">
 
             <div class="header__textos">
@@ -97,10 +78,10 @@
                     //$perro = BD::getPerroByNchip($nchip);
                     for($i=0;$i<count($hayperrosPropietario);$i++){
                         $nchip = $hayperrosPropietario[$i]['nChip'];
-                        $perro = bd::getPerroByNchip($nchip);
+                        $perro = $bd->getPerroByNchip($nchip);
                         for($p=0;$p<count($perro);$p++){
                           $nombrePerro = $perro[$p]['nombrePerro'];
-                          $foto = bd::getFotosByNchip($nchip);
+                          $foto = $bd->getFotosByNchip($nchip);
                           $rutaFotoPerro = RUTA.$foto['ruta'];  
                         
                     ?>

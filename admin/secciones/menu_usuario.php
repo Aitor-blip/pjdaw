@@ -1,7 +1,7 @@
 <?php
     session_start();
-    include_once '../templates/headnocss.php';
-    include_once '../clases/menu.php';
+    @include_once '../templates/headnocss.php';
+    @include_once '../clases/menu.php';
 ?>
 
 <div class="container-fluid">
@@ -13,6 +13,12 @@
                     <a class="nav-link fw-bold text-light" href="#"><?php echo $_SESSION['menu_lista'][$id];?></a>
                 </li>
                 <?php endforeach; ?>
+                <div class="login d-flex justify-content-center align-items-center">
+                    <a class="nav-link mx-2 btn btn-orange text-light" href="#">Login</a>
+                    <a class="nav-link mx-2 btn btn-orange text-light" href="#">Sign Up</a>        
+                </div>
+                    
+                </div>
             </ul>
         </nav>
         
