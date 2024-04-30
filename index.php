@@ -89,7 +89,7 @@
             
           <div class="animal">
             <?php
-                if(count($hayperrosPropietario) > 0){
+                /*if(count($hayperrosPropietario) > 0){
                     //$nchip = $hayperrosPropietario['nchip'];
                     //$perro = BD::getPerroByNchip($nchip);
                     for($i=0;$i<count($hayperrosPropietario);$i++){
@@ -99,7 +99,7 @@
                           $nombrePerro = $perro[$p]['nombrePerro'];
                           $foto = $bd->getFotosByNchip($nchip);
                           $rutaFotoPerro = RUTA.$foto['ruta'];  
-                        
+                  */      
                     ?>
                <img src=<?php echo $rutaFotoPerro; ?> class="animal__img" alt="Imagen animal">
                 <div class="header__textos">
@@ -109,10 +109,10 @@
                 </div>
                    
                 <?php
-                            }
+                 /*           }
                         }
                     }
-                
+                */
                 ?>
 
                 

@@ -25,9 +25,7 @@
                 <li class="nav-item mx-2">
                     <a class="nav-link fw-bold text-light" href=""><?php echo $_SESSION['menu_lista'][$id];?></a>
                 </li>
-                <?php endforeach; ?>
-                
-                    
+                <?php endforeach; ?>     
                 </div>
             </ul>
         </nav>
