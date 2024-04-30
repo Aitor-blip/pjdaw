@@ -28,6 +28,10 @@
                          $file = "animales_adopcion.php";
                          echo $file;
                       }
+                      if($_SESSION['menu_lista'][$id]=="Home"){
+                        $file = "../../index.php";
+                        echo $file;
+                     }
                       ?>"><?php echo $_SESSION['menu_lista'][$id];?></a>
                   </li>
 

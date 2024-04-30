@@ -560,3 +560,7 @@ hr{
     margin-top: 2rem;
 }
 
+.btn__login,.btn__registro{
+    width: 40px;
+    max-height: 40px;
+}

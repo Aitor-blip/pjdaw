@@ -17,6 +17,7 @@
     <title>Landing page project dogs daw</title>
     <link rel="stylesheet" href="./css/estilos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
 </head>
 <body>
     <header class="header header-min">
@@ -29,7 +30,7 @@
                 <?php foreach($_SESSION['menu_lista'] as $id=>$item): ?>
 
                 <li class="nav-item mx-2">
-                    <a class="nav-link fw-bold text-light" href="
+                    <a class="nav-link fw-bold text-light fs-6" href="
                     <?php
                         if($_SESSION['menu_lista'][$id] == "Perros"){
                             $file = "./admin/secciones/animales_adopcion.php";
@@ -42,9 +43,10 @@
 
                 <?php endforeach; ?>
                 <div class="login d-flex justify-content-center align-items-center">
-                    <a class="nav-link mx-2 btn btn-orange text-light" href="./admin/secciones/login_usuario.php">Login</a>
-                    <a class="nav-link mx-2 btn btn-orange text-light" href="./admin/secciones/registro_usuario.php">Sign Up</a>        
+                    <a class="nav-link mx-2 text-light btn__login fs-6" href="./admin/secciones/login_usuario.php">Login</a>
+                    <a class="nav-link mx-2 text-light btn__registro fs-6" href="./admin/secciones/registro_usuario.php">Sign Up</a>        
                 </div>
+               
                     
                 </div>
             </ul>
