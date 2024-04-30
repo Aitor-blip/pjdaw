@@ -5,4 +5,13 @@
             array_push($_SESSION['menu_lista'] , "Adopta");
             array_push($_SESSION['menu_lista'] , "Centros de adopcion");
         }
+
+        if($_SESSION['logueado']){
+            array_push($_SESSION['menu_lista'] , "Cerrar Sesión");
+            
+        }
+        
+        
+        
 ?>
+        

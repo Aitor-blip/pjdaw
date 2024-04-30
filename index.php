@@ -1,16 +1,4 @@
 <?php
-    include_once './admin/bd/conexion.php';
-    include_once './admin/clases/perro.php';
-    include_once './admin/imagenes/variables.php';
-    $bd = new BD();
-    $conexion = $bd->getConexion();
-    //$perro = new Perro('188484','Mor','2022-11-02','2024-04-02',2,3,1,'19859555J');
-    //$state = bd::insertPerro($perro);
-    //$state = bd::updatePerro($perro);
-    $_SESSION['dni'] = "19859555G";
-    $dni = $_SESSION['dni'];
-    $hayperrosPropietario = $bd->getPerrosByPropietario($dni);
-    $_SESSION['user'] = "invitado";
 
     include_once './admin/templates/headnocss.php';
     include_once './admin/clases/menu.php';
@@ -32,12 +20,20 @@
     <header class="header header-min">
     <div class="container-fluid">
     <div class="row">
-        <nav class="navbar navbar-expand navbar-light bg-info bg-gradient d-flex justify-content-end">
+        <nav class="navbar navbar-expand navbar-light bg-info bg-gradient d-flex justify-content-end align-items-center">
             <ul class="nav navbar-nav">
+                
+                <li class="nav-item mx-2">
+                    <a class="nav-link fw-bold text-light" href="./admin/secciones/animales_adopcion.php"><span class="text-white fs-4">Perros</span></a>
+                </li>
                 <?php foreach($_SESSION['menu_lista'] as $id=>$item): ?>
+
                 <li class="nav-item mx-2">
                     <a class="nav-link fw-bold text-light" href=""><?php echo $_SESSION['menu_lista'][$id];?></a>
                 </li>
+
+                
+
                 <?php endforeach; ?>
                 <div class="login d-flex justify-content-center align-items-center">
                     <a class="nav-link mx-2 btn btn-orange text-light" href="./admin/secciones/login_usuario.php">Login</a>

@@ -26,10 +26,7 @@
                     <a class="nav-link fw-bold text-light" href=""><?php echo $_SESSION['menu_lista'][$id];?></a>
                 </li>
                 <?php endforeach; ?>
-                <div class="login d-flex justify-content-center align-items-center">
-                    <a class="nav-link mx-2 btn btn-orange text-light" href="<?php echo $enlaceLogin;?>">Login</a>
-                    <a class="nav-link mx-2 btn btn-orange text-light" href="<?php echo $enlaceRegistrarse;?>">Sign Up</a>        
-                </div>
+                
                     
                 </div>
             </ul>
