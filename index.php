@@ -1,5 +1,7 @@
 <?php
-
+    session_start();
+    $_SESSION['user'] = "invitado";
+    $_SESSION['logueado'] = false;
     include_once './admin/templates/headnocss.php';
     include_once './admin/clases/menu.php';
     
@@ -23,13 +25,17 @@
         <nav class="navbar navbar-expand navbar-light bg-info bg-gradient d-flex justify-content-end align-items-center">
             <ul class="nav navbar-nav">
                 
-                <li class="nav-item mx-2">
-                    <a class="nav-link fw-bold text-light" href="./admin/secciones/animales_adopcion.php"><span class="text-white fs-4">Perros</span></a>
-                </li>
+               
                 <?php foreach($_SESSION['menu_lista'] as $id=>$item): ?>
 
                 <li class="nav-item mx-2">
-                    <a class="nav-link fw-bold text-light" href=""><?php echo $_SESSION['menu_lista'][$id];?></a>
+                    <a class="nav-link fw-bold text-light" href="
+                    <?php
+                        if($_SESSION['menu_lista'][$id] == "Perros"){
+                            $file = "./admin/secciones/animales_adopcion.php";
+                            echo $file;
+                        }
+                    ?>"><?php echo $_SESSION['menu_lista'][$id];?></a>
                 </li>
 
                 

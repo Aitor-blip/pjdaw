@@ -2,6 +2,8 @@
     session_start();
     @include_once '../templates/headnocss.php';
     @include_once '../clases/menu.php';
+    $_SESSION['user'] = "usuario";
+    $_SESSION['logueado'] = true;
     $enlaceLogin = "";
     $enlaceRegistrarse="";
     $ruta = pathinfo("C:/xampp/htdocs/pagina web/admin/secciones/menu_usuario.php");
