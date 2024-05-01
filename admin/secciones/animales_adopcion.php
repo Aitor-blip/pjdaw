@@ -3,6 +3,10 @@
   @include_once '../templates/headnocss.php';
   @include_once '../clases/menu.php';
   @include_once '../imagenes/variables.php';
+  @include_once '../bd/conexion.php';                
+  $bd = new BD();
+  $perros = $bd->consultar("select * from perro");
+  
 ?>
 
 <!DOCTYPE html>
@@ -129,57 +133,54 @@
                 <input type="submit" class="btn btn-primary mt-3 mx-3" value="Buscar">
               </form>
           </div>
-          <div class="col-md-9 pt-5">
-            <div class="perros d-flex justify-content-center align-items-center">
-              <div class="card mx-2">
-                <img class="card-img-top" src="<?php echo ADOPCION;?>dog1.jpg" alt="Dog"  width="200"/>
-                <div class="card-body">
+          <div class="col-md-9 pt-5 d-flex flex-row justify-content-start align-items-center">
+            
+            <?php 
+
+              if(count($perros)>0):
+                foreach($perros as $id=>$perro):
+                  $nChip = $perros[$id]['nChip']; 
+                  $nombre = $perros[$id]['nombrePerro'];
+                  $idRaza = $perros[$id]['idRaza']; 
+                  $raza = $bd->getRazaByPerroIdRaza($idRaza);
+                  $nombreRaza = $raza['nombreRaza'];
+                  $fotos = $bd->getFotosByNchip($nChip); 
+                  $rutaBase = $fotos['ruta'];
+                  $ruta = "../imagenes/".$rutaBase;?>
+
+            <div class="col-sm-4">
+                <div class="perros">
+                <div class="card mx-2">  
                   <div class="perro">
-                    <h4 class="card-title perro__nombre">Nombre</h4>
-                    <p class="card-text perro__raza">Raza</p>
-                    <a
-                      name="ver_mas"
-                      class="btn btn-primary"
-                      href="#"
-                      role="button">Leer Más</a>
+                  
+
+                      <img class="card-img-top" src="<?php echo $ruta;?>" alt="Dog"  width="200"/>
+                      <div class="card-body">
+                    
+                    
+                      <h4 class="card-title perro__nombre">Nombre <span class="fw-bold"><?php echo $nombre ?></span></h4>
+                      <p class="card-text perro__raza">Raza <span class="fw-bold"><?php echo $nombreRaza ?></span></p>
+                      <input type="hidden" value=">" name="nChip"/>
+                      <div class="botones d-flex justify-content-center">
+                        <a
+                        name="ver_mas"
+                        class="btn btn-primary"
+                        href="perro_data.php?nChip=<?php echo $nChip;?> &&ruta=<?php echo $ruta;?>"
+                        role="button">Ver Más</a>
+                      </div>
+                      
+                    </div>
                     
                   </div>
                   
                 </div>
-              </div>
-              <div class="card mx-2">
-                <img class="card-img-top" src="<?php echo ADOPCION;?>dog1.jpg" alt="Dog"  width="200"/>
-                <div class="card-body">
-                  <div class="perro">
-                    <h4 class="card-title perro__nombre">Nombre</h4>
-                    <p class="card-text perro__raza">Raza</p>
-                    <a
-                      name="ver_mas"
-                      class="btn btn-primary"
-                      href="#"
-                      role="button">Leer Más</a>
-                    
-                  </div>
-                  
-                </div>
-              </div>
-              <div class="card mx-2">
-                <img class="card-img-top" src="<?php echo ADOPCION;?>dog1.jpg" alt="Dog"  width="200"/>
-                <div class="card-body">
-                  <div class="perro">
-                    <h4 class="card-title perro__nombre">Nombre</h4>
-                    <p class="card-text perro__raza">Raza</p>
-                    <a
-                      name="ver_mas"
-                      class="btn btn-primary"
-                      href="#"
-                      role="button">Leer Más</a>
-                    
-                  </div>
-                  
-                </div>
+                
               </div>
             </div>
+            
+            <?php 
+              endforeach;
+            endif; ?>
             
           </div>
           

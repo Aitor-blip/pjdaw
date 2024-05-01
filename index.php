@@ -96,32 +96,12 @@
         <div class="animales__landing container">
             
           <div class="animal">
-            <?php
-                /*if(count($hayperrosPropietario) > 0){
-                    //$nchip = $hayperrosPropietario['nchip'];
-                    //$perro = BD::getPerroByNchip($nchip);
-                    for($i=0;$i<count($hayperrosPropietario);$i++){
-                        $nchip = $hayperrosPropietario[$i]['nChip'];
-                        $perro = $bd->getPerroByNchip($nchip);
-                        for($p=0;$p<count($perro);$p++){
-                          $nombrePerro = $perro[$p]['nombrePerro'];
-                          $foto = $bd->getFotosByNchip($nchip);
-                          $rutaFotoPerro = RUTA.$foto['ruta'];  
-                  */      
-                    ?>
-               <img src=<?php echo $rutaFotoPerro; ?> class="animal__img" alt="Imagen animal">
-                <div class="header__textos">
-                    <div class="animal__info">
-                        <p class="animal__nombre"><?php echo $nombrePerro; ?></p>
-                    </div>
-                </div>
-                   
-                <?php
-                 /*           }
-                        }
-                    }
-                */
-                ?>
+            <img class="animal__img" src="./imagenes/dog2.jpg" alt="Perro">
+            <div class="animal__info">
+                <p class="animal__name">Nombre</p>
+                <div class="animal__data"></div>
+            </div>
+          
 
                 
             </div>

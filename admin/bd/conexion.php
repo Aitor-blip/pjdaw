@@ -41,7 +41,7 @@
         }
 
         public  function getPerrosSinAdoptar(){
-            $sql="SELECT * FROM PERRO WHERE nChip NOT IN(SELECT NCHIP FROM ADOPCION_PERROS)";
+            $sql="SELECT * FROM PERRO WHERE nChip IN(SELECT NCHIP FROM ADOPCION_PERROS)";
             $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
@@ -329,6 +329,13 @@
             return $consulta->fetchAll(); 
         }
 
+        public function getRazaByPerroIdRaza($idRaza){
+            $sql = "select raza.nombreRaza,perro.idRaza from perro,raza where perro.idRaza = $idRaza";
+            $consulta = $this->conexion->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetch(PDO::FETCH_LAZY);
+        }
+
         public  function getRazaByNombreRazaUbicacion($nombre,$ubicacion){
             $sql="SELECT * FROM RAZA WHERE nombreRaza = '$nombre' and ubicacionRaza = '$ubicacion'";
             $consulta = $this->conexion->prepare($sql);
@@ -431,14 +438,14 @@
         }
         
         public  function getPerreraById($id){
-            $sql="SELECT * FROM PROPIETARIO WHERE idperrera = $id";
+            $sql="SELECT * FROM PERRERA WHERE idperrera = $id";
             $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
 
         public  function getPerreraByNombre($nombre){
-            $sql="SELECT * FROM PROPIETARIO WHERE 
+            $sql="SELECT * FROM PERRERA WHERE 
             nombrePerrera = '$nombre'";
             $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
