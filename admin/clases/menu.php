@@ -5,6 +5,7 @@
             array_push($_SESSION['menu_lista'] , "Perros");
             array_push($_SESSION['menu_lista'] , "Adopta");
             array_push($_SESSION['menu_lista'] , "Centros de adopcion");
+            array_push($_SESSION['menu_lista'] , "Favoritos");
         }
 
         if($_SESSION['logueado']){

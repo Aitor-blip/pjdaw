@@ -36,7 +36,19 @@
                             $file = "./admin/secciones/animales_adopcion.php";
                             echo $file;
                         }
-                    ?>"><?php echo $_SESSION['menu_lista'][$id];?></a>
+                        if($_SESSION['menu_lista'][$id]=="Centros de adopcion"):
+                            $file = "perreras.php";
+                            echo $file;
+                        endif;
+    
+                          ?>"><?php 
+                          if($_SESSION['menu_lista'][$id]=="Favoritos"):?>
+                            <img src="<?php echo "../imagenes/svg/heart.svg"?>" alt="">
+                            <?php
+                            else:
+                                 echo $_SESSION['menu_lista'][$id];
+                            
+                            endif;?>
                 </li>
 
                 

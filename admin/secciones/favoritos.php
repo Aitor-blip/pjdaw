@@ -1,40 +1,32 @@
-<?php 
+<?php
     session_start();
     include_once '../templates/headnocss.php';
     @include_once '../imagenes/variables.php';
     @include_once '../bd/conexion.php';              
     $bd = new BD();
-    $prueba = "prueba";
 ?>
-    <header>
-      <div class="container-fluid">
-        <div class="row">
-          <nav class="navbar navbar-expand navbar-light bg-info bg-gradient d-flex justify-content-end align-items-center">
-              <ul class="nav navbar-nav">
-                  <?php foreach($_SESSION['menu_lista'] as $id=>$item): ?>
+<header>
+    <nav class="navbar navbar-expand navbar-light bg-info bg-gradient d-flex justify-content-end align-items-center">
+        <ul class="nav navbar-nav">
+        <?php foreach($_SESSION['menu_lista'] as $id=>$item): ?>
 
-                  <li class="nav-item mx-2">
-                      <a class="nav-link fw-bold text-light" href="<?php 
-                      if($_SESSION['menu_lista'][$id]=="Perros"){
-                         $file = "animales_adopcion.php";
-                         echo $file;
-                      }
-                      if($_SESSION['menu_lista'][$id]=="Home"){
-                        $file = "../../index.php";
-                        echo $file;
-                     }
+            <li class="nav-item mx-2">
+            <a class="nav-link fw-bold text-light" href="<?php 
+                if($_SESSION['menu_lista'][$id]=="Perros"){
+                    $file = "animales_adopcion.php";
+                    echo $file;
+                }
+                if($_SESSION['menu_lista'][$id]=="Home"){
+                    $file = "../../index.php";
+                    echo $file;
+                }
 
-                     if($_SESSION['menu_lista'][$id]=="Favoritos"){
-                        $file = "favoritos.php";
-                        echo $file;
-                     }
-                     //
-                     if($_SESSION['menu_lista'][$id]=="Centros de adopcion"):
-                        $file = "perreras.php";
-                        echo $file;
-                    endif;
+                if($_SESSION['menu_lista'][$id]=="Favoritos"){
+                    $file = "favoritos.php";
+                    echo $file;
+                }
 
-                      ?>"><?php 
+               ?>"><?php 
                       if($_SESSION['menu_lista'][$id]=="Favoritos"):?>
                         <img src="<?php echo "../imagenes/svg/heart.svg"?>" alt="">
                         <?php
@@ -51,39 +43,35 @@
                   </div>
               </ul>
           </nav>
-        
-        </div>
-      </div>
-    
-    </header>
-    <main>
-        <div class="container mt-5">
-        <div class="row">
-        <div class="col-md-4 mt-5">
-            <?php
-                if($_GET){
-                    $nChip = $_GET['nChip'];
-                    $ruta = $_GET['ruta'];
-                }
-            ?>
-            <img
-                src="<?php echo $ruta;?>"
-                class="img-fluid rounded-top"
-                alt="Dog"
-            />
-            <div class="mini-imagenes pt-1">
-                <img src="<?php echo $ruta;?>" 
-                    class="img-fluid"
-                    width="150"
-                    height="150"
-                    alt="Mini imagen">
-            </div>
-            
+</header>
 
-        </div>
-        <div class="col-sm-8">
-            <div class="perro_data">
-                <div class="accordion mt-5 mx-3" id="accordionPerroData">
+<main>
+    <div class="container mt-5">
+        <?php 
+            //Listar los perros favoritos acumulados
+            if($_GET):
+                $nChip = $_GET["nchip"];
+                $ruta = $_GET["ruta"];
+                $perroData = $bd->getPerroByNchip($nChip);
+                foreach ($perroData as $id=>$perro):
+                    $nombre = $perroData[$id]['nombrePerro'];
+                    $idRaza = $perroData[$id]['idRaza']; 
+                    $raza = $bd->getRazaByPerroIdRaza($idRaza);
+                    $nombreRaza = $raza['nombreRaza'];
+                    $peso = $perroData[$id]['peso'];
+                    $fNacimiento = $perroData[$id]['fechaNacimiento'];
+                    $idPerrera = $perroData[$id]['idperrera'];
+                    $perrera = $bd->getPerreraById($idPerrera);
+                    $nombrePerrera = $perrera[$id]['nombrePerrera'];
+                endforeach;?>
+
+        <div class="row">
+            <div class="col-12 col-md-8 col-sm-6 d-flex flex-row justify-content-start align-items-center">
+                <div class="col-sm-6">
+                    <img class="img-fluid" src="<?php echo $ruta;?>" alt="Dog">
+                </div>
+                <div class="col-sm-6 w-100">
+                <div class="accordion mx-3" id="accordionPerroData">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="datosPerro">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -121,30 +109,13 @@
                     </div>
                     </div>
                 </div>
-                <div class="botones d-flex flex-row justify-content-center">
-                    <a
-                        name="adoptame"
-                        class="btn btn-primary w-50 p-3 m-4"
-                        href="#"
-                        role="button"
-                        >Adoptame</a
-                    >
-
-                    <a
-                        name="favoritos"
-                        class="btn btn-primary w-50 p-3 m-4"
-                        href="#"
-                        id="btnFavorito"
-                        role="button">
-                        Agregame a favoritos
-                    </a>
-                    
                 </div>
             </div>
         </div>
-        </div>
-    </main>
-    
-</div>
-
-<?php include '../templates/footer.php';?>
+        <?php else :?>
+            <h1 class="text-center">No hay perros como favoritos</h1>
+        <?php endif ;?>
+    </div>
+</main>
+<?php include_once '../templates/footer.php';?>
+          
