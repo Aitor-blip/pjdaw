@@ -45,6 +45,7 @@
                              echo $_SESSION['menu_lista'][$id];
                         
                         endif;?>
+                      </a>
                   </li>
 
                   
