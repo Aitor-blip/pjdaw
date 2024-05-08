@@ -3,7 +3,8 @@
   @include_once '../templates/headnocss.php';
   @include_once '../clases/menu.php';
   @include_once '../imagenes/variables.php';
-  @include_once '../bd/conexion.php';                
+  @include_once '../bd/conexion.php';
+  @include_once '../clases/gestionPerros.php';                
   $bd = new BD();
   $perros = $bd->consultar("select * from perro");
   
@@ -28,10 +29,17 @@
 
                   <li class="nav-item mx-2">
                       <a class="nav-link fw-bold text-light" href="<?php 
-                      if($_SESSION['menu_lista'][$id]=="Perros"){
-                         $file = "animales_adopcion.php";
-                         echo $file;
+
+                      if($_SESSION['menu_lista'][$id]=="Home"){
+                        $file = "../../index.php";
+                        echo $file;
                       }
+
+                      if($_SESSION['menu_lista'][$id]=="Perros"){
+                        $file = "animales_adopcion.php";
+                        echo $file;
+                      }
+
                       if($_SESSION['menu_lista'][$id]=="Centros de adopcion"):
                         $file = "perreras.php";
                         echo $file;
@@ -46,6 +54,26 @@
                         
                         endif;?>
                       </a>
+
+                      <?php if($_SESSION['menu_lista'][$id]=="Cerrar Sesion"):
+                        
+                        $file = "../../../index.php";
+                        echo $file;
+                        session_unset();
+                        
+                        
+                      
+                      endif;
+                      
+                      if($_SESSION['menu_lista'][$id]=="Centros de Adopcion"):
+                        @$file = "perreras.php";
+                        echo $file;
+                      endif;
+                      
+                      
+                      ?>
+
+                      
                   </li>
 
                   
@@ -143,10 +171,12 @@
               </form>
           </div>
           <div class="col-md-9 pt-5 d-flex flex-row justify-content-start align-items-center">
-            
-            <?php 
+      
+           <div class="mb-3">
+                    <a href="crearPerro.php" class="btn btn-primary">Crear Perro</a>
+                 </div>
 
-              if(count($perros)>0):
+              <?php if(count($perros)>0):
                 foreach($perros as $id=>$perro):
                   $nChip = $perros[$id]['nChip']; 
                   $nombre = $perros[$id]['nombrePerro'];
@@ -154,7 +184,7 @@
                   $raza = $bd->getRazaByPerroIdRaza($idRaza);
                   $nombreRaza = $raza['nombreRaza'];
                   $fotos = $bd->getFotosByNchip($nChip); 
-                  $rutaBase = $fotos['ruta'];
+                  $rutaBase = isset($fotos['ruta'])?$fotos['ruta']:'';
                   $ruta = "../imagenes/".$rutaBase;?>
 
             <div class="col-sm-4">
@@ -163,9 +193,12 @@
                   <div class="perro">
                   
 
+                  <?php if(!isset($ruta) || !isset($rutaBase)){
+
+                    }else{?>
                       <img class="card-img-top" src="<?php echo $ruta;?>" alt="Dog"  width="200"/>
                       <div class="card-body">
-                    
+                    <?php  } ?>
                     
                       <h4 class="card-title perro__nombre">Nombre <span class="fw-bold"><?php echo $nombre ?></span></h4>
                       <p class="card-text perro__raza">Raza <span class="fw-bold"><?php echo $nombreRaza ?></span></p>
@@ -189,7 +222,7 @@
             
             <?php 
               endforeach;
-            endif; ?>
+            endif;?>
             
           </div>
           

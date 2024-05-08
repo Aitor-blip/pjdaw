@@ -30,15 +30,22 @@
                                 type="password"
                                 class="form-control"
                                 name="password"
+                                aria-describedby="helpId"                                
+
                             />
+                            <a href="registro_usuario.php">
+                                <small id="helpId" class="form-text text-muted">Registrar Usuario</small>
+                            </a>
                         </div>
 
                         <div class="mb-3 d-flex justify-content-center">
                             <input
                                 type="submit"
                                 class="btn btn-primary"
-                                value="Sign Up"
+                                value="Sign In"
                             />
+                            
+                            <br>
                         </div>
                         
                         

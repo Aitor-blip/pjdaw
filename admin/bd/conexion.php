@@ -64,7 +64,7 @@
            return $consulta->fetchAll(); 
         }
 
-        public  function insertPerro($perro){
+        public function insertPerro($perro,$foto,$propietario){
 
             try {
             $nChip = $perro->getNchip();
@@ -73,33 +73,66 @@
             $fechaEntrada = $perro->getFechaEntrada();
             $idPerrera = $perro->getIdPerrera();
             $idRaza = $perro->getIdRaza();
-            $idFoto = $perro->getIdFoto();
-            $dniPropietario = $perro->getDniPropietario();
-            
-        
-           $sql="INSERT INTO perro (nchip,nombrePerro,fechaNacimiento,fechaEntrada,idperrera,idRaza,idFoto,dniPropietario) 
-           VALUES (:nChip,:nombrePerro,:fechaNacimiento,:fechaEntrada,:idPerrera,:idRaza,:idFoto,:dniPropietario)";
 
-            $consulta = $this->conexion->prepare($sql);
+            $rutaFoto = $foto->getRutaFoto();
+
+            $dni = $propietario->getDniPropietario();
+
+            $sql1="INSERT INTO foto (ruta)
+            VALUES ('$rutaFoto')";
+
+            echo $sql1;
+            
+            $sql2 = "INSERT INTO PROPIETARIO (dniPropietario) VALUES(:dni)";
+            
+            
+            $sql3="INSERT INTO perro (nchip,nombrePerro,fechaNacimiento,fechaEntrada,idperrera,idRaza,idFoto,dniPropietario) 
+            VALUES (:nChip,:nombrePerro,:fechaNacimiento,:fechaEntrada,:idPerrera,:idRaza,:idFoto,:dniPropietario)";
+
+           /*  $this->conexion->beginTransaction();
+
+
+           $consulta = $this->conexion->prepare($sql1);
+            $consulta->bindParam(':ruta',$rutaFoto);
+            $consulta->execute();
+
+            $idInsertado = $this->conexion->lastInsertId();
+
+            $consulta = $this->conexion->prepare($sql2);
+            $consulta->bindParam(':dni',$dni);
+            $consulta->execute();
+
+            $consulta = $this->conexion->prepare($sql3);
             $consulta->bindParam(':nChip',$nChip);
             $consulta->bindParam(':nombrePerro',$nombrePerro);
             $consulta->bindParam(':fechaEntrada',$fechaEntrada);
             $consulta->bindParam(':fechaNacimiento',$fechaNacimiento);            
             $consulta->bindParam(':idPerrera',$idPerrera);
             $consulta->bindParam(':idRaza',$idRaza);
-            $consulta->bindParam(':idFoto',$idFoto);
-            $consulta->bindParam(':dniPropietario',$dniPropietario);
+            $consulta->bindParam(':idFoto',$idInsertado);
+            $consulta->bindParam(':dniPropietario',$dni);
             $consulta->execute();
+
+  */        
+
+            
+
+     
+
+
+            $this->conexion->commit();
 
             return true;
 
             }catch(PDOException $e){
 
+                $this->conexion->rollBack();
+
                 $code = $e->getCode();
 
                 switch($code){
                     case 23000 :
-                        self::$messageError = "No se puede insertar el mismo perro dos veces";
+                        //$this->$messageError = "No se puede insertar el mismo perro dos veces";
                 }
 
                 return false;

@@ -23,9 +23,27 @@
     <div class="row">
         <nav class="navbar navbar-expand navbar-light bg-info bg-gradient d-flex justify-content-end">
             <ul class="nav navbar-nav">
-                <?php foreach($_SESSION['menu_lista'] as $id=>$item): ?>
+                <?php foreach($_SESSION['menu_lista'] as $id=>$item): 
+                    
+                                
+                if($_SESSION['menu_lista'][$id]=="Perros"){
+                    $file = "animales_adopcion.php";
+                }
+                if($_SESSION['menu_lista'][$id]=="Home"){
+                $file = "../../index.php";
+                }
+
+                if($_SESSION['menu_lista'][$id]=="Favoritos"){
+                $file = "favoritos.php";
+                }
+                //
+                if($_SESSION['menu_lista'][$id]=="Centros de adopcion"):
+                $file = "perreras.php";
+            endif;    
+                    
+                ?>
                 <li class="nav-item mx-2">
-                    <a class="nav-link fw-bold text-light" href=""><?php echo $_SESSION['menu_lista'][$id];?></a>
+                    <a class="nav-link fw-bold text-light" href="<?php echo $file;?>"><?php echo $_SESSION['menu_lista'][$id];?></a>
                 </li>
                 <?php endforeach; ?>     
                 </div>
@@ -34,3 +52,10 @@
         
     </div>
 </div>
+
+<body>
+   <main>
+  
+   </main>
+</body>
+</html>

@@ -38,9 +38,10 @@
                                 class="btn btn-primary"
                                 value="Sign Up"
                             />
+                            
+                            
                         </div>
-                        
-                        
+
                     </form>
                 </div>
             </div>

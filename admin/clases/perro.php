@@ -8,17 +8,18 @@
         public $idRaza;
         public $idFoto;
         public $dniPropietario;
+        
         public function __construct($nChip,$nombrePerro,$fechaNacimiento,$fechaEntrada,
-                                    $idPerrera,$idRaza,$idFoto,$dniPropietario){
+                                    $idPerrera,$idRaza){
            $this->nChip = $nChip;
            $this->nombrePerro = $nombrePerro;
            $this->fechaNacimiento = $fechaNacimiento;
            $this->fechaEntrada = $fechaEntrada;
            $this->idPerrera = $idPerrera;
            $this->idRaza = $idRaza;
-           $this->idFoto = $idFoto;
-           $this->dniPropietario = $dniPropietario;
         }
+        
+
 
 
         function getNchip(){

@@ -4,10 +4,8 @@
         public $rutaFoto;
         public $descripcionFoto;
 
-        public function __construct($idFoto,$rutaFoto,$descripcionFoto){
-           $this->idFoto = $idFoto;
+        public function __construct($rutaFoto){
            $this->rutaFoto = $rutaFoto;
-           $this->descripcionFoto = $descripcionFoto;
         }
 
         public function getIdFoto(){

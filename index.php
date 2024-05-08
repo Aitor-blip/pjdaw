@@ -37,7 +37,7 @@
                             echo $file;
                         }
                         if($_SESSION['menu_lista'][$id]=="Centros de adopcion"):
-                            $file = "perreras.php";
+                            $file = "./admin/secciones/perreras.php";
                             echo $file;
                         endif;
     

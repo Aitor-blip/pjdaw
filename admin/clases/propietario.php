@@ -8,14 +8,8 @@
         public $tlf;
         public $email;
 
-        public function __construct($dni,$nombre,$apellido,$fechaNacimiento,$ciudad,$tlf,$email){
+        public function __construct($dni){
            $this->dni = $dni;
-           $this->nombre = $nombre;
-           $this->apellido = $apellido;
-           $this->fechaNacimiento =  $fechaNacimiento;
-           $this->ciudad = $ciudad;
-           $this->tlf = $tlf;
-           $this->email = $email;
         }
 
          function getDniPropietario(){
