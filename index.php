@@ -33,7 +33,7 @@
                     <a class="nav-link fw-bold text-light fs-6" href="
                     <?php
                         if($_SESSION['menu_lista'][$id] == "Perros"){
-                            $file = "./admin/secciones/animales_adopcion.php";
+                            $file = "./admin/secciones/animales_adopcion.php?logueado=0";
                             echo $file;
                         }
                         if($_SESSION['menu_lista'][$id]=="Centros de adopcion"):

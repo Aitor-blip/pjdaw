@@ -4,7 +4,14 @@
   @include_once '../clases/menu.php';
   @include_once '../imagenes/variables.php';
   @include_once '../bd/conexion.php';
-  @include_once '../clases/gestionPerros.php';                
+  @include_once '../clases/gestionPerros.php';
+  if($_GET['logueado']==1){
+    $_SESSION['logueado'] = true;
+  }else{
+    $_SESSION['logueado'] =false;
+    $_SESSION['user'] =="invitado";
+  }                
+  $logueado = $_SESSION['logueado'];
   $bd = new BD();
   $perros = $bd->consultar("select * from perro");
   
@@ -25,60 +32,29 @@
         <div class="row">
           <nav class="navbar navbar-expand navbar-light bg-info bg-gradient d-flex justify-content-end align-items-center">
               <ul class="nav navbar-nav">
-                  <?php foreach($_SESSION['menu_lista'] as $id=>$item): ?>
-
-                  <li class="nav-item mx-2">
-                      <a class="nav-link fw-bold text-light" href="<?php 
-
-                      if($_SESSION['menu_lista'][$id]=="Home"){
-                        $file = "../../index.php";
-                        echo $file;
-                      }
-
-                      if($_SESSION['menu_lista'][$id]=="Perros"){
-                        $file = "animales_adopcion.php";
-                        echo $file;
-                      }
-
-                      if($_SESSION['menu_lista'][$id]=="Centros de adopcion"):
-                        $file = "perreras.php";
-                        echo $file;
-                    endif;
-
-                      ?>"><?php 
-                      if($_SESSION['menu_lista'][$id]=="Favoritos"):?>
-                        <img src="<?php echo "../imagenes/svg/heart.svg"?>" alt="">
-                        <?php
-                        else:
-                             echo $_SESSION['menu_lista'][$id];
+              <?php foreach($_SESSION['menu_lista'] as $id=>$item): 
+                    
+                                
+                    if($_SESSION['menu_lista'][$id]=="Perros"){
+                        $file = "animales_adopcion.php?logueado=$logueado";
+                    }
+                    if($_SESSION['menu_lista'][$id]=="Home"){
+                    $file = "../../index.php";
+                    }
+    
+                    if($_SESSION['menu_lista'][$id]=="Favoritos"){
+                    $file = "favoritos.php";
+                    }
+                    //
+                    if($_SESSION['menu_lista'][$id]=="Centros de adopcion"):
+                    $file = "perreras.php";
+                endif;    
                         
-                        endif;?>
-                      </a>
-
-                      <?php if($_SESSION['menu_lista'][$id]=="Cerrar Sesion"):
-                        
-                        $file = "../../../index.php";
-                        echo $file;
-                        session_unset();
-                        
-                        
-                      
-                      endif;
-                      
-                      if($_SESSION['menu_lista'][$id]=="Centros de Adopcion"):
-                        @$file = "perreras.php";
-                        echo $file;
-                      endif;
-                      
-                      
-                      ?>
-
-                      
-                  </li>
-
-                  
-
-                  <?php endforeach; ?>     
+                    ?>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link fw-bold text-light" href="<?php echo $file;?>"><?php echo $_SESSION['menu_lista'][$id];?></a>
+                    </li>
+                    <?php endforeach; ?>    
                   </div>
               </ul>
           </nav>

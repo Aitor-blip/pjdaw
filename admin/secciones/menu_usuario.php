@@ -4,6 +4,9 @@
     @include_once '../clases/menu.php';
     $_SESSION['user'] = "usuario";
     $_SESSION['logueado'] = true;
+    if($_SESSION['logueado']){
+        $logueado = true;
+    }
     $enlaceLogin = "";
     $enlaceRegistrarse="";
     $ruta = pathinfo("C:/xampp/htdocs/pagina web/admin/secciones/menu_usuario.php");
@@ -27,7 +30,7 @@
                     
                                 
                 if($_SESSION['menu_lista'][$id]=="Perros"){
-                    $file = "animales_adopcion.php";
+                    $file = "animales_adopcion.php?logueado=$logueado";
                 }
                 if($_SESSION['menu_lista'][$id]=="Home"){
                 $file = "../../index.php";
