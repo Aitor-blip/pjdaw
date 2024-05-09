@@ -5,11 +5,12 @@
   @include_once '../imagenes/variables.php';
   @include_once '../bd/conexion.php';
   @include_once '../clases/gestionPerros.php';
-  if($_GET['logueado']==1){
-    $_SESSION['logueado'] = true;
+  if(@$_GET['logueado']==1){
+    @$_SESSION['logueado'] = true;
+    @$dni = $_SESSION['dni'];
   }else{
-    $_SESSION['logueado'] =false;
-    $_SESSION['user'] =="invitado";
+    @$_SESSION['logueado'] =false;
+    @$_SESSION['user'] =="invitado";
   }                
   $logueado = $_SESSION['logueado'];
   $bd = new BD();
@@ -148,22 +149,31 @@
           </div>
           <div class="col-md-9 pt-5 d-flex flex-row justify-content-start align-items-center">
       
-           <div class="mb-3">
-                    <a href="crearPerro.php" class="btn btn-primary">Crear Perro</a>
-                 </div>
+           <div class="col-3 col-sm-2">
+              <div class="mb-3">
+                  <a href="crearPerro.php" class="btn btn-primary">Crear Perro</a>
+                </div>
+            </div>
 
-              <?php if(count($perros)>0):
-                foreach($perros as $id=>$perro):
-                  $nChip = $perros[$id]['nChip']; 
-                  $nombre = $perros[$id]['nombrePerro'];
-                  $idRaza = $perros[$id]['idRaza']; 
-                  $raza = $bd->getRazaByPerroIdRaza($idRaza);
-                  $nombreRaza = $raza['nombreRaza'];
-                  $fotos = $bd->getFotosByNchip($nChip); 
-                  $rutaBase = isset($fotos['ruta'])?$fotos['ruta']:'';
-                  $ruta = "../imagenes/".$rutaBase;?>
+            <div class="col-9 col-sm-11 sm-d-flex sm-flex-column d-flex flex-wrap flex-row justifiy-content-between align-items-center">
+                <?php 
+                if(@$_SESSION['logueado']){
+                  $perros = $bd->getPerrosByPropietario($dni);
+                }
+                  $perros = $bd->consultar("select * from perro");
+                  if(count($perros)>0): 
+                  foreach($perros as $id=>$perro):
+                    $nChip = $perros[$id]['nChip']; 
+                    $nombre = $perros[$id]['nombrePerro'];
+                    $idRaza = $perros[$id]['idRaza']; 
+                    $raza = $bd->getRazaByPerroIdRaza($idRaza);
+                    $nombreRaza = $raza['nombreRaza'];
+                    $fotos = $bd->getFotosByNchip($nChip); 
+                    $rutaBase = trim(isset($fotos['ruta'])?$fotos['ruta']:'');
+                    $ruta = "../imagenes/img_bd/".$rutaBase;
+                  ?>
 
-            <div class="col-sm-4">
+            <div class="col-sm-4 m-5">
                 <div class="perros">
                 <div class="card mx-2">  
                   <div class="perro">
@@ -201,6 +211,9 @@
             endif;?>
             
           </div>
+            </div>
+
+            
           
 
         
