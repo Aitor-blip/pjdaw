@@ -64,81 +64,71 @@
            return $consulta->fetchAll(); 
         }
 
-        public function insertPerro($perro,$foto,$propietario){
-
-            try {
-            $nChip = $perro->getNchip();
+        public function insertPerro($nchip,$perro,$foto,$propietario){
+            //Datos perro
+            $idRaza = $perro->getIdRaza();
+            $idPerrera = $perro->getIdPerrera();
             $nombrePerro = $perro->getNombrePerro();
             $fechaNacimiento = $perro->getFechaNacimiento();
             $fechaEntrada = $perro->getFechaEntrada();
-            $idPerrera = $perro->getIdPerrera();
-            $idRaza = $perro->getIdRaza();
+            $peso = $perro->getPeso();
 
-            $rutaFoto = $foto->getRutaFoto();
+            $ruta = $foto->getRutaFoto();
 
             $dni = $propietario->getDniPropietario();
 
-            $sql1="INSERT INTO foto (ruta)
-            VALUES ('$rutaFoto')";
+            $sql1 = "INSERT INTO PERRO(nChip,nombrePerro,fechaNacimiento,fechaEntrada,idperrera,peso,idRaza)
+             VALUES(:nChip,:nombrePerro,:fNac,:fEntr,:idPerrera,:peso,:idRaza)";
 
-            echo $sql1;
-            
-            $sql2 = "INSERT INTO PROPIETARIO (dniPropietario) VALUES(:dni)";
-            
-            
-            $sql3="INSERT INTO perro (nchip,nombrePerro,fechaNacimiento,fechaEntrada,idperrera,idRaza,idFoto,dniPropietario) 
-            VALUES (:nChip,:nombrePerro,:fechaNacimiento,:fechaEntrada,:idPerrera,:idRaza,:idFoto,:dniPropietario)";
+             $sql2 = "INSERT INTO FOTO (ruta,nchip) values (:ruta,:nchip)";
 
-           /*  $this->conexion->beginTransaction();
+             $sql3 = "INSERT INTO PROPIETARIO (dniPropietario) VALUES (:dni)";
+
+             $sql4 = "INSERT INTO ADOPCION_PERROS (nChip,dniPropietario) VALUES (:nchip,:dni)";
 
 
-           $consulta = $this->conexion->prepare($sql1);
-            $consulta->bindParam(':ruta',$rutaFoto);
-            $consulta->execute();
+            try{
+                $this->conexion->beginTransaction();
 
-            $idInsertado = $this->conexion->lastInsertId();
-
-            $consulta = $this->conexion->prepare($sql2);
-            $consulta->bindParam(':dni',$dni);
-            $consulta->execute();
-
-            $consulta = $this->conexion->prepare($sql3);
-            $consulta->bindParam(':nChip',$nChip);
-            $consulta->bindParam(':nombrePerro',$nombrePerro);
-            $consulta->bindParam(':fechaEntrada',$fechaEntrada);
-            $consulta->bindParam(':fechaNacimiento',$fechaNacimiento);            
-            $consulta->bindParam(':idPerrera',$idPerrera);
-            $consulta->bindParam(':idRaza',$idRaza);
-            $consulta->bindParam(':idFoto',$idInsertado);
-            $consulta->bindParam(':dniPropietario',$dni);
-            $consulta->execute();
-
-  */        
-
-            
-
-     
+                $consulta =$this->conexion->prepare($sql1);
+                $consulta->bindParam(":nChip",$nchip);
+                $consulta->bindParam(":nombrePerro",$nombrePerro);
+                $consulta->bindParam(":fNac",$fechaNacimiento);
+                $consulta->bindParam(":fEntr",$fechaEntrada);
+                $consulta->bindParam(":idPerrera",$idPerrera);
+                $consulta->bindParam(":peso",$peso);
+                $consulta->bindParam(":idRaza",$idRaza);
+                $consulta->execute();
 
 
-            $this->conexion->commit();
+                $consulta =$this->conexion->prepare($sql2);
+                $consulta->bindParam(":ruta",$ruta);
+                $consulta->bindParam(":nchip",$nchip);
+                $consulta->execute();
 
-            return true;
+                $consulta =$this->conexion->prepare($sql3);
+                $consulta->bindParam(":dni",$dni);
+                $consulta->execute();
 
+                $consulta =$this->conexion->prepare($sql4);
+                $consulta->bindParam(":nchip",$nchip);
+                $consulta->bindParam(":dni",$dni);
+                $consulta->execute();
+
+
+                $this->conexion->commit();
+
+                return true;
             }catch(PDOException $e){
-
-                $this->conexion->rollBack();
-
-                $code = $e->getCode();
-
-                switch($code){
-                    case 23000 :
-                        //$this->$messageError = "No se puede insertar el mismo perro dos veces";
-                }
-
                 return false;
+                $this->conexion->rollBack();
+                echo $e->getMessage();
             }
 
+
+
         }
+    
 
 
         public  function updatePerro($perro){

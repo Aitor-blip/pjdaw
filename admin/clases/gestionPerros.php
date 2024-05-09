@@ -14,17 +14,21 @@
     $dni = isset($_POST['dni'])?$_POST['dni']:'';
 
 
-    if($_POST){
+
         $nombreFoto = $_FILES['photo']['name'];
         $nombreTemporalFoto = $_FILES['photo']['tmp_name'];
         $ruta = "../imagenes/img_bd/$nombreFoto";
         move_uploaded_file($nombreTemporalFoto,$ruta);
-        $foto = new Foto($ruta);
+        $foto = new Foto($nombreFoto);
         $propietario = new Propietario($dni);
-        $perro = new Perro($nchipPerro,$nombrePerro,$fechaNacimientoPerro,$fechaNacimientoPerro,$perrera,$raza,$dni);
-        $insertado = $bd->insertPerro($perro,$foto,$propietario);
-        var_dump($insertado);
-    }
+        $perro = new Perro($nchipPerro,$nombrePerro,$fechaNacimientoPerro,$fechaNacimientoPerro,$peso,$perrera,$raza);
+        $insertado = $bd->insertPerro($nchipPerro,$perro,$foto,$propietario);
+        if($insertado){
+            header("location:../../index.php");
+        }
+        
+    
+    
 
 
 
