@@ -2,6 +2,7 @@
     session_start();
     include_once '../templates/headnocss.php';
     @include_once '../imagenes/variables.php';
+    @include_once '../clases/gestionPerros.php';
     @include_once '../bd/conexion.php';              
     $bd = new BD();
     $prueba = "prueba";
@@ -63,6 +64,7 @@
             <?php
                 if($_GET){
                     $nChip = $_GET['nChip'];
+                    $_SESSION['nchip'] = $nchip;
                     $ruta = $_GET['ruta'];
                 }
             ?>
@@ -121,14 +123,40 @@
                     </div>
                     </div>
                 </div>
-                <div class="botones d-flex flex-row justify-content-center">
+                
+                
+                <?php if($_SESSION['user'] == "usuario"):?>
+                    <div class="botones d-flex flex-row justify-content-center">
+                    <form action="" method="post">
+                        <input
+                            name="perroaction"
+                            id="action"
+                            class="btn btn-danger w-100 p-3 m-4"
+                            type="submit"
+                            value="Editar"
+                        />
+
+                        
+                    </form>
+
                     <a
+                        class="btn btn-primary w-50 p-3 m-4"
+                        href="../clases/borrarPerro.php?nchip=<?php echo $_GET['nChip'];?>"
+                        role="button"
+                        >Borrar</a
+                    >
+                    
+
+                   
+                    <?php else: 
+                            if($_SESSION['user']=="invitado"):?>
+
+                      <a
                         name="adoptame"
                         class="btn btn-primary w-50 p-3 m-4"
                         href="#"
                         role="button"
-                        >Adoptame</a
-                    >
+                        >Adoptame</a>
 
                     <a
                         name="favoritos"
@@ -138,7 +166,10 @@
                         role="button">
                         Agregame a favoritos
                     </a>
-                    
+
+                    <?php endif; 
+                            endif;?>
+                
                 </div>
             </div>
         </div>
