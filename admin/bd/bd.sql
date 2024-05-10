@@ -43,7 +43,7 @@ ALTER TABLE PERRO ADD CONSTRAINT FK_PERRERA FOREIGN KEY (idperrera) REFERENCES P
 
 
 CREATE TABLE PROPIETARIO(
-    dniPropietario varchar (100) primary key,
+    dniPropietario varchar (100) primary key unique not null,
     nombre varchar(100) not null,
     apellido varchar(100) not null,
     fechaNacimiento date not null,
@@ -65,13 +65,14 @@ ALTER TABLE HISTORIAL_MEDICO ADD CONSTRAINT FK_HISTORIAL FOREIGN KEY (nChip) REF
 CREATE TABLE ADOPCION_PERROS(
     nChip int not null,
     dniPropietario varchar(20) not null,
-    fechaAdopcion date not null
-);
+    fechaAdopcion date not null default current_timestamp()
+); 	
 
 CREATE TABLE USUARIO(
     idUsuario int primary key auto_increment,
-    email varchar(70) not null,
+    email varchar(70) not null unique,
     password varchar(70) not null,
+    dni varchar(9) not null unique,
     idRol int not null
 );
 

@@ -3,7 +3,6 @@
     $_SESSION['user'] = "invitado";
     include_once '../templates/headnocss.php';
     include_once '../clases/login.php';
-
 ?>
 
 <div class="container mt-5">
@@ -16,6 +15,15 @@
                 </div>
                 <div class="card-body">
                     <form action="" method="post">
+                        <?php if($logueado):
+                            else:?>
+                             <div
+                                class="alert alert-danger"
+                                role="alert">
+                                <strong><?php echo  $_SESSION['loginError'];?></strong>
+                            </div>
+                        <?php endif;?>
+
                         <div class="mb-3">
                             <label for="email" class="form-label"><span class="fw-bold">Email</span></label>
                             <input

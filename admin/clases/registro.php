@@ -8,6 +8,7 @@
        
         $email = $_POST['email'];
         $password = $_POST['password'];
+        $dni = $_POST['dni'];
         $idRol = 2;
 
         if(!isset($conexion)){
@@ -16,14 +17,9 @@
             $hashed_password = password_hash($password, PASSWORD_BCRYPT);
             $hasheada = isEncrypted($password,$hashed_password);
             if($hasheada){
-                $usuario = new Usuario($email, $hashed_password,$idRol);
+                $usuario = new Usuario($email, $hashed_password,$idRol,$dni);
                 $insertado = $bd->insertUsuario($usuario);
-                if($insertado){
-                    $_SESSION['user'] = "usuario";
-                    header("Location:../secciones/login_usuario.php");
-                }else{
-                    echo "Fallo al insertar el usuario";
-                }
+                
             }else{
                 echo "Fallo al insertar el usuario";
             }

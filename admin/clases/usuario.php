@@ -3,11 +3,13 @@
         public $email;
         public $password;
         public $idRol;
+        public $dni;
 
-        public function __construct($email,$password,$idRol){
+        public function __construct($email,$password,$idRol,$dni){
             $this->email = $email;
             $this->password = $password;
             $this->idRol = $idRol;
+            $this->dni = $dni;
         }
 
         public function getEmail(){
@@ -20,6 +22,10 @@
 
         public function getIdRol(){
             return $this->idRol;
+        }
+
+        public function getDni(){
+            return $this->dni;
         }
     }
 

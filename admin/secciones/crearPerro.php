@@ -71,18 +71,6 @@
           <div class="row">
             <div class="col-12">
               <form action="" method="post" enctype="multipart/form-data">
-                  
-              <div class="mb-3">
-                    <label for="dni" class="form-label">Dni</label>
-                    <input
-                      type="text"
-                      maxlength="8"
-                      class="form-control"
-                      name="dni"
-                      aria-describedby="helpId"
-                      placeholder=""
-                    />
-                  </div>
               
                 <div class="mb-3">
                     <label for="nchip" class="form-label">NChip</label>

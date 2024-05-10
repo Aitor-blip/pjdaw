@@ -24,9 +24,9 @@
         $perro = new Perro($nchipPerro,$nombrePerro,$fechaNacimientoPerro,$fechaNacimientoPerro,$peso,$perrera,$raza);
         $insertado = $bd->insertPerro($nchipPerro,$perro,$foto,$propietario);
         if($insertado){
-            @$_SESSION['logueado'] = true;
-            @$_SESSION['dni'] = $dni;
-            header("location:../../index.php");
+                @$_SESSION['logueado'] = true;
+                @$_SESSION['dni'] = $dni;
+                header("location:../../index.php");
         }
         
     

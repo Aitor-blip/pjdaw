@@ -10,12 +10,38 @@
         <div class="col-4 col-md-4 col-sm-2"></div>
         <div class="col-4 col-md-4 col-sm-2">
             <div class="card">
+                <?php if($insertado){
+                    $_SESSION['user'] = "usuario";
+                    header("Location:../secciones/login_usuario.php");
+                }else{?>
+
+                <div
+                    class="alert alert-danger"
+                    role="alert"
+                >
+                    <strong><?php echo $bd->errorMessage;?></strong>
+                </div>
+                
+            <?php } ?>
                 <div class="card-header">
                     <h3 class="text-center fw-bold">Sign Up</h3>
                 </div>
                 <div class="card-body">
                     <form action="" method="post">
-                        <div class="mb-3">
+                       
+                    <div class="mb-3">
+                            <label for="dni" class="form-label"><span class="fw-bold">Dni</span></label>
+                            <input
+                                type="dni"
+                                class="form-control"
+                                name="dni"
+                                minlength="1"
+                                maxlength="9"
+                               
+                            />
+                        </div>
+                    
+                    <div class="mb-3">
                             <label for="email" class="form-label"><span class="fw-bold">Email</span></label>
                             <input
                                 type="email"
