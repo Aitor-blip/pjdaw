@@ -12,9 +12,6 @@
     $perrera = isset($_POST['perrera'])?$_POST['perrera']:'';
     $peso = isset($_POST['peso'])?$_POST['peso']:0; 
     $dni = isset($_POST['dni'])?$_POST['dni']:'';
-    //perroaction
-    $perroAction = isset($_POST['perroaction'])?$_POST['perroaction']:'';
-
 
 
         $nombreFoto = $_FILES['photo']['name'];
@@ -31,13 +28,6 @@
                 header("location:../../index.php");
         }
 
-
-        switch($perroAction){
-                case "Editar":
-                        header("location:../secciones/editar_perro.php");
-                break;
-        }
-        
     
     
 

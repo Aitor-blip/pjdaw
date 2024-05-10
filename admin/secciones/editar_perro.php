@@ -5,7 +5,6 @@
   @include_once '../imagenes/variables.php';
   @include_once '../clases/gestionPerros.php';
   @include_once '../clases/editarPerro.php';
-  @include_once '../clases/borrarPerro.php';
   @include_once '../bd/conexion.php';                
   $bd = new BD();
   $listaPerreras = $bd->getPerreras();
@@ -126,7 +125,7 @@
 
 
                  <div class="mb-3">
-                    <label for="photos" class="form-label">Foto/s del perro</label>
+                    <label for="photo" class="form-label">Foto/s del perro</label>
                     <input
                       type="file"
                       class="form-control"

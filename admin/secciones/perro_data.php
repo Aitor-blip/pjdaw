@@ -127,17 +127,12 @@
                 
                 <?php if($_SESSION['user'] == "usuario"):?>
                     <div class="botones d-flex flex-row justify-content-center">
-                    <form action="" method="post">
-                        <input
-                            name="perroaction"
-                            id="action"
-                            class="btn btn-danger w-100 p-3 m-4"
-                            type="submit"
-                            value="Editar"
-                        />
-
-                        
-                    </form>
+                    <a
+                        class="btn btn-primary w-50 p-3 m-4"
+                        href="editar_perro.php"
+                        role="button"
+                        >Editar</a
+                    >
 
                     <a
                         class="btn btn-primary w-50 p-3 m-4"

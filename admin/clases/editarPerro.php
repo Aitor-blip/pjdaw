@@ -13,15 +13,26 @@
     $peso = isset($_POST['peso'])?$_POST['peso']:'';
 
     if($_POST){
-        $perro = new Perro($nChip,$nombrePerro,$fechaNacimiento,$fechaNacimiento,$peso,$idPerrera,$idRaza);
 
-        $bd->updatePerro($perro);
-    
-        $updatedPerro = $bd->updatePerro($perro);
+
+        $nchipPerro = $_POST['nchip'];
+        $nombreFoto = $_FILES['photo']['name'];
+        $nombreTemporalFoto = $_FILES['photo']['tmp_name'];
+        $ruta = $nombreFoto;
+        move_uploaded_file($nombreTemporalFoto,$ruta);
+        $perro = new Perro($nchipPerro,$nombrePerro,$fechaNacimiento,$fechaNacimiento,$peso,$idPerrera,$idRaza);
+        $foto = new Foto($ruta);
+
+        
+        $updatedPerro = $bd->updatePerro($perro,$foto);
         
         if($updatedPerro){
             header("location:../secciones/animales_adopcion.php");
         }
+
+        
+
+        //print_r($_POST);
     }
 
    
