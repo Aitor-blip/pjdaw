@@ -4,6 +4,7 @@
         public  $instancia=null;
         public  $messageError = "";
         public $conexion = "";
+        public $errorMessage = "";
 
         public function __construct(){
             $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','');
@@ -64,6 +65,17 @@
            return $consulta->fetchAll(); 
         }
 
+        public function getPerrosPropietario($dni){
+            $sql = "SELECT perro.nChip,perro.nombrePerro,perro.fechaNacimiento,perro.fechaEntrada,perro.idperrera,perro.peso,perro.idRaza
+            FROM perro
+            INNER JOIN adopcion_perros
+            ON perro.nChip = adopcion_perros.nChip where
+            adopcion_perros.dniPropietario='$dni'";
+            $consulta = $this->conexion->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetchAll(); 
+        }
+
         public function insertPerro($nchip,$perro,$foto,$propietario){
             //Datos perro
             $idRaza = $perro->getIdRaza();
@@ -79,10 +91,9 @@
 
             $sql1 = "INSERT INTO PERRO(nChip,nombrePerro,fechaNacimiento,fechaEntrada,idperrera,peso,idRaza)
              VALUES(:nChip,:nombrePerro,:fNac,:fEntr,:idPerrera,:peso,:idRaza)";
+            
+            $sql2 = "INSERT INTO FOTO (ruta,nChip) values (:ruta,:nchip)"; 
 
-             $sql2 = "INSERT INTO FOTO (ruta,nchip) values (:ruta,:nchip)";
-
-             $sql3 = "INSERT INTO PROPIETARIO (dniPropietario) VALUES (:dni)";
 
              $sql4 = "INSERT INTO ADOPCION_PERROS (nChip,dniPropietario) VALUES (:nchip,:dni)";
 
@@ -100,14 +111,11 @@
                 $consulta->bindParam(":idRaza",$idRaza);
                 $consulta->execute();
 
+                
 
                 $consulta =$this->conexion->prepare($sql2);
                 $consulta->bindParam(":ruta",$ruta);
                 $consulta->bindParam(":nchip",$nchip);
-                $consulta->execute();
-
-                $consulta =$this->conexion->prepare($sql3);
-                $consulta->bindParam(":dni",$dni);
                 $consulta->execute();
 
                 $consulta =$this->conexion->prepare($sql4);
@@ -115,14 +123,14 @@
                 $consulta->bindParam(":dni",$dni);
                 $consulta->execute();
 
-
                 $this->conexion->commit();
 
-                return true;
+               return true;
             }catch(PDOException $e){
-                return false;
                 $this->conexion->rollBack();
+                $this->errorMessage = "Fallo al insertar el perro";
                 echo $e->getMessage();
+                return false;
             }
 
 
@@ -131,51 +139,66 @@
     
 
 
-        public  function updatePerro($perro){
+        public  function updatePerro($nchip,$perro,$foto){
 
-            try {
-             /*   echo $perro->getNchip()."\n";
-                echo $perro->getNombrePerro()."\n";
-                echo $perro->getFechaNacimiento()."\n";
-                echo $perro->getFechaEntrada()."\n";
-                echo $perro->getIdPerrera()."\n";
-                echo $perro->getIdRaza()."\n";
-                echo $perro->getIdFoto()."\n";
-                echo $perro->getDniPropietario()."\n";
-               */ 
-                $nChip = $perro->getNchip();
                 $nombrePerro = $perro->getNombrePerro();
                 $fechaNacimiento = $perro->getFechaNacimiento();
                 $fechaEntrada = $perro->getFechaEntrada();
+                $peso = $perro->getPeso();
                 $idPerrera = $perro->getIdPerrera();
                 $idRaza = $perro->getIdRaza();
-                $idFoto = $perro->getIdFoto();
-                $dniPropietario = $perro->getDniPropietario();
 
-                $sql= "update perro set nombrePerro = :nombrePerro,fechaNacimiento = :fechaNacimiento,
-                fechaEntrada = :fechaEntrada,idperrera=:idPerrera,idRaza=:idRaza,idFoto=:idFoto,
-                dniPropietario = :dniPropietario where nChip = :nChip";
-                $consulta = $this->conexion->prepare($sql);
+                $ruta = $foto-> getRutaFoto();
+
+               $sql1 = "UPDATE FOTO SET ruta = :ruta where nChip = :nchip";
+
+                $sql2= "update perro set nombrePerro = :nombrePerro,fechaNacimiento = :fechaNacimiento,
+                fechaEntrada = :fechaEntrada,peso=:peso,idperrera=:idPerrera,idRaza=:idRaza 
+                where nChip = :nChip";
+            try {
+
+                $this->conexion->beginTransaction();
+
                 
+                             
+                $consulta = $this->conexion->prepare($sql1);
+
+                $consulta->bindParam(':ruta',$ruta);
+                $consulta->bindParam(':nchip',$nchip);   
+                $consulta->execute();  
+               
+                
+                
+                
+                $consulta = $this->conexion->prepare($sql2);
+
                 $consulta->bindParam(':nombrePerro',$nombrePerro);
                 $consulta->bindParam(':fechaNacimiento',$fechaNacimiento);   
-                $consulta->bindParam(':fechaEntrada',$fechaEntrada);         
+                $consulta->bindParam(':fechaEntrada',$fechaEntrada); 
+                $consulta->bindParam(':peso',$peso);         
                 $consulta->bindParam(':idPerrera',$idPerrera);
                 $consulta->bindParam(':idRaza',$idRaza);
-                $consulta->bindParam(':idFoto',$idFoto);
-                $consulta->bindParam(':dniPropietario',$dniPropietario);
-                $consulta->bindParam(':nChip',$nChip);
+                $consulta->bindParam(':nChip',$nchip);
                 $consulta->execute();
+
+              
+                
+
+                $this->conexion->commit();
 
                 return true;
 
                 }catch(PDOException $e){
 
+                    $this->conexion->rollBack();
+
+                    echo $e->getMessage();
+
                     $code = $e->getCode();
 
                     switch($code){
                         case 23000 :
-                            self::$messageError = "No se puede actualizar el mismo perro dos veces";
+                            $this->errorMessage = "No se puede actualizar el mismo perro dos veces";
                     }
 
                     return false;
@@ -184,24 +207,49 @@
 
         }
 
-        public  function deletePerro($nChip){
+        public  function deletePerro($nChip,$dni){
+
+            $sql1="DELETE FROM PERRO WHERE nChip = :nChip";
+            $sql2 = "DELETE FROM FOTO WHERE nChip = :nChip";
+            $sql3 = "DELETE FROM ADOPCION_PERROS WHERE nChip=:nChip and dniPropietario=:dni"; 
+
 
             try {
-            $sql="DELETE FROM PERRO WHERE nChip = :nChip"; 
-            $consulta = $this->conexion->prepare($sql);
-            $consulta->bindParam(':nChip',$nChip);
-            $consulta->execute();
-            return true;
+
+                $this->conexion->beginTransaction();
+            
+                $consulta = $this->conexion->prepare($sql3);
+                $consulta->bindParam(':nChip',$nChip);
+                $consulta->bindParam(':dni',$dni);
+                $consulta->execute();
+
+
+                $consulta = $this->conexion->prepare($sql2);
+                $consulta->bindParam(':nChip',$nChip);
+                $consulta->execute();
+                
+                $consulta = $this->conexion->prepare($sql1);
+                $consulta->bindParam(':nChip',$nChip);
+                $consulta->execute();
+
+                
+
+
+                $this->conexion->commit();
+                return true;
 
             }catch(PDOException $e){
 
-                $code = $e->getCode();
-                echo $code;
+                $this->conexion->rollBack();
 
-                /* switch($code){
+                //echo $e->getMessage();
+
+                $code = $e->getCode();
+
+                switch($code){
                     case 23000 :
-                        self::$messageError = "No se puede borrar el perro";
-                } */
+                        $this->errorMessage = "No se puede borrar el perro";
+                }
 
                 return false;
             }
@@ -263,7 +311,7 @@
 
                 switch($code){
                     case 23000 :
-                        self::$messageError = "No se puede insertar el mismo perro dos veces";
+                        $this->errorMessage = "No se puede insertar el mismo perro dos veces";
                 }
 
                 return false;
@@ -309,7 +357,7 @@
 
                     switch($code){
                         case 23000 :
-                            self::$messageError = "No se puede actualizar la misma raza dos veces";
+                            $this->errorMessage = "No se puede actualizar la misma raza dos veces";
                     }
 
                     return false;
@@ -353,7 +401,7 @@
         }
 
         public function getRazaByPerroIdRaza($idRaza){
-            $sql = "select raza.nombreRaza,perro.idRaza from perro,raza where perro.idRaza = $idRaza";
+            $sql = "select raza.nombreRaza from raza inner JOIN perro on raza.idraza = perro.idRaza where perro.idRaza = $idRaza";
             $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetch(PDO::FETCH_LAZY);
@@ -389,7 +437,7 @@
 
                 switch($code){
                     case 23000 :
-                        self::$messageError = "No se puede insertar el mismo perro dos veces";
+                        $this->errorMessage = "No se puede insertar el mismo perro dos veces";
                 }
 
                 return false;
@@ -422,7 +470,7 @@
 
                     switch($code){
                         case 23000 :
-                            self::$messageError = "No se puede actualizar la misma raza dos veces";
+                            $this->errorMessage = "No se puede actualizar la misma raza dos veces";
                     }
 
                     return false;
@@ -502,7 +550,7 @@
 
                 switch($code){
                     case 23000 :
-                        self::$messageError = "No se puede insertar el mismo perro dos veces";
+                        $this->errorMessage = "No se puede insertar el mismo perro dos veces";
                 }
 
                 return false;
@@ -543,7 +591,7 @@
 
                     switch($code){
                         case 23000 :
-                            self::$messageError = "No se puede actualizar la misma raza dos veces";
+                            $this->errorMessage = "No se puede actualizar la misma raza dos veces";
                     }
 
                     return false;
@@ -619,7 +667,7 @@
 
                 switch($code){
                     case 23000 :
-                        self::$messageError = "No se puede insertar el mismo perro dos veces";
+                        $this->errorMessage = "No se puede insertar el mismo perro dos veces";
                 }
 
                 return false;
@@ -656,7 +704,7 @@
 
                     switch($code){
                         case 23000 :
-                            self::$messageError = "No se puede actualizar la misma raza dos veces";
+                            $this->errorMessage = "No se puede actualizar la misma raza dos veces";
                     }
 
                     return false;
@@ -735,7 +783,7 @@
 
                 switch($code){
                     case 23000 :
-                        self::$messageError = "No se puede insertar el mismo perro dos veces";
+                        $this->errorMessage = "No se puede insertar el mismo perro dos veces";
                 }
 
                 return false;
@@ -769,7 +817,7 @@
 
                     switch($code){
                         case 23000 :
-                            self::$messageError = "No se puede actualizar la misma raza dos veces";
+                            $this->errorMessage = "No se puede actualizar la misma raza dos veces";
                     }
 
                     return false;
@@ -857,7 +905,7 @@
 
                 switch($code){
                     case 23000 :
-                        self::$messageError = "No se puede insertar el mismo perro dos veces";
+                        $this->errorMessage = "No se puede insertar el mismo perro dos veces";
                 }
 
                 return false;
@@ -891,7 +939,7 @@
 
                     switch($code){
                         case 23000 :
-                            self::$messageError = "No se puede actualizar la misma raza dos veces";
+                            $this->errorMessage = "No se puede actualizar la misma raza dos veces";
                     }
 
                     return false;
@@ -920,29 +968,45 @@
         /*Usuario */
         public function insertUsuario($usuario){
 
-            try {
             $email = $usuario->getEmail();
             $password = $usuario->getPassword();
             $idRol = $usuario->getIdRol();
+            $dni = $usuario->getDni();
             
         
-           $sql="INSERT INTO usuario (email,password,idRol) VALUES (:email,:pass,:idRol)";
+           $sql1="INSERT INTO usuario (email,password,dni,idRol) VALUES (:email,:pass,:dni,:idRol)";
+           $sql2 = "INSERT INTO propietario (dniPropietario) VALUES (:dni)";
 
-            $consulta = $this->conexion->prepare($sql);
-            $consulta->bindParam(':email',$email);
-            $consulta->bindParam(':pass',$password);
-            $consulta->bindParam(':idRol',$idRol);
-            $consulta->execute();
+            try {
 
-            return true;
+                $this->conexion->beginTransaction();
+
+                $consulta = $this->conexion->prepare($sql2);
+                $consulta->bindParam(':dni',$dni);
+                $consulta->execute();
+           
+                $consulta = $this->conexion->prepare($sql1);
+                $consulta->bindParam(':email',$email);
+                $consulta->bindParam(':pass',$password);
+                $consulta->bindParam(':dni',$dni);
+                $consulta->bindParam(':idRol',$idRol);
+                $consulta->execute();
+
+                
+
+                $this->conexion->commit();
+
+                return true;
 
             }catch(PDOException $e){
 
                 $code = $e->getCode();
 
+                //echo $e->getMessage();
+
                 switch($code){
                     case 23000 :
-                        self::$messageError = "No se puede insertar el mismo perro dos veces";
+                        $this->errorMessage = "No se puede insertar el mismo usuario dos veces";
                 }
 
                 return false;
@@ -955,6 +1019,14 @@
             $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll();
+        }
+
+        public function getDniByEmailUser($email){
+            $sql="SELECT dni FROM usuario WHERE email = '$email'";
+            $consulta = $this->conexion->prepare($sql);
+            $consulta->execute();
+            $data = $consulta->fetch(PDO::FETCH_LAZY);
+            return @$data['dni'];
         }
 
 

@@ -7,6 +7,7 @@
   @include_once '../clases/gestionPerros.php';
   $logueado = $_SESSION['logueado'];
   $bd = new BD();
+
   if(@$_GET['logueado']==1){
     $perros = $bd->getPerrosPropietario($_SESSION['dni']);
     @$_SESSION['logueado'] = true;
@@ -155,73 +156,59 @@
                 </div>
             </div>
 
-            <div class="col-9 col-sm-11 sm-d-flex sm-flex-column d-flex flex-wrap flex-row justifiy-content-between align-items-center">
-                <?php 
-                  if(count($perros)>0): 
-                    foreach($perros as $id=>$perro):
-                      $nChip = $perros[$id]['nChip']; 
-                      $nombre = $perros[$id]['nombrePerro'];
-                      $idRaza = $perros[$id]['idRaza'];
-                      $raza = $bd->getRazaByPerroIdRaza($idRaza);
-                      $nombreRaza = $raza['nombreRaza'];
-                      $fotos = $bd->getFotosByNchip($nChip); 
-                      $rutaBase = trim(isset($fotos['ruta'])?$fotos['ruta']:'');
-                      $ruta = "../imagenes/img_bd/".$rutaBase;
-                    endforeach;
-                  
-                  ?>
-
-            <div class="col-sm-4 m-5">
-                <div class="perros">
-                <div class="card mx-2">  
-                  <div class="perro">
-                  
-
-                  <?php if(!isset($ruta) || !isset($rutaBase)){
-
-                    }else{?>
-                      <img class="card-img-top" src="<?php echo $ruta;?>" alt="Dog"  width="200"/>
-                      <div class="card-body">
-                    <?php  } ?>
+            <div class="col-9">
+              <div class="card-group">
+                <?php
+                    if(count($perros)>0): 
+                      foreach($perros as $id=>$perro):
+                        @$nChip = $perros[$id]['nChip']; 
+                        $nombre = $perros[$id]['nombrePerro'];
+                        $idRaza = $perros[$id]['idRaza'];
+                        $raza = $bd->getRazaByPerroIdRaza($idRaza);
+                        $nombreRaza = $raza['nombreRaza'];
+                        $fotos = $bd->getFotosByNchip($nChip); 
+                        $rutaBase = trim(isset($fotos['ruta'])?$fotos['ruta']:'');
+                        $ruta = "../imagenes/img_bd/".$rutaBase;?>
                     
-                      <h4 class="card-title perro__nombre">Nombre <span class="fw-bold"><?php echo $nombre ?></span></h4>
-                      <p class="card-text perro__raza">Raza <span class="fw-bold"><?php echo $nombreRaza ?></span></p>
+  
+                <div class="card mx-3 h-50">
+                <?php if(!isset($ruta) || !isset($rutaBase)){
+
+                  }else{?>
+                    <img class="card-img-top" src="<?php echo $ruta;?>" alt="Dog"  width="200"/>
+                  <?php  } ?>
+                  <div class="card-body">
+                    <h5 class="card-title">Nombre <?php echo $nombre;?></h5>
+                    <h5 class="card-title">Raza <?php echo $nombreRaza;?></h5>
+                    <form action="" method="post">
                       <input type="hidden" value=">" name="nChip"/>
-                      <div class="botones d-flex justify-content-center">
-                        <a
-                        name="ver_mas"
-                        class="btn btn-primary"
-                        href="perro_data.php?nChip=<?php echo $nChip;?> &&ruta=<?php echo $ruta;?>"
-                        role="button">Ver Más</a>
-                      </div>
-                      <?php       
-                        else:?>
-                          <h2>No hay perros</h2>
-                        <?php
-                        endif;
-                      ?>
-                      
-                    </div>
+                    </form>
                     
+                     
+                     <div class="botones d-flex justify-content-center mt-5">
+                       <a
+                       name="ver_mas"
+                       class="btn btn-primary"
+                       href="perro_data.php?nChip=<?php echo $nChip;?> &ruta=<?php echo $ruta;?>"
+                       role="button">Ver Más</a>
+                     
+                     </div>
+
                   </div>
-                  
                 </div>
-                
-              </div>
+                <?php endforeach;endif;?>
+            </div>
             </div>
             
 
             
           </div>
-            </div>
+        </div>
 
             
           
 
-        
-        </div>
-      </div>
-    </main>
+        </main>
 
     
 </body>

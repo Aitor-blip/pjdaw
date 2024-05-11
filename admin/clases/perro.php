@@ -10,9 +10,8 @@
         public $idFoto;
         public $dniPropietario;
         
-        public function __construct($nChip,$nombrePerro,$fechaNacimiento,$fechaEntrada,$peso,
+        public function __construct($nombrePerro,$fechaNacimiento,$fechaEntrada,$peso,
                                     $idPerrera,$idRaza){
-           $this->nChip = $nChip;
            $this->nombrePerro = $nombrePerro;
            $this->fechaNacimiento = $fechaNacimiento;
            $this->fechaEntrada = $fechaEntrada;
@@ -24,9 +23,6 @@
 
 
 
-        function getNchip(){
-           return $this->nChip;   
-        }
         function getNombrePerro(){
             return $this->nombrePerro;
         }

@@ -3,7 +3,6 @@
   @include_once '../templates/headnocss.php';
   @include_once '../clases/menu.php';
   @include_once '../imagenes/variables.php';
-  @include_once '../clases/gestionPerros.php';
   @include_once '../clases/editarPerro.php';
   @include_once '../bd/conexion.php';                
   $bd = new BD();
@@ -78,12 +77,12 @@
                     $nombre = $perro['nombrePerro'];
                     $idRaza = $perro['idRaza']; 
                     $raza = $bd->getRazaByPerroIdRaza($idRaza);
-                    $nombreRaza = $raza['nombreRaza'];
+                    @$nombreRaza = $raza['nombreRaza'];
                     $peso = $perro['peso'];
                     $fNacimiento = $perro['fechaNacimiento'];
                     $idPerrera = $perro['idperrera'];
                     $perrera = $bd->getPerreraById($idPerrera);
-                    $nombrePerrera = $perrera[$id]['nombrePerrera'];
+                    @$nombrePerrera = $perrera[$id]['nombrePerrera'];
                     $peso = $perro['peso'];
                 endforeach;?>
               

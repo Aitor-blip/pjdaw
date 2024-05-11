@@ -64,7 +64,6 @@
             <?php
                 if($_GET){
                     $nChip = $_GET['nChip'];
-                    $_SESSION['nchip'] = $nchip;
                     $ruta = $_GET['ruta'];
                 }
             ?>

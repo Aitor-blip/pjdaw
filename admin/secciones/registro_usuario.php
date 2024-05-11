@@ -10,7 +10,7 @@
         <div class="col-4 col-md-4 col-sm-2"></div>
         <div class="col-4 col-md-4 col-sm-2">
             <div class="card">
-                <?php if($insertado){
+                <?php if(@$insertado){
                     $_SESSION['user'] = "usuario";
                     header("Location:../secciones/login_usuario.php");
                 }else{?>
@@ -32,7 +32,7 @@
                     <div class="mb-3">
                             <label for="dni" class="form-label"><span class="fw-bold">Dni</span></label>
                             <input
-                                type="dni"
+                                type="text"
                                 class="form-control"
                                 name="dni"
                                 minlength="1"

@@ -15,12 +15,12 @@
                 </div>
                 <div class="card-body">
                     <form action="" method="post">
-                        <?php if($logueado):
+                        <?php if(@$logueado):
                             else:?>
                              <div
                                 class="alert alert-danger"
                                 role="alert">
-                                <strong><?php echo  $_SESSION['loginError'];?></strong>
+                                <strong><?php echo  @$_SESSION['loginError'];?></strong>
                             </div>
                         <?php endif;?>
 

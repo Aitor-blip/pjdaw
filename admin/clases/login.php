@@ -1,4 +1,5 @@
 <?php
+    include_once '../snippets/clases.php';
     include '../bd/conexion.php';
     $bd = new BD();
     $conexion = $bd->getConexion();
@@ -18,7 +19,7 @@
                     header("Location:../secciones/menu_usuario.php?token=$token");
             }else{
                 $_SESSION['logueado'] = false;
-                echo "Error en la autenticación";
+                $_SESSION['loginError']="Error en la autenticación";
             }
         
         }else{

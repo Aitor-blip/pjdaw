@@ -15,7 +15,7 @@ CREATE TABLE PERRO (
 );
 
 CREATE TABLE FOTO(
-    idFoto int primary key not null,
+    idFoto int primary key not null auto_increment,
     ruta varchar(100) not null, 
     descripcion varchar(100),
     nChip int not null
