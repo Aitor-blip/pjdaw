@@ -168,7 +168,7 @@
                         $nombreRaza = $raza['nombreRaza'];
                         $fotos = $bd->getFotosByNchip($nChip); 
                         $rutaBase = trim(isset($fotos['ruta'])?$fotos['ruta']:'');
-                        $ruta = "../imagenes/img_bd/".$rutaBase;?>
+                        $ruta = $rutaBase;?>
                     
   
                 <div class="card mx-3 h-50">

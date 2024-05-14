@@ -16,22 +16,16 @@
         $nchipPerro = $_POST['nchip'];
         $nombreFoto = $_FILES['photo']['name'];
         $nombreTemporalFoto = $_FILES['photo']['tmp_name'];
-        $ruta = $nombreFoto;
+        $ruta = "../imagenes/img_bd/".$nombreFoto;
         move_uploaded_file($nombreTemporalFoto,$ruta);
         $perro = new Perro($nombrePerro,$fechaNacimiento,$fechaNacimiento,$peso,$idPerrera,$idRaza);
         $foto = new Foto($ruta);
-
-        print_r($_POST);
         
         $updatedPerro = $bd->updatePerro($nchipPerro,$perro,$foto);
         
         if($updatedPerro){
             header("location:../secciones/animales_adopcion.php");
         }
-
-        
-
-        //print_r($_POST);
     }
 
    

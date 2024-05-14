@@ -4,6 +4,13 @@
     $_SESSION['logueado'] = false;
     include_once './admin/templates/headnocss.php';
     include_once './admin/clases/menu.php';
+    include_once './admin/bd/conexion.php';
+
+
+    $bd = new BD();
+
+    $listaPerros = $bd->consultar("select * from perro");
+    $listaRazas = $bd->consultar("select * from raza");
     
 ?>
 
@@ -74,22 +81,17 @@
             </div>
 
            <div class="header__form">
-                <form action="" method="post">
-                    <label for="animal"></label>
-                    <input type="text" name="animal" id="animal" placeholder="Introduce el animal" require>
-                    <select name="animal" id="animal">
-                        <option value="animal">animal</option>
-                        <option value="gato">Gato</option>
-                    </select>
+                <form action="./admin/clases/buscarPerro.php" method="post">
+                    <label for="animalPeso"></label>
+                    <input type="text" name="animalPeso" id="animal" placeholder="Introduce el peso del animal" require>
                     <select name="raza" id="raza">
-                        <option value="raza">Raza</option>
-                        <option value="malinois">Malinois</option>
-                    </select>
-                    <select name="size" id="size">
-                        <option value="size(opcional)">Tamaño(opcional)</option>
-                        <option value="big">Grande</option>
-                        <option value="middle">Mediano</option>
-                        <option value="small">Pequeño</option>
+                    <option value="raza" default>Seleccionar Raza</option>
+                    <?php foreach ($listaRazas as $id=>$raza):
+                            $idRaza = $listaRazas[$id]['idraza'];
+                            $nombreRaza = $listaRazas[$id]['nombreRaza'];
+                            ?>
+                        <option value="<?php echo $idRaza;?>"><?php echo $nombreRaza;?></option>
+                        <?php endforeach;?>
                     </select>
                     <input type="submit" value="Buscar" class="btn btn--enviar">
                 </form>
@@ -108,12 +110,21 @@
         <div class="animales__landing container">
             
           <div class="animal">
-            <img class="animal__img" src="./imagenes/dog2.jpg" alt="Perro">
+            <?php foreach($listaPerros as $id=>$perro):
+                @$nChip = $listaPerros[$id]['nChip']; 
+                $nombre = $listaPerros[$id]['nombrePerro'];
+                $idRaza = $listaPerros[$id]['idRaza'];
+                $raza = $bd->getRazaByPerroIdRaza($idRaza);
+                $nombreRaza = $raza['nombreRaza'];
+                $fotos = $bd->getFotosByNchip($nChip); 
+                $rutaBase = trim(isset($fotos['ruta'])?$fotos['ruta']:'');
+                $ruta = $rutaBase;?>
+            <img class="animal__img" src="./admin/imagenes/img_bd/dog.jpg" alt="Perro">
             <div class="animal__info">
-                <p class="animal__name">Nombre</p>
+                <p class="animal__name">Nombre perro : <?php echo $nombre;?></p>
                 <div class="animal__data"></div>
             </div>
-          
+          <?php endforeach;?>
 
                 
             </div>
