@@ -70,7 +70,7 @@
             FROM perro
             INNER JOIN adopcion_perros
             ON perro.nChip = adopcion_perros.nChip where
-            adopcion_perros.dniPropietario='$dni'";
+            adopcion_perros.dniPropietario='$dni' and adopcion_perros.adoptado=0;";
             $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
@@ -95,7 +95,7 @@
             $sql2 = "INSERT INTO FOTO (ruta,nChip) values (:ruta,:nchip)"; 
 
 
-             $sql4 = "INSERT INTO ADOPCION_PERROS (nChip,dniPropietario) VALUES (:nchip,:dni)";
+             $sql4 = "INSERT INTO ADOPCION_PERROS (nChip,dniPropietario,adoptado) VALUES (:nchip,:dni,:adoptado)";
 
 
             try{
@@ -121,6 +121,7 @@
                 $consulta =$this->conexion->prepare($sql4);
                 $consulta->bindParam(":nchip",$nchip);
                 $consulta->bindParam(":dni",$dni);
+                $consulta->bindParam(":adoptado",0);
                 $consulta->execute();
 
                 $this->conexion->commit();

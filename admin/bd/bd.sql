@@ -65,7 +65,8 @@ ALTER TABLE HISTORIAL_MEDICO ADD CONSTRAINT FK_HISTORIAL FOREIGN KEY (nChip) REF
 CREATE TABLE ADOPCION_PERROS(
     nChip int not null,
     dniPropietario varchar(20) not null,
-    fechaAdopcion date not null default current_timestamp()
+    fechaAdopcion date not null default current_timestamp(),
+    adoptado int default 0 not null
 ); 	
 
 CREATE TABLE USUARIO(
@@ -122,6 +123,7 @@ INSERT INTO ADOPCION_PERROS(nChip,dniPropietario,fechaAdopcion) VALUES(188484,'1
 /*Usuarios*/
 
 INSERT INTO USUARIO_ROL (idRol,nombre) VALUES(1,'Administrador');
-INSERT INTO USUARIO_ROL (idRol,nombre) VALUES(2,'Usuario');
+INSERT INTO USUARIO_ROL (idRol,nombre) VALUES(2,'Usuario Logueado');
+INSERT INTO USUARIO_ROL (idRol,nombre) VALUES(3,'Usuario Solicitador');
 
 INSERT INTO USUARIO(email,password,idRol) VALUES("a@gmail.com","aitor2002",2);

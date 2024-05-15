@@ -10,7 +10,8 @@
 
   if(@$_GET['logueado']==1){
     $perros = $bd->getPerrosPropietario($_SESSION['dni']);
-    @$_SESSION['logueado'] = true;
+    @$_SESSION['user'] = "logueado";
+    
   }else{
     $perros = $bd->consultar("select * from perro");
     @$_SESSION['logueado'] =false;
@@ -136,12 +137,6 @@
                         </div>
                       </h3>
                     </div>
-
-              
-                    
-
-                    
-                    
                     
                   </div>
                 </div>
@@ -149,16 +144,10 @@
               </form>
           </div>
           <div class="col-md-9 pt-5 d-flex flex-row justify-content-start align-items-center">
-      
-           <div class="col-3 col-sm-2">
-              <div class="mb-3">
-                  <a href="crearPerro.php" class="btn btn-primary">Crear Perro</a>
-                </div>
-            </div>
+            
 
             <div class="col-9">
-              <div class="card-group">
-                <?php
+            <?php
                     if(count($perros)>0): 
                       foreach($perros as $id=>$perro):
                         @$nChip = $perros[$id]['nChip']; 
@@ -168,35 +157,27 @@
                         $nombreRaza = $raza['nombreRaza'];
                         $fotos = $bd->getFotosByNchip($nChip); 
                         $rutaBase = trim(isset($fotos['ruta'])?$fotos['ruta']:'');
-                        $ruta = $rutaBase;?>
-                    
-  
-                <div class="card mx-3 h-50">
-                <?php if(!isset($ruta) || !isset($rutaBase)){
+                        $ruta = RUTA_ANIMALES_ADOPCION.$rutaBase;?>
+            <div class="card" style="width: 18rem;">
+            <?php if(!isset($ruta) || !isset($rutaBase)){
 
-                  }else{?>
-                    <img class="card-img-top" src="<?php echo $ruta;?>" alt="Dog"  width="200"/>
-                  <?php  } ?>
-                  <div class="card-body">
-                    <h5 class="card-title">Nombre <?php echo $nombre;?></h5>
-                    <h5 class="card-title">Raza <?php echo $nombreRaza;?></h5>
-                    <form action="" method="post">
-                      <input type="hidden" value=">" name="nChip"/>
-                    </form>
-                    
-                     
-                     <div class="botones d-flex justify-content-center mt-5">
-                       <a
-                       name="ver_mas"
-                       class="btn btn-primary"
-                       href="perro_data.php?nChip=<?php echo $nChip;?> &ruta=<?php echo $ruta;?>"
-                       role="button">Ver Más</a>
-                     
-                     </div>
+              }else{?>
+              <img src=<?php echo $ruta;?> class="card-img-top" alt="...">
+              <?php  } ?>
+              <div class="card-body">
+                <p class="card-text">Nombre : <strong><?php echo $nombre;?></strong></p>
+                <p class="card-text">Raza : <strong><?php echo $nombreRaza;?></strong></p>
+              <?php if($_SESSION['user'] == "logueado"){?>
+                <a href="perro_data.php?nChip=<?php echo $nChip;?> &ruta=<?php echo $ruta;?>" class="btn btn-primary">Go somewhere</a>
+                <?php }else{?>
+                <?php if($_SESSION['user']=="invitado"){}} ?>
 
-                  </div>
-                </div>
-                <?php endforeach;endif;?>
+              </div>
+              <?php endforeach;endif;?>
+                 
+            </div>
+          
+                
             </div>
             </div>
             
@@ -204,10 +185,6 @@
             
           </div>
         </div>
-
-            
-          
-
         </main>
 
     
