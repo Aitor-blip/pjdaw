@@ -7,13 +7,12 @@
   @include_once '../clases/gestionPerros.php';
   $logueado = $_SESSION['logueado'];
   $bd = new BD();
-
+  $perros = $bd->getPerrosParaAdoptar();
   if(@$_GET['logueado']==1){
-    $perros = $bd->getPerrosPropietario($_SESSION['dni']);
+    
     @$_SESSION['user'] = "logueado";
     
   }else{
-    $perros = $bd->consultar("select * from perro");
     @$_SESSION['logueado'] =false;
     @$_SESSION['user'] =="invitado";
   }   
@@ -58,12 +57,8 @@
                         <a class="nav-link fw-bold text-light" href="<?php echo $file;?>"><?php echo $_SESSION['menu_lista'][$id];?></a>
                     </li>
                     <?php endforeach; ?>    
-                  </div>
               </ul>
           </nav>
-        
-        </div>
-      </div>
     
     </header>
 
@@ -168,7 +163,7 @@
                 <p class="card-text">Nombre : <strong><?php echo $nombre;?></strong></p>
                 <p class="card-text">Raza : <strong><?php echo $nombreRaza;?></strong></p>
               <?php if($_SESSION['user'] == "logueado"){?>
-                <a href="perro_data.php?nChip=<?php echo $nChip;?> &ruta=<?php echo $ruta;?>" class="btn btn-primary">Go somewhere</a>
+                <a href="perro_data.php?nChip=<?php echo $nChip;?> &ruta=<?php echo $ruta;?>" class="btn btn-primary">Ver Más</a>
                 <?php }else{?>
                 <?php if($_SESSION['user']=="invitado"){}} ?>
 

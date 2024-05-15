@@ -48,29 +48,12 @@
             return $consulta->fetchAll(); 
         }
 
-        public  function getPerrosParaAdoptar($dni){
-            $sql="SELECT * FROM ADOPCION_PERROS WHERE dniPropietario = '$dni'";
-            
-            $consulta = $this->conexion->prepare($sql);
-            $consulta->execute();
-            return $consulta->fetchAll(); 
-        }
-
-        public  function getPerrosByPropietario($dni){
-           $sql = "SELECT dniPropietario,nChip from adopcion_perros 
-           where dniPropietario = '$dni'";
-          // echo $sql;
-           $consulta = $this->conexion->prepare($sql);
-           $consulta->execute();
-           return $consulta->fetchAll(); 
-        }
-
-        public function getPerrosPropietario($dni){
+        public function getPerrosParaAdoptar(){
             $sql = "SELECT perro.nChip,perro.nombrePerro,perro.fechaNacimiento,perro.fechaEntrada,perro.idperrera,perro.peso,perro.idRaza
             FROM perro
             INNER JOIN adopcion_perros
             ON perro.nChip = adopcion_perros.nChip where
-            adopcion_perros.dniPropietario='$dni' and adopcion_perros.adoptado=0;";
+             adopcion_perros.adoptado=0;";
             $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
