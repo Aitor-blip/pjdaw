@@ -1,11 +1,11 @@
 <?php
-
-    include_once '../snippets/clases.php';
+    session_start();
     include_once '../bd/conexion.php';
 
     $bd = new BD();
 
-    if($_POST){
+   
+/*
         $nchipPerro = isset($_POST['nchip'])?$_POST['nchip']:'';
         $nombrePerro = isset($_POST['nombre'])?$_POST['nombre']:'';
         $fechaNacimientoPerro = isset($_POST['fnac'])?$_POST['fnac']:'';
@@ -26,7 +26,8 @@
                 @$_SESSION['logueado'] = true;
                 header("location:../../index.php");
         }
-    }
+        */
+    
     
  
     

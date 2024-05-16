@@ -59,61 +59,28 @@
             return $consulta->fetchAll(); 
         }
 
-        public function insertPerro($nchip,$perro,$foto,$propietario){
-            //Datos perro
-            $idRaza = $perro->getIdRaza();
-            $idPerrera = $perro->getIdPerrera();
-            $nombrePerro = $perro->getNombrePerro();
-            $fechaNacimiento = $perro->getFechaNacimiento();
-            $fechaEntrada = $perro->getFechaEntrada();
-            $peso = $perro->getPeso();
+        public function insertPerroUsuario($nchip,$dni,$adoptado){
 
-            $ruta = $foto->getRutaFoto();
-
-            $dni = $propietario->getDniPropietario();
-
-            $sql1 = "INSERT INTO PERRO(nChip,nombrePerro,fechaNacimiento,fechaEntrada,idperrera,peso,idRaza)
-             VALUES(:nChip,:nombrePerro,:fNac,:fEntr,:idPerrera,:peso,:idRaza)";
-            
-            $sql2 = "INSERT INTO FOTO (ruta,nChip) values (:ruta,:nchip)"; 
-
-
-             $sql4 = "INSERT INTO ADOPCION_PERROS (nChip,dniPropietario,adoptado) VALUES (:nchip,:dni,:adoptado)";
+            $sql = "INSERT INTO ADOPCION_PERROS (nChip,dniPropietario,adoptado) VALUES (:nchip,:dni,:adoptado)";
 
 
             try{
-                $this->conexion->beginTransaction();
 
-                $consulta =$this->conexion->prepare($sql1);
-                $consulta->bindParam(":nChip",$nchip);
-                $consulta->bindParam(":nombrePerro",$nombrePerro);
-                $consulta->bindParam(":fNac",$fechaNacimiento);
-                $consulta->bindParam(":fEntr",$fechaEntrada);
-                $consulta->bindParam(":idPerrera",$idPerrera);
-                $consulta->bindParam(":peso",$peso);
-                $consulta->bindParam(":idRaza",$idRaza);
-                $consulta->execute();
-
-                
-
-                $consulta =$this->conexion->prepare($sql2);
-                $consulta->bindParam(":ruta",$ruta);
-                $consulta->bindParam(":nchip",$nchip);
-                $consulta->execute();
-
-                $consulta =$this->conexion->prepare($sql4);
+                $consulta =$this->conexion->prepare($sql);
                 $consulta->bindParam(":nchip",$nchip);
                 $consulta->bindParam(":dni",$dni);
-                $consulta->bindParam(":adoptado",0);
+                $consulta->bindParam(":adoptado",$adoptado);
                 $consulta->execute();
-
-                $this->conexion->commit();
 
                return true;
             }catch(PDOException $e){
-                $this->conexion->rollBack();
                 $this->errorMessage = "Fallo al insertar el perro";
-                echo $e->getMessage();
+                //echo $e->getMessage();
+                switch($e->getCode()){
+                    case 45000:
+                        $this->errorMessage = "El perro ya esta adoptado";
+                        break;
+                }
                 return false;
             }
 
@@ -516,11 +483,10 @@
                 $ubicacionPerrera = $perrera->getUbicacion();
                 $valoracionPerrera = $perrera->getValoracion();
 
-                $sql="INSERT INTO perrera (idperrera,nombrePerrera,nPerros,ubicacion,valoracion)
-                 VALUES (:id,:nombre,:nperros,:ubicacion,:valoracion)";
+                $sql="INSERT INTO perrera (nombrePerrera,nPerros,ubicacion,valoracion)
+                 VALUES (:nombre,:nperros,:ubicacion,:valoracion)";
 
                 $consulta = $this->conexion->prepare($sql);
-                $consulta->bindParam(':id',$idPerrera);
                 $consulta->bindParam(':nombre',$nombrePerrera);
                 $consulta->bindParam(':nperros',$nPerrosPerrera);
                 $consulta->bindParam(':ubicacion',$ubicacionPerrera);
@@ -1013,7 +979,21 @@
             return @$data['dni'];
         }
 
+        public function updateRolUser($email,$rol){
+            try{
+                $sql= "update usuario set idRol =:rol
+                       where email = :email";
+                $consulta = $this->conexion->prepare($sql);
+                $consulta->bindParam(':rol',$rol);
+                $consulta->bindParam(':email',$email);
+                $consulta->execute();
 
+                return true;
+
+            }catch(PDOException $e){
+                return false;
+            }
+        }
 
     }
 ?>

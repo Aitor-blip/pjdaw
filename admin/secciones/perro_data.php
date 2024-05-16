@@ -5,7 +5,13 @@
     @include_once '../clases/gestionPerros.php';
     @include_once '../bd/conexion.php';              
     $bd = new BD();
-    $prueba = "prueba";
+    $mensaje = "";
+    $insertado = $bd->insertPerroUsuario($_SESSION['nChip'],$_SESSION['dni'],1);
+    if($insertado){
+        $updatedRolUser = $bd->updateRolUser($_SESSION['email'],3);
+    }else{
+        $mensaje = "Fallo al adoptar.Consulte con el administrador";
+    }
 ?>
     <header>
       <div class="container-fluid">
@@ -64,6 +70,7 @@
             <?php
                 if($_GET){
                     $nChip = $_GET['nChip'];
+                    $_SESSION['nChip'] = $nChip;
                     $ruta = $_GET['ruta'];
                 }
             ?>
@@ -122,48 +129,70 @@
                     </div>
                     </div>
                 </div>
-                
-                
-                <?php if($_SESSION['user'] == "usuario"):?>
-                    <div class="botones d-flex flex-row justify-content-center">
-                    <a
-                        class="btn btn-primary w-50 p-3 m-4"
-                        href="editar_perro.php"
-                        role="button"
-                        >Editar</a
-                    >
+                <div class="row">
+                    <div class="col-12">
+                        <form action="" method="post" class="w-100">
+                            <input
+                                type="submit"
+                                class="btn btn-primary w-45 p-5"
+                                value="Adoptame">
+                                
+                            </input>
+                            <input
+                                type="submit"
+                                class="btn btn-primary w-45 p-5"
+                                value=" Añadir a favoritos">
+                               
+                            </input>
+                            
+                        </form>
 
-                    <a
-                        class="btn btn-primary w-50 p-3 m-4"
-                        href="../clases/borrarPerro.php?nchip=<?php echo $_GET['nChip'];?>"
-                        role="button"
-                        >Borrar</a
-                    >
-                    
+                        <?php if($insertado):?>
+                            <div
+                                class="alert alert-success alert-dismissible fade show"
+                                role="alert">
+                                <button
+                                    type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="alert"
+                                    aria-label="Close"
+                                ></button>
+                                <strong>Perro iniciando tramite para adopcion</strong>
+                            </div>
+                            
+                            <script>
+                                var alertList = document.querySelectorAll(".alert");
+                                alertList.forEach(function (alert) {
+                                    new bootstrap.Alert(alert);
+                                });
+                            </script>
+                            
+                        <?php else:?>
+
+                            <div
+                                class="alert alert-danger alert-dismissible fade show"
+                                role="alert">
+                                <button
+                                    type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="alert"
+                                    aria-label="Close"
+                                ></button>
+                                <strong><?php echo $bd->errorMessage;?></strong>
+                            </div>
+                            
+                            <script>
+                                var alertList = document.querySelectorAll(".alert");
+                                alertList.forEach(function (alert) {
+                                    new bootstrap.Alert(alert);
+                                });
+                            </script>
+
+                        <?php endif;?>
+                    </div>
+                </div>
 
                    
-                    <?php else: 
-                            if($_SESSION['user']=="invitado"):?>
-
-                      <a
-                        name="adoptame"
-                        class="btn btn-primary w-50 p-3 m-4"
-                        href="#"
-                        role="button"
-                        >Adoptame</a>
-
-                    <a
-                        name="favoritos"
-                        class="btn btn-primary w-50 p-3 m-4"
-                        href="#"
-                        id="btnFavorito"
-                        role="button">
-                        Agregame a favoritos
-                    </a>
-
-                    <?php endif; 
-                            endif;?>
-                
                 </div>
             </div>
         </div>

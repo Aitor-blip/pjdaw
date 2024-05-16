@@ -58,6 +58,18 @@
                             />
                         </div>
 
+                        <div class="mb-3">
+                            <label for="rol" class="form-label">Rol Usuario</label>
+                            <select
+                                class="form-select form-select-lg"
+                                name="rol">
+                                <option selected value = "2">Selecciona un rol</option>
+                                <option value="1">Administrador</option>
+                                <option value="2">Usuario</option>
+                            </select>
+                        </div>
+                        
+
                         <div class="mb-3 d-flex justify-content-center">
                             <input
                                 type="submit"

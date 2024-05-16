@@ -6,8 +6,7 @@
         public $ubicacion;
         public $valoracion;
 
-        public function __construct($idPerrera,$nombrePerrera,$nPerros,$ubicacion,$valoracion){
-           $this->idPerrera = $idPerrera;
+        public function __construct($nombrePerrera,$nPerros,$ubicacion,$valoracion){
            $this->nombrePerrera = $nombrePerrera;
            $this->nPerros = $nPerros;
            $this->ubicacion = $ubicacion;

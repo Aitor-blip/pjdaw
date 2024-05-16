@@ -10,13 +10,20 @@
         $datos = $bd->getEmailAndPasswordUsuarioByEmail($email);
         $dniBd = $bd->getDniByEmailUser($email);
         $_SESSION['dni'] = $dniBd;
-        if(count($datos) > 0) {  
+        if(count($datos) > 0) {
+            $_SESSION['email'] = $datos[0]['email'];  
             $logueado = ($datos[0]['email'] == $email) && (isEncrypted($password,$datos[0]['password']));
             if($logueado){
+                if($_SESSION['rol'] == 1){
+                    $_SESSION['user'] = "administrador";
+                    header("location:../clases/panel/index.php");
+                }else{
                     $_SESSION['user'] = "usuario";
                     $_SESSION['logueado'] = true;
                     $token = getToken();
                     header("Location:../secciones/menu_usuario.php?token=$token");
+                }
+                
             }else{
                 $_SESSION['logueado'] = false;
                 $_SESSION['loginError']="Error en la autenticación";

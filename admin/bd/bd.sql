@@ -33,7 +33,7 @@ ALTER TABLE PERRO ADD CONSTRAINT FK_RAZA FOREIGN KEY (idRaza) REFERENCES RAZA (i
 
 CREATE TABLE PERRERA (
     
-    idperrera int primary key not null,
+    idperrera int primary key not null auto_increment,
     nombrePerrera varchar(100) not null,
     nPerros int not null,
     ubicacion varchar(100) not null,
