@@ -19,7 +19,6 @@
             $hashed_password = password_hash($password, PASSWORD_BCRYPT);
             $hasheada = isEncrypted($password,$hashed_password);
             if($hasheada){
-
                 $usuario = new Usuario($email, $hashed_password,$rol,$dni);
                 $insertado = $bd->insertUsuario($usuario);
                 

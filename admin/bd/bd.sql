@@ -44,12 +44,12 @@ ALTER TABLE PERRO ADD CONSTRAINT FK_PERRERA FOREIGN KEY (idperrera) REFERENCES P
 
 CREATE TABLE PROPIETARIO(
     dniPropietario varchar (100) primary key unique not null,
-    nombre varchar(100) not null,
-    apellido varchar(100) not null,
-    fechaNacimiento date not null,
-    ciudad varchar(100) not null,
-    tlf varchar(100) not null,
-    email varchar(50)
+    nombre varchar(100) default null,
+    apellido varchar(100) default null,
+    fechaNacimiento date default current_timestamp,
+    ciudad varchar(100) default null,
+    tlf varchar(100) default null,
+    email varchar(50) not null
 );
 
 

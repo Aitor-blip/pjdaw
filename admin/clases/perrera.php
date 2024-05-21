@@ -1,6 +1,5 @@
 <?php
     class Perrera{
-        public $idPerrera;
         public $nombrePerrera;
         public $nPerros;
         public $ubicacion;
@@ -13,9 +12,6 @@
            $this->valoracion = $valoracion;
         }
 
-         function getIdPerrera(){
-            return $this->idPerrera;   
-         }
 
          function getNombrePerrera(){
             return $this->nombrePerrera;
