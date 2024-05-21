@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    @session_start();
     include_once '../snippets/clases.php';
     include '../bd/conexion.php';
     $bd = new BD();
@@ -7,7 +7,7 @@
 
     if($_POST){
         $email = $_POST['email'];
-        $password = $_POST['password'];   
+        $password = $_POST['password'];        
         $datos = $bd->getEmailAndPasswordUsuarioByEmail($email);
         $dniBd = $bd->getDniByEmailUser($email);
         $_SESSION['dni'] = $dniBd;
@@ -15,17 +15,16 @@
             $_SESSION['email'] = $datos[0]['email'];  
             $logueado = ($datos[0]['email'] == $email) && (isEncrypted($password,$datos[0]['password']));
             if($logueado){
-                    $idUsuario = $bd->getIdUserByEmail($email);
-                    $_SESSION['rol'] = $bd->getIdRolUserByIdUser($idUsuario);
-                    if($_SESSION['rol'] == 1){
-                        $_SESSION['user'] = "administrador";
-                        header("location:../clases/panel/index.php");
-                    }else{
-                        $_SESSION['user'] = "usuario";
-                        $_SESSION['logueado'] = true;
-                        $token = getToken();
-                        header("Location:../secciones/menu_usuario.php?token=$token");
-                    }
+                $idUsuario = $bd->getIdUserByEmail($email);
+                $_SESSION['rol'] = $bd->getIdRolUserByIdUser($idUsuario);
+                if($_SESSION['rol'] == 1){
+                    $_SESSION['user'] = "administrador";
+                    header("location:../clases/panel/index.php");
+                }else{
+                    $_SESSION['user'] = "usuario";
+                    $_SESSION['logueado'] = true;
+                    $token = getToken();
+                    header("Location:../secciones/menu_usuario.php?token=$token");
                 }
                 
             }else{
@@ -36,7 +35,7 @@
         }else{
             $_SESSION['loginError'] = "No existe el usuario";
         }
-    
+    }
 
     function isEncrypted($pass,$hashed_password){
             

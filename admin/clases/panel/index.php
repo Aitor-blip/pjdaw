@@ -12,18 +12,26 @@
             <ul class="nav navbar-nav">
                 <?php foreach($_SESSION['menu_lista'] as $id=>$item): 
                     
+                                
                 if($_SESSION['menu_lista'][$id]=="Home"){
-                    $file = "../../index.php";
-                }               
+                $file = "../../index.php";
+                }
                 if($_SESSION['menu_lista'][$id]=="Perreras"){
                     $file = "animales_adopcion.php?logueado=$logueado";
                 }
-
                 if($_SESSION['menu_lista'][$id]=="Perros"){
                     $file = "./perros/index.php?logueado=$logueado";
                 }
-                ?>
 
+                if($_SESSION['menu_lista'][$id]=="Favoritos"){
+                $file = "favoritos.php";
+                }
+                //
+                if($_SESSION['menu_lista'][$id]=="Centros de adopcion"):
+                $file = "perreras.php";
+            endif;    
+                    
+                ?>
                 <li class="nav-item mx-2">
                     <a class="nav-link fw-bold text-light" href="<?php echo $file;?>"><?php echo $_SESSION['menu_lista'][$id];?></a>
                 </li>

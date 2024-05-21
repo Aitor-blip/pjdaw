@@ -1,5 +1,6 @@
 <?php
      @include_once '../snippets/clases.php';
+     @include_once '../clases/perrera.php';
      class BD{
         public  $instancia=null;
         public  $messageError = "";
@@ -7,7 +8,7 @@
         public $errorMessage = "";
 
         public function __construct(){
-            $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','aitor2002');
+            $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','');
         }
 
         public function getConexion(){
@@ -17,7 +18,7 @@
             if(!isset($this->conexion)){
                 //Activamos el control de errores de la bd 
                 //$this->conexion = new PDO('mysql:host='.SERVER.';dbname=perros;','root','aitor2002',$opciones);
-                $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','aitor2002');
+                $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','');
                 //echo "<p class='subtitle'>Conexión a base de datos realizada</p>";
                 
             }
@@ -39,6 +40,13 @@
             $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll();
+        }
+
+        public function getRazaByPerroIdRaza($idRaza){
+            $sql = "select raza.nombreRaza from raza inner JOIN perro on raza.idraza = perro.idRaza where perro.idRaza = $idRaza";
+            $consulta = $this->conexion->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetch(PDO::FETCH_LAZY)['nombreRaza'];
         }
 
         public  function getPerrosSinAdoptar(){
@@ -74,12 +82,12 @@
             $sql1 = "INSERT INTO PERRO (nChip,nombrePerro,fechaNacimiento,fechaEntrada,idperrera,peso,idRaza) VALUES(:nchip,:nombre,:fNac,:fEntr,:idperrera,:peso,:idRaza)";
             $sql2 = "INSERT INTO ADOPCION_PERROS (nChip,dniPropietario,fechaAdopcion,adoptado) VALUES (:nchip,:dni,:fAdopcion,:adoptado)";
 
-            
+
 
             try{
 
                 $this->conexion->beginTransaction();
-                
+
                  $consulta =$this->conexion->prepare($sql1);
                 $consulta->bindParam(":nchip",$nchip);
                 $consulta->bindParam(":nombre",$nombre);
@@ -98,10 +106,10 @@
                 $consulta->bindParam(":adoptado",$adoptado);
                 $consulta->execute();
 
-               
 
 
-               
+
+
 
                 $this->conexion->commit();
 
@@ -112,20 +120,19 @@
                 $this->errorMessage = "Fallo al insertar el perro";
                 //echo $e->getMessage();
                 switch($e->getCode()){
-                    case 45000:
-                        $this->errorMessage = "El perro ya esta adoptado";
-                        break;
+
                 }
-                return false;
             }
 
 
 
         }
+
+
     
 
 
-        public  function updatePerro($nchip,$perro,$foto){
+        public  function updatePerro($nchip,$perro){
 
                 $nombrePerro = $perro->getNombrePerro();
                 $fechaNacimiento = $perro->getFechaNacimiento();
@@ -134,9 +141,8 @@
                 $idPerrera = $perro->getIdPerrera();
                 $idRaza = $perro->getIdRaza();
 
-                $ruta = $foto-> getRutaFoto();
-
-               $sql1 = "UPDATE FOTO SET ruta = :ruta where nChip = :nchip";
+               
+               // $sql1 = "UPDATE FOTO SET ruta = :ruta where nChip = :nchip";
 
                 $sql2= "update perro set nombrePerro = :nombrePerro,fechaNacimiento = :fechaNacimiento,
                 fechaEntrada = :fechaEntrada,peso=:peso,idperrera=:idPerrera,idRaza=:idRaza 
@@ -146,13 +152,13 @@
                 $this->conexion->beginTransaction();
 
                 
-                             
+             /*                
                 $consulta = $this->conexion->prepare($sql1);
 
                 $consulta->bindParam(':ruta',$ruta);
                 $consulta->bindParam(':nchip',$nchip);   
                 $consulta->execute();  
-               
+               */
                 
                 
                 
@@ -178,7 +184,7 @@
 
                     $this->conexion->rollBack();
 
-                    echo $e->getMessage();
+                    //echo $e->getMessage();
 
                     $code = $e->getCode();
 
@@ -386,13 +392,6 @@
             return $consulta->fetchAll(); 
         }
 
-        public function getRazaByPerroIdRaza($idRaza){
-            $sql = "select raza.nombreRaza from raza inner JOIN perro on raza.idraza = perro.idRaza where perro.idRaza = $idRaza";
-            $consulta = $this->conexion->prepare($sql);
-            $consulta->execute();
-            return $consulta->fetch(PDO::FETCH_LAZY)['nombreRaza'];
-        }
-
         public  function getRazaByNombreRazaUbicacion($nombre,$ubicacion){
             $sql="SELECT * FROM RAZA WHERE nombreRaza = '$nombre' and ubicacionRaza = '$ubicacion'";
             $consulta = $this->conexion->prepare($sql);
@@ -495,7 +494,14 @@
         }
         
         public  function getPerreraById($id){
-            $sql="SELECT nombrePerrera FROM PERRERA WHERE idperrera = $id";
+            $sql="SELECT * FROM PERRERA WHERE idperrera = $id";
+            $consulta = $this->conexion->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetchAll(); 
+        }
+
+        public  function getPerreraByIdPerro($id){
+            $sql="SELECT * FROM PERRERA WHERE idperrera = $id";
             $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetch(PDO::FETCH_LAZY)['nombrePerrera']; 
@@ -508,6 +514,8 @@
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
+
+
 
         public  function insertPerrera($perrera){
 
@@ -545,18 +553,19 @@
 
         public  function updatePerrera($perrera,$id){
 
-            try {
-                $nombrePerrera = $perrera->getNombrePerrera();
-                $nPerrosPerrera = $perrera->getNPerros();
-                $ubicacionPerrera = $perrera->getUbicacion();
-                $valoracionPerrera = $perrera->getValoracion();
+            $nombrePerrera = $perrera->getNombrePerrera();
+            $nPerrosPerrera = $perrera->getNPerros();
+            $ubicacionPerrera = $perrera->getUbicacion();
+            $valoracionPerrera = $perrera->getValoracion();
 
-                //idRaza,nombreRaza,ubicacionRaza
-                $sql= "update perrera set nombrePerrera = :nombre,
-                       nPerros =:nperros,
-                       ubicacion=:ubicacion,
-                       valoracion =:valoracion
-                       where idperrera =:id";
+            try {
+
+
+                $sql= "update perrera set nombrePerrera=:nombre,
+                                      nPerros=:nperros,
+                                      ubicacion=:ubicacion,
+                                      valoracion=:valoracion
+                                      where idperrera=:id";
                 $consulta = $this->conexion->prepare($sql);
                 
                 $consulta->bindParam(':nombre',$nombrePerrera);
@@ -569,6 +578,8 @@
                 return true;
 
                 }catch(PDOException $e){
+
+                    echo $e->getMessage();
 
                     $code = $e->getCode();
 
@@ -955,51 +966,62 @@
             $password = $usuario->getPassword();
             $idRol = $usuario->getIdRol();
             $dni = $usuario->getDni();
+            
         
            $sql1="INSERT INTO usuario (email,password,dni,idRol) VALUES (:email,:pass,:dni,:idRol)";
            $sql2 = "INSERT INTO propietario (dniPropietario,email) VALUES (:dni,:email)";
 
-            try {
+           try {
 
-                $this->conexion->beginTransaction();
-           
-                $consulta = $this->conexion->prepare($sql2);
-                $consulta->bindParam(':dni',$dni);
-                $consulta->bindParam(':email',$email);
-                $consulta->execute();
-                
-                $consulta = $this->conexion->prepare($sql1);
-                $consulta->bindParam(':email',$email);
-                $consulta->bindParam(':pass',$password);
-                $consulta->bindParam(':dni',$dni);
-                $consulta->bindParam(':idRol',$idRol);
-                $consulta->execute();
+               $this->conexion->beginTransaction();
+
+               $consulta = $this->conexion->prepare($sql2);
+               $consulta->bindParam(':dni',$dni);
+               $consulta->execute();
+          
+               $consulta = $this->conexion->prepare($sql1);
+               $consulta->bindParam(':email',$email);
+               $consulta->bindParam(':pass',$password);
+               $consulta->bindParam(':dni',$dni);
+               $consulta->bindParam(':idRol',$idRol);
+               $consulta->execute();
+
+               $this->conexion->commit();
+
+               return true;
+
+           }catch(PDOException $e){
 
 
-                
+               $code = $e->getCode();
 
-                
+               echo $e->getMessage();
 
-                $this->conexion->commit();
-
-                return true;
-
-            }catch(PDOException $e){
-                
-
-                $code = $e->getCode();
-
-                echo $e->getMessage();
-
-                switch($code){
-                    case 23000 :
-                        $this->errorMessage = "No se puede insertar el mismo usuario dos veces";
-                }
-
-                return false;
-            }
+               switch($code){
+                   case 23000 :
+                    break;
+            return false;
+        }
+         
 
         }
+    }
+
+    public function getIdUserByEmail($email){
+        $sql="SELECT idUsuario FROM usuario WHERE email = '$email'";
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->execute();
+        $data = $consulta->fetch(PDO::FETCH_LAZY);
+        return @$data['idUsuario'];
+    }
+
+    public function getIdRolUserByIdUser($id){
+        $sql="SELECT idRol FROM usuario WHERE idUsuario = $id";
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->execute();
+        $data = $consulta->fetch(PDO::FETCH_LAZY);
+        return @$data['idRol'];
+    }
 
         public function getEmailAndPasswordUsuarioByEmail($email){
             $sql="SELECT * FROM usuario WHERE email = '$email'";
@@ -1014,22 +1036,6 @@
             $consulta->execute();
             $data = $consulta->fetch(PDO::FETCH_LAZY);
             return @$data['dni'];
-        }
-
-        public function getIdUserByEmail($email){
-            $sql="SELECT idUsuario FROM usuario WHERE email = '$email'";
-            $consulta = $this->conexion->prepare($sql);
-            $consulta->execute();
-            $data = $consulta->fetch(PDO::FETCH_LAZY);
-            return @$data['idUsuario'];
-        }
-
-        public function getIdRolUserByIdUser($id){
-            $sql="SELECT idRol FROM usuario WHERE idUsuario = $id";
-            $consulta = $this->conexion->prepare($sql);
-            $consulta->execute();
-            $data = $consulta->fetch(PDO::FETCH_LAZY);
-            return @$data['idRol'];
         }
 
         public function updateRolUser($email,$rol){

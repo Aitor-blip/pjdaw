@@ -4,9 +4,11 @@
     include_once '../../../clases/menu.php';
     @include_once '../../../bd/conexion.php';
     @include_once '../perreras/gestorPerreras.php';
+    @include_once '../../../clases/perrera.php';
     $bd = new BD();
     $logueado = 1;
     $listaPerreras = $bd->getPerreras();
+   
     ?>
 <body>
 
@@ -15,15 +17,19 @@
         <nav class="navbar navbar-expand navbar-light bg-info bg-gradient d-flex justify-content-end">
             <ul class="nav navbar-nav">
                 <?php foreach($_SESSION['menu_lista'] as $id=>$item): 
-                    
+
                 if($_SESSION['menu_lista'][$id]=="Home"){
                         $file = "../index.php?logueado=$logueado";
                 }     
-                
+
                 if($_SESSION['menu_lista'][$id]=="Perreras"){
-                        $file = "./index.php?logueado=$logueado";
-                }    
-                    
+                        $file = "../index.php?logueado=$logueado";
+                }
+                
+                if($_SESSION['menu_lista'][$id]=="Perros"){
+                    $file = "../perros/index.php?logueado=$logueado";
+            }
+
                 ?>
                 <li class="nav-item mx-2">
                     <a class="nav-link fw-bold text-light" href="<?php echo $file;?>"><?php echo $_SESSION['menu_lista'][$id];?></a>
@@ -32,7 +38,7 @@
                 </div>
             </ul>
         </nav>
-        
+
     </div>
 </div>
 <body>
@@ -44,24 +50,29 @@
                 <div class="row">
                     <div class="col-12">
                         <form action="" method="post">
-                            
-                           
+
+
                                 <div class="mb-3">
                                     <label for="idperrera" class="form-label">Id Perrera</label>
                                     <input
                                         type="number"
                                         class="form-control"
                                         name="idPerrera"
-                                        value="<?php echo $idPerrera;?>"
+                                        value=<?php echo @$idPerrera;?>
                                         min="1"/>
                             </div>
-                            
-                        <?php foreach($listaPerrerasPorId as $perrera):
-                                $nombrePerrera = $perrera['nombrePerrera'];
-                                $nPerros = $perrera['nPerros'];
-                                $ubicacion = $perrera['ubicacion'];
-                                $valoracion = $perrera['valoracion'];
+
+                        <?php 
+                            if(is_null(@$listaPerrerasPorId)){
+
+                            }else{
+                            foreach(@$listaPerrerasPorId as $perrera):
+                                @$nombrePerrera = @$perrera['nombrePerrera'];
+                                @$nPerros = @$perrera['nPerros'];
+                                @$ubicacion = @$perrera['ubicacion'];
+                                @$valoracion = @$perrera['valoracion'];
                         endforeach;
+                        }
                             ?>
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre</label>
@@ -71,7 +82,7 @@
                                     name="nombre"
                                     aria-describedby="helpId"
                                     placeholder="Escribe el nombre de la perrera"
-                                    value="<?php echo $nombrePerrera;?>"
+                                    value="<?php echo @$nombrePerrera;?>"
                                     require
                                 />
                             </div>
@@ -106,7 +117,7 @@
                             <?php }?>
                             </select>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <label for="valoracion" class="form-label">Valoracion de la perrera</label>
                                 <input
@@ -125,12 +136,12 @@
                                 <input type="submit" class="btn btn-success" name="accion" value="Modificar"/>
                                 <input type="submit" class="btn btn-warning" name="accion" value="Eliminar"/>
                            </div>
-                            
 
-                            
 
-                            
-                            
+
+
+
+
                         </form>
                     </div>
                 </div>
@@ -150,14 +161,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach($listaPerreras as $perrera):
+                                    <?php
+                                       
+                                         foreach($listaPerreras as $perrera):
                                             $idPerrera = $perrera['idperrera'];
                                             $nombrePerrera = $perrera['nombrePerrera'];
                                             $nPerros = $perrera['nPerros'];
                                             $ubicacion = $perrera['ubicacion'];
                                             $valoracion = $perrera['valoracion'];?>
                                     <tr class="">
-                                        
+
                                         <td scope="row"><?php echo $nombrePerrera;?></td>
                                         <td><?php echo $nPerros;?></td>
                                         <td><?php echo $ubicacion;?></td>
@@ -174,20 +187,20 @@
 
                                                     <input type="hidden" name="idPerrera" value="<?php echo $idPerrera;?>">
                                                 </div>
-                                                
+
                                             </div>
                                             </form>
-                                            
+
                                         </td>
                                     </tr><?php endforeach;?>
                                 </tbody>
                             </table>
                         </div>
-                        
+
                     </div>
 
                 </div>
             </div>
         </div>
 </div>
-<?php include_once '../../templates/footer.php';?>
+<?php @include_once '../../templates/footer.php';?>

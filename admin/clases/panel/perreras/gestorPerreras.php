@@ -9,7 +9,7 @@
     $direccion = $_POST['pais'];
     $valoracion = $_POST['valoracion'];
     $idPerrera = $_POST['idPerrera'];
-    $listaPerrerasPorId = $bd->getPerreraById($idPerrera);
+    @$listaPerrerasPorId = $bd->getPerreraById($idPerrera);
 
     switch($accion){
         case 'Agregar':
@@ -18,11 +18,11 @@
         break;
         case 'Modificar':
             $perrera = new Perrera($nombrePerrera,$nPerrosPerrera,$direccion,$valoracion);
-            $perreraModificada = $bd->updatePerrera($perrera,$idPerrera);
+            $perreraModificada = $bd->updatePerrera($perrera,intval($idPerrera));
             break;
         case 'Eliminar':
             $bd->deletePerrera($idPerrera);
             break; 
         }
     }
-    
+?>

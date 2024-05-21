@@ -9,8 +9,11 @@
   $bd = new BD();
   $perros = $bd->getPerrosParaAdoptar();
   if(@$_GET['logueado']==1){
-    @$_SESSION['user'] = "logueado";    
+    
+    @$_SESSION['user'] = "logueado";
+    
   }else{
+    @$_SESSION['logueado'] =false;
     @$_SESSION['user'] =="invitado";
   }   
   

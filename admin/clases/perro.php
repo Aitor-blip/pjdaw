@@ -1,11 +1,13 @@
 <?php
     class Perro{
+        public $nChip;
         public $nombrePerro;
         public $fechaNacimiento;
         public $fechaEntrada;
         public $peso;
         public $idPerrera;
         public $idRaza;
+        public $idFoto;
         public $dniPropietario;
         
         public function __construct($nombrePerro,$fechaNacimiento,$fechaEntrada,$peso,
