@@ -22,7 +22,15 @@
 
                 if($_SESSION['menu_lista'][$id]=="Perreras"){
                         $file = "../perreras/index.php?logueado=$logueado";
-                }    
+                }   
+
+                if($_SESSION['menu_lista'][$id]=="Perros"){
+                    $file = "../perros/index.php?logueado=$logueado";
+                }
+                
+                if($_SESSION['menu_lista'][$id]=="Usuarios"){
+                    $file = "../usuarios/index.php?logueado=$logueado";
+                }   
 
                 ?>
                 <li class="nav-item mx-2">

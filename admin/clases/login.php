@@ -4,30 +4,41 @@
     include '../bd/conexion.php';
     $bd = new BD();
     $conexion = $bd->getConexion();
+ 
 
     if($_POST){
         $email = $_POST['email'];
-        $password = $_POST['password'];        
+        $password = $_POST['password']; 
+       
         $datos = $bd->getEmailAndPasswordUsuarioByEmail($email);
         $dniBd = $bd->getDniByEmailUser($email);
+        
         $_SESSION['dni'] = $dniBd;
         if(count($datos) > 0) {
+            $encriptado = isEncrypted($_SESSION['password'],$_SESSION['hasheada']);
             $_SESSION['email'] = $datos[0]['email'];  
-            $logueado = ($datos[0]['email'] == $email) && (isEncrypted($password,$datos[0]['password']));
-            if($logueado){
-                $idUsuario = $bd->getIdUserByEmail($email);
-                $_SESSION['rol'] = $bd->getIdRolUserByIdUser($idUsuario);
-                if($_SESSION['rol'] == 1){
-                    $_SESSION['user'] = "administrador";
-                    header("location:../clases/panel/index.php");
-                }else{
-                    $_SESSION['user'] = "usuario";
-                    $_SESSION['logueado'] = true;
-                    $token = getToken();
-                    header("Location:../secciones/menu_usuario.php?token=$token");
-                }
+                $_SESSION['password'] = $password;
+                $logueado = ($datos[0]['email'] == $email && $encriptado);
+                if($logueado){
+                    $idUsuario = $bd->getIdUserByEmail($email);
+                    $_SESSION['rol'] = $bd->getIdRolUserByIdUser($idUsuario);
+                    if($_SESSION['rol'] == 1){
+                        $_SESSION['user'] = "administrador";
+                        $_SESSION['logueado'] = true;
+                        header("location:../clases/panel/index.php");
+                    }else{
+                        if($_SESSION['rol'] == 2){
+                            $_SESSION['user'] = "usuario";
+                            $_SESSION['logueado'] = true;
+                            $token = getToken();
+                            header("Location:../secciones/menu_usuario.php?token=$token");
+                        }
+                    }
+            
+           
                 
             }else{
+                $_SESSION['user'] = "invitado";
                 $_SESSION['logueado'] = false;
                 $_SESSION['loginError']="Error en la autenticación";
             }

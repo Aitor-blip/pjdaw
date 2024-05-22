@@ -1,4 +1,5 @@
 <?php
+    @session_start();
     include_once '../snippets/clases.php';
     include '../bd/conexion.php';
     $bd = new BD();
@@ -9,6 +10,7 @@
        
         $email = $_POST['email'];
         $password = $_POST['password'];
+        $_SESSION['password'] = $password;
         $rol = $_POST['rol'];
         $_SESSION['rol'] = $rol;
         $dni = $_POST['dni'];
@@ -19,6 +21,7 @@
             $hashed_password = password_hash($password, PASSWORD_BCRYPT);
             $hasheada = isEncrypted($password,$hashed_password);
             if($hasheada){
+                $_SESSION['hasheada'] = $hashed_password;
 
                 $usuario = new Usuario($email, $hashed_password,$rol,$dni);
                 $insertado = $bd->insertUsuario($usuario);

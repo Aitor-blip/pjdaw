@@ -8,7 +8,7 @@
         public $errorMessage = "";
 
         public function __construct(){
-            $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','');
+            $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','aitor2002');
         }
 
         public function getConexion(){
@@ -18,7 +18,7 @@
             if(!isset($this->conexion)){
                 //Activamos el control de errores de la bd 
                 //$this->conexion = new PDO('mysql:host='.SERVER.';dbname=perros;','root','aitor2002',$opciones);
-                $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','');
+                $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','aitor2002');
                 //echo "<p class='subtitle'>Conexión a base de datos realizada</p>";
                 
             }
@@ -977,6 +977,7 @@
 
                $consulta = $this->conexion->prepare($sql2);
                $consulta->bindParam(':dni',$dni);
+               $consulta->bindParam(":email",$email);
                $consulta->execute();
           
                $consulta = $this->conexion->prepare($sql1);
@@ -995,15 +996,106 @@
 
                $code = $e->getCode();
 
-               echo $e->getMessage();
+               
 
                switch($code){
                    case 23000 :
+                        $this->errorMessage = "No se puede repetir el dni del usuario";
                     break;
             return false;
         }
          
 
+        }
+    }
+
+    public function updateUsuario($usuario,$id){
+
+        $email = $usuario->getEmail();
+        $password = $usuario->getPassword();
+        $idRol = $usuario->getIdRol();
+        $dni = $usuario->getDni();
+        
+    
+       $sql1="UPDATE usuario set email =:email,
+                    password =:password,
+                    dni=:dni,
+                    idRol =:idRol
+                    where idUsuario = :id";
+       $sql2 = "UPDATE propietario set email =:email
+                        where dniPropietario =:dni";
+       try {
+
+           $this->conexion->beginTransaction();
+
+          
+
+           $consulta = $this->conexion->prepare($sql2);
+           $consulta->bindParam(":email",$email);
+           $consulta->bindParam(':dni',$dni);
+           $consulta->execute();
+
+           $consulta = $this->conexion->prepare($sql1);
+           $consulta->bindParam(':email',$email);
+           $consulta->bindParam(':password',$password);
+           $consulta->bindParam(':dni',$dni);
+           $consulta->bindParam(':idRol',$idRol);
+           $consulta->bindParam(':id',$id);
+           $consulta->execute();
+          
+
+           $this->conexion->commit();
+
+           return true;
+
+       }catch(PDOException $e){
+
+        echo $e->getMessage();
+
+           $code = $e->getCode();
+
+           
+
+           switch($code){
+               case 23000 :
+                    $this->errorMessage = "No se puede repetir el dni del usuario";
+                break;
+        return false;
+    }
+     
+
+    }
+}
+
+
+
+
+    public  function deleteUsuario($id){
+
+        try {
+        $sql="DELETE FROM usuario WHERE idUsuario = :id"; 
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->bindParam(':id',$id);
+        $consulta->execute();
+        return true;
+
+        }catch(PDOException $e){
+           // echo $e->getMessage();
+
+            $code = $e->getCode();
+            return false;
+        }
+
+    }
+
+    public  function getUserDataByIdUsuario($id){
+        try{
+        $sql="SELECT * FROM usuario where idUsuario = $id";
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->execute();
+        return $consulta->fetchAll(); 
+        }catch(PDOException $e){
+            $this->errorMessage = "Da a seleccionar para mostrar los datos del usuario";
         }
     }
 
@@ -1023,6 +1115,16 @@
         return @$data['idRol'];
     }
 
+
+    public function getRolByIdRol($id){
+        $sql="SELECT nombre FROM usuario_rol WHERE idRol = $id";
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->execute();
+        $data = $consulta->fetch(PDO::FETCH_LAZY);
+        return @$data['nombre'];
+    }
+
+
         public function getEmailAndPasswordUsuarioByEmail($email){
             $sql="SELECT * FROM usuario WHERE email = '$email'";
             $consulta = $this->conexion->prepare($sql);
@@ -1037,6 +1139,11 @@
             $data = $consulta->fetch(PDO::FETCH_LAZY);
             return @$data['dni'];
         }
+
+        
+       
+
+
 
         public function updateRolUser($email,$rol){
             try{

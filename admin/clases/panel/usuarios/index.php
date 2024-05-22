@@ -1,17 +1,17 @@
 <?php
-    session_start();
+   session_start();
     include_once '../../../templates/headnocss.php';
     include_once '../../../clases/menu.php';
     @include_once '../../../bd/conexion.php';
-    @include_once '../perreras/gestorPerreras.php';
-    @include_once '../../../clases/perrera.php';
+    @include_once '../usuarios/gestorUsuarios.php';
     $bd = new BD();
     $logueado = 1;
-    $listaPerreras = $bd->getPerreras();
+    $listaUsuariosById = $bd->getUserDataByIdUsuario($idUsuario);
+    $listaUsuarios = $bd->consultar("select * from usuario");
+    $listaRoles = $bd->consultar("select * from usuario_rol");
    
     ?>
 <body>
-
 <div class="container-fluid">
     <div class="row">
         <nav class="navbar navbar-expand navbar-light bg-info bg-gradient d-flex justify-content-end">
@@ -54,84 +54,82 @@
                     <div class="col-12">
                         <form action="" method="post">
 
+                        <?php if(is_null(@$listaUsuariosById)){?>
+                            <h2><?php echo $bd->errorMessage;?></h2>
+                            <?php }else{
+                            foreach(@$listaUsuariosById as $usuario):
+                                @$emailUsuario = @$usuario['email'];
+                                @$password = @$usuario['password'];
+                                @$dniUsuario = @$usuario['dni'];
+                                @$idRol = @$usuario['idRol'];
+                        endforeach;
+                        }?>
+
 
                                 <div class="mb-3">
-                                    <label for="idperrera" class="form-label">Id Perrera</label>
+                                    <label for="idUsuario" class="form-label">Id Usuario</label>
                                     <input
                                         type="number"
                                         class="form-control"
-                                        name="idPerrera"
-                                        value=<?php echo @$idPerrera;?>
+                                        name="idUsuario"
+                                        value=<?php echo @$idUsuario;?>
                                         min="1"/>
                             </div>
 
-                        <?php 
-                            if(is_null(@$listaPerrerasPorId)){
-
-                            }else{
-                            foreach(@$listaPerrerasPorId as $perrera):
-                                @$nombrePerrera = @$perrera['nombrePerrera'];
-                                @$nPerros = @$perrera['nPerros'];
-                                @$ubicacion = @$perrera['ubicacion'];
-                                @$valoracion = @$perrera['valoracion'];
-                        endforeach;
-                        }
-                            ?>
                             <div class="mb-3">
-                                <label for="nombre" class="form-label">Nombre</label>
+                                <label for="email" class="form-label">Email</label>
                                 <input
                                     type="text"
                                     class="form-control"
-                                    name="nombre"
+                                    name="email"
                                     aria-describedby="helpId"
-                                    placeholder="Escribe el nombre de la perrera"
-                                    value="<?php echo @$nombrePerrera;?>"
+                                    placeholder="Escribe el email del usuario"
+                                    value="<?php echo @$emailUsuario;?>"
                                     require
                                 />
                             </div>
 
                             <div class="mb-3">
-                                <label for="nperros" class="form-label">Numero de Perros</label>
+                                <label for="password" class="form-label">Password</label>
                                 <input
-                                    type="number"
+                                    type="text"
                                     class="form-control"
-                                    name="nperros"
+                                    name="password"
                                     aria-describedby="helpId"
-                                    placeholder="Escribe el numero de perros de la perrera"
-                                    value="<?php echo $nPerros;?>"
+                                    placeholder="Escribe el password del usuario"
+                                    value="*******"
+                                    require
+                                />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="dni" class="form-label">Dni</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="dni"
+                                    aria-describedby="helpId"
+                                    placeholder="Escribe el dni del usuario"
+                                    value="<?php echo $dniUsuario;?>"
                                     require
                                     />
                             </div>
 
                             <div class="mb-3">
-                                <label for="pais" class="form-label">Pais de la perrera</label>
+                                <label for="rol" class="form-label">Rol del Usuario</label>
                                 <select
                                     class="form-select form-select-lg"
-                                    name="pais"
-                                    id="paisPerrera"
+                                    name="rol"
+                                    id="rolesUsuario"
                               >
-                              <?php if(!is_null($ubicacion)){?>
-                                <option value="<?php echo $ubicacion?>"><?php echo $ubicacion?></option>
-                              <?php }else{?>
-                                <option value="Espana">Espana</option>
-                                <option value="Francia">Francia</option>
-                                <option value="Alemania">Alemania</option>
-                                <option value="Holanda">Holanda</option>
-                            <?php }?>
+                              <?php if(!is_null($listaRoles)){
+                                foreach($listaRoles as $rol):
+                                    $idRol = $rol['idRol'];
+                                    $nombreRol = $rol['nombre'];
+                                ?>
+                                <option value="<?php echo $idRol?>"><?php echo $nombreRol?></option>
+                              <?php endforeach;}?>
                             </select>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="valoracion" class="form-label">Valoracion de la perrera</label>
-                                <input
-                                    type="number"
-                                    class="form-control"
-                                    name="valoracion"
-                                    aria-describedby="helpId"
-                                    min="1"
-                                    placeholder="Escribe el numero de perros de la perrera"
-                                    value="<?php echo $valoracion;?>"
-                                />
                             </div>
 
                            <div class="botones mt-3">
@@ -156,27 +154,35 @@
                             <table class="table table">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Nombre Perrera</th>
-                                        <th scope="col">Numero de Perros</th>
-                                        <th scope="col">Ubicacion</th>
-                                        <td scope="col">Valoracion</td>
+                                        <th scope="col">IdUsuario</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Password</th>
+                                        <th scope="col">Dni</th>
+                                        <td scope="col">Rol</td>
                                         <td scope="col">Acciones</td>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php
-                                       
-                                         foreach($listaPerreras as $perrera):
-                                            $idPerrera = $perrera['idperrera'];
-                                            $nombrePerrera = $perrera['nombrePerrera'];
-                                            $nPerros = $perrera['nPerros'];
-                                            $ubicacion = $perrera['ubicacion'];
-                                            $valoracion = $perrera['valoracion'];?>
+                                <?php 
+                            if(is_null(@$listaUsuarios)){
+
+                            }else{
+                            foreach(@$listaUsuarios as $usuario):
+                                @$idUsuario = @$usuario['idUsuario'];
+                                @$emailUsuario = @$usuario['email'];
+                                @$dniUsuario = @$usuario['dni'];
+                                @$idRol = @$usuario['idRol'];
+                                @$password = @$usuario['password'];
+                                $nombreRol = $bd->getRolByIdRol($idRol);
+                            
+                            ?>
                                     <tr class="">
 
-                                        <td scope="row"><?php echo $nombrePerrera;?></td>
-                                        <td><?php echo $nPerros;?></td>
-                                        <td><?php echo $ubicacion;?></td>
+                                        <td scope="row"><?php echo $idUsuario;?></td>
+                                        <td><?php echo $emailUsuario;?></td>
+                                        <td><?php echo $password;?></td>
+                                        <td><?php echo $dniUsuario;?></td>
+                                        <td><?php echo $nombreRol;?></td>
                                         <td><?php echo $valoracion?></td>
                                         <td>
                                             <form action="" method="post">
@@ -188,14 +194,14 @@
                                                         value="Seleccionar"
                                                     />
 
-                                                    <input type="hidden" name="idPerrera" value="<?php echo $idPerrera;?>">
+                                                    <input type="hidden" name="idUsuario" value="<?php echo $idUsuario;?>">
                                                 </div>
 
                                             </div>
                                             </form>
 
                                         </td>
-                                    </tr><?php endforeach;?>
+                                    </tr><?php endforeach;}?>
                                 </tbody>
                             </table>
                         </div>
@@ -206,4 +212,6 @@
             </div>
         </div>
 </div>
+
+
 <?php @include_once '../../templates/footer.php';?>
