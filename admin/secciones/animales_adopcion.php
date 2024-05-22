@@ -148,8 +148,7 @@
                         @$nChip = $perros[$id]['nChip']; 
                         $nombre = $perros[$id]['nombrePerro'];
                         $idRaza = $perros[$id]['idRaza'];
-                        $raza = $bd->getRazaByPerroIdRaza($idRaza);
-                        $nombreRaza = $raza['nombreRaza'];
+                        $nombreRaza = $bd->getRazaByPerroIdRaza($idRaza);
                         $fotos = $bd->getFotosByNchip($nChip); 
                         $rutaBase = trim(isset($fotos['ruta'])?$fotos['ruta']:'');
                         $ruta = RUTA_ANIMALES_ADOPCION.$rutaBase;?>

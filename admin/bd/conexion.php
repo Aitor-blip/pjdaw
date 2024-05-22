@@ -8,7 +8,7 @@
         public $errorMessage = "";
 
         public function __construct(){
-            $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','aitor2002');
+            $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','');
         }
 
         public function getConexion(){
@@ -18,7 +18,7 @@
             if(!isset($this->conexion)){
                 //Activamos el control de errores de la bd 
                 //$this->conexion = new PDO('mysql:host='.SERVER.';dbname=perros;','root','aitor2002',$opciones);
-                $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','aitor2002');
+                $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','');
                 //echo "<p class='subtitle'>Conexión a base de datos realizada</p>";
                 
             }
@@ -59,7 +59,7 @@
         }
 
         public function getPerrosParaAdoptar(){
-            $sql = "SELECT * from perro.nChip,perro.nombrePerro,perro.fechaNacimiento,perro.fechaEntrada,perro.idperrera,perro.peso,perro.idRaza
+            $sql = "SELECT perro.nChip,perro.nombrePerro,perro.fechaNacimiento,perro.fechaEntrada,perro.idperrera,perro.peso,perro.idRaza
             FROM perro
             INNER JOIN adopcion_perros
             ON perro.nChip = adopcion_perros.nChip where
