@@ -6,7 +6,7 @@
     @include_once '../perros/gestorPerros.php';
     $bd = new BD();
     $logueado = 1;
-    $listaPerros = $bd->getPerrosSinAdoptarAll();
+    $listaPerros = $bd->getPerrosSinAdoptar();
     ?>
 <body>
 
@@ -76,6 +76,7 @@
                                             $peso = $perro['peso'];
                                             $idRaza = $perro['idRaza'];
                                             $nombreRaza = $bd->getRazaByPerroIdRaza($idRaza);
+                                            $adoptado = $perro['adoptado'];
                                         endforeach;
                                             ?> 
                             <div class="mb-3">
@@ -149,6 +150,16 @@
                             </select>
                            </div>
 
+                           <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="adoptado" id="adoptado"
+                                <?php if($adoptado != "on"){
+                                }else{?>
+                                checked <?php } ?>>
+                                <label class="form-check-label" for="adoptado">¿Esta Adoptado?</label>
+                            </div>
+
+                           
+
 
 
                            <div class="botones mt-3">
@@ -177,6 +188,7 @@
                                         <th scope="col">Nombre Perro</th>
                                         <th scope="col">Fecha Nacimiento</th>
                                         <th scope="col">Raza</th>
+                                        <th scope="col">Adoptado</th>
                                         <td scope="col">Acciones</td>
                                     </tr>
                                 </thead>
@@ -192,6 +204,7 @@
                                             $peso = $perro['peso'];
                                             $idRaza = $perro['idRaza'];
                                             $nombreRaza = $bd->getRazaByPerroIdRaza($idRaza);
+                                            $adoptado = $perro['adoptado'];
                                        
                                             ?> 
                                          <tr class="">
@@ -200,6 +213,14 @@
                                             <td><?php echo $nombrePerro;?></td>
                                             <td><?php echo $fNacimiento;?></td>
                                             <td><?php echo $nombreRaza;?></td>
+                                            <td>
+                                                <?php if($adoptado==0){
+                                                    echo "No";
+                                                }else{
+                                                    echo "Si";
+                                                }
+                                                ?>
+                                            </td>
                                             <td>
                                             <form action="" method="post">
                                                 <div class="botones">
@@ -211,6 +232,7 @@
                                                     />
 
                                                     <input type="hidden" name="nChip" value="<?php echo $nChip;?>">
+                                                    <input type="hidden" name="adoptado" value="<?php echo $adoptado;?>">
                                                 </div>
 
                                             </div>

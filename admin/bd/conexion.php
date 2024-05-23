@@ -8,7 +8,7 @@
         public $errorMessage = "";
 
         public function __construct(){
-            $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','');
+            $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','aitor2002');
         }
 
         public function getConexion(){
@@ -18,7 +18,7 @@
             if(!isset($this->conexion)){
                 //Activamos el control de errores de la bd 
                 //$this->conexion = new PDO('mysql:host='.SERVER.';dbname=perros;','root','aitor2002',$opciones);
-                $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','');
+                $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','aitor2002');
                 //echo "<p class='subtitle'>Conexión a base de datos realizada</p>";
                 
             }
@@ -50,6 +50,16 @@
         }
 
         public  function getPerrosSinAdoptar(){
+            $sql = "SELECT * FROM perro
+            INNER JOIN adopcion_perros
+            ON perro.nChip = adopcion_perros.nChip
+            where adopcion_perros.adoptado=0";
+            $consulta = $this->conexion->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetchAll(); 
+        }
+
+        public  function getPerrosSinAdoptarAll(){
             $sql = "SELECT * FROM perro
             INNER JOIN adopcion_perros
             ON perro.nChip = adopcion_perros.nChip";
@@ -132,7 +142,7 @@
     
 
 
-        public  function updatePerro($nchip,$perro){
+        public  function updatePerro($nchip,$perro,$adoptado,$dni){
 
                 $nombrePerro = $perro->getNombrePerro();
                 $fechaNacimiento = $perro->getFechaNacimiento();
@@ -142,7 +152,7 @@
                 $idRaza = $perro->getIdRaza();
 
                
-               // $sql1 = "UPDATE FOTO SET ruta = :ruta where nChip = :nchip";
+                $sql1 = "UPDATE adopcion_perros SET adoptado = :adoptado where nChip = :nchip and dniPropietario=:dni";
 
                 $sql2= "update perro set nombrePerro = :nombrePerro,fechaNacimiento = :fechaNacimiento,
                 fechaEntrada = :fechaEntrada,peso=:peso,idperrera=:idPerrera,idRaza=:idRaza 
@@ -151,17 +161,7 @@
 
                 $this->conexion->beginTransaction();
 
-                
-             /*                
-                $consulta = $this->conexion->prepare($sql1);
-
-                $consulta->bindParam(':ruta',$ruta);
-                $consulta->bindParam(':nchip',$nchip);   
-                $consulta->execute();  
-               */
-                
-                
-                
+            
                 $consulta = $this->conexion->prepare($sql2);
 
                 $consulta->bindParam(':nombrePerro',$nombrePerro);
@@ -171,20 +171,27 @@
                 $consulta->bindParam(':idPerrera',$idPerrera);
                 $consulta->bindParam(':idRaza',$idRaza);
                 $consulta->bindParam(':nChip',$nchip);
-                $consulta->execute();
-
-              
+                $consulta->execute();      
                 
+                
+                $consulta = $this->conexion->prepare($sql1);
+
+                $consulta->bindParam(':adoptado',$adoptado);
+                $consulta->bindParam(':nchip',$nchip);
+                $consulta->bindParam(':dni',$dni);   
+                $consulta->execute();  
 
                 $this->conexion->commit();
 
                 return true;
 
                 }catch(PDOException $e){
+                        echo $e->getMessage();
+                    
 
+                    echo $e->getCode();
                     $this->conexion->rollBack();
-
-                    //echo $e->getMessage();
+                    
 
                     $code = $e->getCode();
 

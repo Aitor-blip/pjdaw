@@ -66,7 +66,8 @@ CREATE TABLE ADOPCION_PERROS(
     nChip int not null,
     dniPropietario varchar(20) not null,
     fechaAdopcion date not null default current_timestamp(),
-    adoptado int default 0 not null
+    adoptado int default 0 not null,
+    enTramite int default 0 not null
 ); 	
 
 CREATE TABLE USUARIO(
