@@ -14,7 +14,7 @@
 
                                 
                 if($_SESSION['menu_lista'][$id]=="Home"){
-                $file = "index.php?logueado=$logueado";
+                    $file = "index.php?logueado=$logueado";
                 }
                 if($_SESSION['menu_lista'][$id]=="Perreras"){
                     $file = "./perreras/index.php?logueado=$logueado";
@@ -27,9 +27,24 @@
                     echo "";
                     $file = "./perros/perrosSinAdoptar.php?logueado=$logueado";
                 }
+
                 
+                if($_SESSION['menu_lista'][$id]=="Perros En Tramite de Adopcion"){
+                    echo "";
+                    $file = "./perros/perrosParaTramite.php?logueado=$logueado";
+                }
+
+                if($_SESSION['menu_lista'][$id]=="Perros Adoptados"){
+                    echo "";
+                    $file = "./perros/perrosParaAdoptar.php?logueado=$logueado";
+                }
+
                 if($_SESSION['menu_lista'][$id]=="Usuarios"){
                     $file = "./usuarios/index.php?logueado=$logueado";
+                }
+
+                if($_SESSION['menu_lista'][$id]=="Cerrar Sesion"){
+                    $file = "./usuarios/cerrarSesion.php?logueado=$logueado";
                 }
                 
                     

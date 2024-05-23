@@ -6,7 +6,7 @@
     @include_once '../usuarios/gestorUsuarios.php';
     $bd = new BD();
     $logueado = 1;
-    $listaUsuariosById = $bd->getUserDataByIdUsuario($idUsuario);
+    @$listaUsuariosById = $bd->getUserDataByIdUsuario(@$idUsuario);
     $listaUsuarios = $bd->consultar("select * from usuario");
     $listaRoles = $bd->consultar("select * from usuario_rol");
    
@@ -27,12 +27,28 @@
                 }   
 
                 if($_SESSION['menu_lista'][$id]=="Perros"){
-                $file = "../perros/index.php?logueado=$logueado";
+                    $file = "../perros/index.php?logueado=$logueado";
+                }
+
+                if($_SESSION['menu_lista'][$id]=="Perros Sin Adoptar"){
+                    $file = "../perros/perrosSinAdoptar.php?logueado=$logueado";
+                }
+
+                if($_SESSION['menu_lista'][$id]=="Perros En Tramite de Adopcion"){
+                    $file = "../perros/perrosParaTramite.php?logueado=$logueado";
+                }
+
+                if($_SESSION['menu_lista'][$id]=="Perros Adoptados"){
+                    $file = "../perros/perrosParaAdoptar.php?logueado=$logueado";
                 }
 
                 if($_SESSION['menu_lista'][$id]=="Usuarios"){
-                $file = "../usuarios/index.php?logueado=$logueado";
-                }   
+                    $file = "index.php?logueado=$logueado";
+                }
+
+                if($_SESSION['menu_lista'][$id]=="Cerrar Sesion"){
+                    $file = "cerrarSesion.php?logueado=$logueado";
+                }
                 ?>
                 <li class="nav-item mx-2">
                     <a class="nav-link fw-bold text-light" href="<?php echo $file;?>"><?php echo $_SESSION['menu_lista'][$id];?></a>
@@ -156,10 +172,9 @@
                                     <tr>
                                         <th scope="col">IdUsuario</th>
                                         <th scope="col">Email</th>
-                                        <th scope="col">Password</th>
                                         <th scope="col">Dni</th>
-                                        <td scope="col">Rol</td>
-                                        <td scope="col">Acciones</td>
+                                        <th scope="col">Rol</th>
+                                        <th scope="col">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -180,10 +195,11 @@
 
                                         <td scope="row"><?php echo $idUsuario;?></td>
                                         <td><?php echo $emailUsuario;?></td>
-                                        <td><?php echo $password;?></td>
-                                        <td><?php echo $dniUsuario;?></td>
+                                        <td><?php 
+                                        if($dniUsuario == null){echo "no";}else{
+                                            echo $dniUsuario;
+                                        }?></td>
                                         <td><?php echo $nombreRol;?></td>
-                                        <td><?php echo $valoracion?></td>
                                         <td>
                                             <form action="" method="post">
                                                 <div class="botones">

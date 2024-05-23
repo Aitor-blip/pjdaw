@@ -13,11 +13,11 @@
         $datos = $bd->getEmailAndPasswordUsuarioByEmail($email);
         $dniBd = $bd->getDniByEmailUser($email);
         
-        $_SESSION['dni'] = $dniBd;
+        @$_SESSION['dni'] = $dniBd;
         if(count($datos) > 0) {
-            $encriptado = isEncrypted($_SESSION['password'],$_SESSION['hasheada']);
+            $encriptado = isEncrypted(@$_SESSION['password'],@$_SESSION['hasheada']);
             $_SESSION['email'] = $datos[0]['email'];  
-                $_SESSION['password'] = $password;
+                @$_SESSION['password'] = $password;
                 $logueado = ($datos[0]['email'] == $email && $encriptado);
                 if($logueado){
                     $idUsuario = $bd->getIdUserByEmail($email);

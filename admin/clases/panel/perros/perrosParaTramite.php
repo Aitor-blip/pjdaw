@@ -3,12 +3,10 @@
     include_once '../../../templates/headnocss.php';
     include_once '../../../clases/menu.php';
     @include_once '../../../bd/conexion.php';
-    @include_once '../perros/gestorPerros.php';
+    @include_once '../perros/gestorTramiteAdopcion.php';
     $bd = new BD();
     $logueado = 1;
-    @$listaPerros = $bd->getPerrosSinAdoptar();
-    $listaPerreras = $bd->consultar("select * from perrera");
-    $listaRazas = $bd->consultar("select * from raza");
+    $listaPerros = $bd->getPerrosEnTramiteAdopcion();
     ?>
 <body>
 
@@ -49,6 +47,8 @@
                 if($_SESSION['menu_lista'][$id]=="Cerrar Sesion"){
                     $file = "cerrarSesion.php?logueado=$logueado";
                 }
+                                
+
                 ?>
                 <li class="nav-item mx-2">
                     <a class="nav-link fw-bold text-light" href="<?php echo $file;?>"><?php echo $_SESSION['menu_lista'][$id];?></a>
@@ -82,17 +82,17 @@
                             </div>
 
                             <?php
-                                $listaPerrosByNchip = $bd->getPerroByNchip(@$nchip); 
+                                @$listaPerrosByNchip = $bd->getPerroByNchip(@$nchip); 
                                 foreach($listaPerrosByNchip as $perro):
                                     @$nChip = $perro['nChip'];
                                     @$nombrePerro = $perro['nombrePerro'];
                                     @$fNacimiento = $perro['fechaNacimiento'];
                                     @$fEntrada = $perro['fechaEntrada'];
-                                    //@$idPerrera = $perro['idperrera'];
-                                  //  @$nombrePerrera = $bd->getPerreraByIdPerro($idPerrera);
+                                    @$idPerrera = $perro['idperrera'];
+                                    @$nombrePerrera = $bd->getPerreraByIdPerro($idPerrera);
                                     @$peso = $perro['peso'];
-                                   // @$idRaza = $perro['idRaza'];
-                                   // @$nombreRaza = $bd->getRazaByPerroIdRaza($idRaza);
+                                    @$idRaza = $perro['idRaza'];
+                                    @$nombreRaza = $bd->getRazaByPerroIdRaza($idRaza);
                                     @$adoptado = $perro['adoptado'];
                                 endforeach;
                                     ?> 
@@ -140,11 +140,7 @@
                     <select
                         class="form-select form-select-lg"
                         name="perrera">
-                        <?php foreach($listaPerreras as $perrera):
-                            $idPerrera = $perrera['idperrera'];
-                            $nombrePerrera = $perrera['nombrePerrera'];?>
                         <option value="<?php echo @$idPerrera;?>"><?php echo @$nombrePerrera;?></option>
-                        <?php endforeach;?>
                     </select>
                    </div>
 
@@ -167,11 +163,7 @@
                     <select
                         class="form-select form-select-lg"
                         name="raza">
-                        <?php foreach($listaRazas as $raza):
-                            $idRaza = $raza['idraza'];
-                            $nombreRaza = $raza['nombreRaza'];?>
                         <option value="<?php echo @$idRaza;?>"><?php echo @$nombreRaza;?></option>
-                        <?php endforeach;?>
                     </select>
                    </div>
 
@@ -213,8 +205,7 @@
                                         <th scope="col">Nombre Perro</th>
                                         <th scope="col">Fecha Nacimiento</th>
                                         <th scope="col">Raza</th>
-                                        <th scope="col">Adoptado</th>
-                                        <td scope="col">Acciones</td>
+                                        <th scope="col">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -229,8 +220,8 @@
                                             $peso = $perro['peso'];
                                             $idRaza = $perro['idRaza'];
                                             $nombreRaza = $bd->getRazaByPerroIdRaza($idRaza);
-                                            $adoptado = $perro['adoptado'];
-                                       
+                                            @$adoptado = $perro['adoptado'];
+                                            @$enTramite = $perro['enTramite'];
                                             ?> 
                                          <tr class="">
                                          
@@ -238,14 +229,6 @@
                                             <td><?php echo $nombrePerro;?></td>
                                             <td><?php echo $fNacimiento;?></td>
                                             <td><?php echo $nombreRaza;?></td>
-                                            <td>
-                                                <?php if($adoptado==0){
-                                                    echo "No";
-                                                }else{
-                                                    echo "Si";
-                                                }
-                                                ?>
-                                            </td>
                                             <td>
                                             <form action="" method="post">
                                                 <div class="botones">
@@ -256,8 +239,8 @@
                                                         value="Seleccionar"
                                                     />
 
-                                                    <input type="hidden" name="nChip" value="<?php echo $nChip;?>">
-                                                    <input type="hidden" name="adoptado" value="<?php echo $adoptado;?>">
+                                                    <input type="hidden" name="nChip" value="<?php echo @$nChip;?>">
+                                                    <input type="hidden" name="adoptado" value="<?php echo @$adoptado;?>">
                                                 </div>
 
                                             </div>

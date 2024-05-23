@@ -3,12 +3,10 @@
     include_once '../../../templates/headnocss.php';
     include_once '../../../clases/menu.php';
     @include_once '../../../bd/conexion.php';
-    @include_once '../perros/gestorPerros.php';
+    @include_once '../perros/gestorPerrosAdoptados.php';
     $bd = new BD();
     $logueado = 1;
-    @$listaPerros = $bd->getPerrosSinAdoptar();
-    $listaPerreras = $bd->consultar("select * from perrera");
-    $listaRazas = $bd->consultar("select * from raza");
+    $listaPerros = $bd->getPerrosParaAdoptar();
     ?>
 <body>
 
@@ -49,6 +47,7 @@
                 if($_SESSION['menu_lista'][$id]=="Cerrar Sesion"){
                     $file = "cerrarSesion.php?logueado=$logueado";
                 }
+
                 ?>
                 <li class="nav-item mx-2">
                     <a class="nav-link fw-bold text-light" href="<?php echo $file;?>"><?php echo $_SESSION['menu_lista'][$id];?></a>
@@ -82,123 +81,115 @@
                             </div>
 
                             <?php
-                                $listaPerrosByNchip = $bd->getPerroByNchip(@$nchip); 
+                                @$listaPerrosByNchip = $bd->getPerroByNchip(@$nchip); 
                                 foreach($listaPerrosByNchip as $perro):
-                                    @$nChip = $perro['nChip'];
-                                    @$nombrePerro = $perro['nombrePerro'];
-                                    @$fNacimiento = $perro['fechaNacimiento'];
-                                    @$fEntrada = $perro['fechaEntrada'];
-                                    //@$idPerrera = $perro['idperrera'];
-                                  //  @$nombrePerrera = $bd->getPerreraByIdPerro($idPerrera);
-                                    @$peso = $perro['peso'];
-                                   // @$idRaza = $perro['idRaza'];
-                                   // @$nombreRaza = $bd->getRazaByPerroIdRaza($idRaza);
-                                    @$adoptado = $perro['adoptado'];
-                                endforeach;
-                                    ?> 
-                    <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre Perro</label>
-                        <input
-                            type="text"
-                            class="form-control"
-                            name="nombre"
-                            aria-describedby="helpId"
-                            placeholder="Escribe el nombre de la perrera"
-                            value="<?php echo @$nombrePerro;?>"
-                            require
-                        />
-                    </div>
+                                            $nChip = $perro['nChip'];
+                                            $nombrePerro = $perro['nombrePerro'];
+                                            $fNacimiento = $perro['fechaNacimiento'];
+                                            $fEntrada = $perro['fechaEntrada'];
+                                            $idPerrera = $perro['idperrera'];
+                                            $nombrePerrera = $bd->getPerreraByIdPerro($idPerrera);
+                                            $peso = $perro['peso'];
+                                            $idRaza = $perro['idRaza'];
+                                            $nombreRaza = $bd->getRazaByPerroIdRaza($idRaza);
+                                            @$adoptado = $perro['adoptado'];
+                                        endforeach;
+                                            ?> 
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre Perro</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    name="nombre"
+                                    aria-describedby="helpId"
+                                    placeholder="Escribe el nombre de la perrera"
+                                    value="<?php echo @$nombrePerro;?>"
+                                    require
+                                />
+                            </div>
 
-                    <div class="mb-3">
-                        <label for="fNac" class="form-label">Fecha Nacimiento</label>
-                        <input
-                            type="date"
-                            class="form-control"
-                            name="fNac"
-                            aria-describedby="helpId"
-                            placeholder="Escribe el numero de perros de la perrera"
-                            value="<?php echo $fNacimiento;?>"
-                            require
-                            />
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="fEntr" class="form-label">Fecha de Entrada</label>
-                        <input
-                            type="date"
-                            class="form-control"
-                            name="fEntr"
-                            aria-describedby="helpId"
-                            placeholder="Escribe el numero de perros de la perrera"
-                            value="<?php echo $fEntrada;?>"
-                            require
-                            />
-                    </div>
+                            <div class="mb-3">
+                                <label for="fNac" class="form-label">Fecha Nacimiento</label>
+                                <input
+                                    type="date"
+                                    class="form-control"
+                                    name="fNac"
+                                    aria-describedby="helpId"
+                                    placeholder="Escribe el numero de perros de la perrera"
+                                    value="<?php echo $fNacimiento;?>"
+                                    require
+                                    />
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="fEntr" class="form-label">Fecha de Entrada</label>
+                                <input
+                                    type="date"
+                                    class="form-control"
+                                    name="fEntr"
+                                    aria-describedby="helpId"
+                                    placeholder="Escribe el numero de perros de la perrera"
+                                    value="<?php echo $fEntrada;?>"
+                                    require
+                                    />
+                            </div>
 
-                   <div class="mb-3">
-                    <label for="perrera" class="form-label">Perrera</label>
-                    <select
-                        class="form-select form-select-lg"
-                        name="perrera">
-                        <?php foreach($listaPerreras as $perrera):
-                            $idPerrera = $perrera['idperrera'];
-                            $nombrePerrera = $perrera['nombrePerrera'];?>
-                        <option value="<?php echo @$idPerrera;?>"><?php echo @$nombrePerrera;?></option>
-                        <?php endforeach;?>
-                    </select>
-                   </div>
+                           <div class="mb-3">
+                            <label for="perrera" class="form-label">Perrera</label>
+                            <select
+                                class="form-select form-select-lg"
+                                name="perrera">
+                                <option value="<?php echo @$idPerrera;?>"><?php echo @$nombrePerrera;?></option>
+                            </select>
+                           </div>
 
-                   <div class="mb-3">
-                        <label for="peso" class="form-label">Peso</label>
-                        <input
-                            type="number"
-                            class="form-control"
-                            name="peso"
-                            aria-describedby="helpId"
-                            placeholder="Escribe el peso del perro"
-                            value="<?php echo $peso;?>"
-                            require
-                            />
-                    </div>
+                           <div class="mb-3">
+                                <label for="peso" class="form-label">Peso</label>
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    name="peso"
+                                    aria-describedby="helpId"
+                                    placeholder="Escribe el peso del perro"
+                                    value="<?php echo @$peso;?>"
+                                    require
+                                    />
+                            </div>
 
 
-                    <div class="mb-3">
-                    <label for="raza" class="form-label">Raza</label>
-                    <select
-                        class="form-select form-select-lg"
-                        name="raza">
-                        <?php foreach($listaRazas as $raza):
-                            $idRaza = $raza['idraza'];
-                            $nombreRaza = $raza['nombreRaza'];?>
-                        <option value="<?php echo @$idRaza;?>"><?php echo @$nombreRaza;?></option>
-                        <?php endforeach;?>
-                    </select>
-                   </div>
+                            <div class="mb-3">
+                            <label for="raza" class="form-label">Raza</label>
+                            <select
+                                class="form-select form-select-lg"
+                                name="raza">
+                                <option value="<?php echo @$idRaza;?>"><?php echo @$nombreRaza;?></option>
+                            </select>
+                           </div>
 
-                   <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="adoptado" id="adoptado"
-                        <?php if(@$adoptado != "on"){
-                        }else{?>
-                        checked <?php } ?>>
-                        <label class="form-check-label" for="adoptado">¿Esta Adoptado?</label>
-                    </div>
+                           <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="adoptado" id="adoptado"
+                                <?php if(@$adoptado != "on"){
+                                }else{?>
+                                checked <?php } ?>>
+                                <label class="form-check-label" for="adoptado">¿Quieres devolver el perro?</label>
+                            </div>
 
-                   
+                           
 
 
 
-                   <div class="botones mt-3">
-                        <input type="submit" class="btn btn-primary" name="accion" value="Agregar">
-                        <input type="submit" class="btn btn-success" name="accion" value="Modificar"/>
-                        <input type="submit" class="btn btn-warning" name="accion" value="Eliminar"/>
-                   </div>
+                           <div class="botones mt-3">
+                                <input type="submit" class="btn btn-primary" name="accion" value="Agregar">
+                                <input type="submit" class="btn btn-success" name="accion" value="Modificar"/>
+                                <input type="submit" class="btn btn-warning" name="accion" value="Eliminar"/>
+                           </div>
 
 
 
 
 
-                  
-                </form>
+                          
+                        </form>
                     </div>
                 </div>
             </div>
@@ -229,7 +220,7 @@
                                             $peso = $perro['peso'];
                                             $idRaza = $perro['idRaza'];
                                             $nombreRaza = $bd->getRazaByPerroIdRaza($idRaza);
-                                            $adoptado = $perro['adoptado'];
+                                            @$adoptado = $perro['adoptado'];
                                        
                                             ?> 
                                          <tr class="">

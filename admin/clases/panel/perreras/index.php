@@ -27,12 +27,29 @@
                 }   
 
                 if($_SESSION['menu_lista'][$id]=="Perros"){
-                $file = "../perros/index.php?logueado=$logueado";
+                    $file = "../perros/index.php?logueado=$logueado";
+                }
+
+                if($_SESSION['menu_lista'][$id]=="Perros Sin Adoptar"){
+                    $file = "../perros/perrosSinAdoptar.php?logueado=$logueado";
+                }
+
+                if($_SESSION['menu_lista'][$id]=="Perros En Tramite de Adopcion"){
+                    $file = "../perros/perrosParaTramite.php?logueado=$logueado";
+                }
+
+                if($_SESSION['menu_lista'][$id]=="Perros Adoptados"){
+                    $file = "../perros/perrosParaAdoptar.php?logueado=$logueado";
                 }
 
                 if($_SESSION['menu_lista'][$id]=="Usuarios"){
-                $file = "../usuarios/index.php?logueado=$logueado";
-                }   
+                    $file = "../usuarios/index.php?logueado=$logueado";
+                }
+
+                if($_SESSION['menu_lista'][$id]=="Cerrar Sesion"){
+                    $file = "../usuarios/cerrarSesion.php?logueado=$logueado";
+                }
+
                 ?>
                 <li class="nav-item mx-2">
                     <a class="nav-link fw-bold text-light" href="<?php echo $file;?>"><?php echo $_SESSION['menu_lista'][$id];?></a>

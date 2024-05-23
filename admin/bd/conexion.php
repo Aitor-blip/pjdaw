@@ -8,7 +8,7 @@
         public $errorMessage = "";
 
         public function __construct(){
-            $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','aitor2002');
+            $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','');
         }
 
         public function getConexion(){
@@ -18,7 +18,7 @@
             if(!isset($this->conexion)){
                 //Activamos el control de errores de la bd 
                 //$this->conexion = new PDO('mysql:host='.SERVER.';dbname=perros;','root','aitor2002',$opciones);
-                $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','aitor2002');
+                $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','');
                 //echo "<p class='subtitle'>Conexión a base de datos realizada</p>";
                 
             }
@@ -49,15 +49,20 @@
             return $consulta->fetch(PDO::FETCH_LAZY)['nombreRaza'];
         }
 
+        
+
         public  function getPerrosSinAdoptar(){
             $sql = "SELECT * FROM perro
             INNER JOIN adopcion_perros
             ON perro.nChip = adopcion_perros.nChip
-            where adopcion_perros.adoptado=0";
+            where adopcion_perros.adoptado=0 and 
+                  adopcion_perros.enTramite=0";
             $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
+
+
 
         public  function getPerrosSinAdoptarAll(){
             $sql = "SELECT * FROM perro
@@ -73,7 +78,18 @@
             FROM perro
             INNER JOIN adopcion_perros
             ON perro.nChip = adopcion_perros.nChip where
-             adopcion_perros.adoptado=0";
+             adopcion_perros.adoptado=1";
+            $consulta = $this->conexion->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetchAll(); 
+        }
+
+        public function getPerrosEnTramiteAdopcion(){
+            $sql = "SELECT perro.nChip,perro.nombrePerro,perro.fechaNacimiento,perro.fechaEntrada,perro.idperrera,perro.peso,perro.idRaza
+            FROM perro
+            INNER JOIN adopcion_perros
+            ON perro.nChip = adopcion_perros.nChip where
+             adopcion_perros.entramite=1 and adopcion_perros.adoptado=0";
             $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
@@ -161,7 +177,14 @@
 
                 $this->conexion->beginTransaction();
 
-            
+            $consulta = $this->conexion->prepare($sql1);
+
+                $consulta->bindParam(':adoptado',$adoptado);
+                $consulta->bindParam(':nchip',$nchip);
+                $consulta->bindParam(':dni',$dni);   
+                $consulta->execute(); 
+
+
                 $consulta = $this->conexion->prepare($sql2);
 
                 $consulta->bindParam(':nombrePerro',$nombrePerro);
@@ -174,12 +197,7 @@
                 $consulta->execute();      
                 
                 
-                $consulta = $this->conexion->prepare($sql1);
-
-                $consulta->bindParam(':adoptado',$adoptado);
-                $consulta->bindParam(':nchip',$nchip);
-                $consulta->bindParam(':dni',$dni);   
-                $consulta->execute();  
+                 
 
                 $this->conexion->commit();
 
@@ -205,6 +223,205 @@
             
 
         }
+
+        public  function updatePerroPrincipal($nchip,$perro,$adoptado,$dni){
+
+            $nombrePerro = $perro->getNombrePerro();
+            $fechaNacimiento = $perro->getFechaNacimiento();
+            $fechaEntrada = $perro->getFechaEntrada();
+            $peso = $perro->getPeso();
+            $idPerrera = $perro->getIdPerrera();
+            $idRaza = $perro->getIdRaza();
+
+           
+            $sql1 = "UPDATE adopcion_perros SET entramite = :tramite where nChip = :nchip and dniPropietario=:dni";
+
+            $sql2= "update perro set nombrePerro = :nombrePerro,fechaNacimiento = :fechaNacimiento,
+            fechaEntrada = :fechaEntrada,peso=:peso,idperrera=:idPerrera,idRaza=:idRaza 
+            where nChip = :nChip";
+        try {
+
+            $this->conexion->beginTransaction();
+
+        $consulta = $this->conexion->prepare($sql1);
+
+            $consulta->bindParam(':tramite',$adoptado);
+            $consulta->bindParam(':nchip',$nchip);
+            $consulta->bindParam(':dni',$dni);   
+            $consulta->execute(); 
+
+
+            $consulta = $this->conexion->prepare($sql2);
+
+            $consulta->bindParam(':nombrePerro',$nombrePerro);
+            $consulta->bindParam(':fechaNacimiento',$fechaNacimiento);   
+            $consulta->bindParam(':fechaEntrada',$fechaEntrada); 
+            $consulta->bindParam(':peso',$peso);         
+            $consulta->bindParam(':idPerrera',$idPerrera);
+            $consulta->bindParam(':idRaza',$idRaza);
+            $consulta->bindParam(':nChip',$nchip);
+            $consulta->execute();      
+            
+            
+             
+
+            $this->conexion->commit();
+
+            return true;
+
+            }catch(PDOException $e){
+                    echo $e->getMessage();
+                
+
+                echo $e->getCode();
+                $this->conexion->rollBack();
+                
+
+                $code = $e->getCode();
+
+                switch($code){
+                    case 23000 :
+                        $this->errorMessage = "No se puede actualizar el mismo perro dos veces";
+                }
+
+                return false;
+            }
+        
+
+    }
+
+
+        public  function updatePerroTramiteAdopcion($nchip,$perro,$adoptado,$dni){
+
+            $nombrePerro = $perro->getNombrePerro();
+            $fechaNacimiento = $perro->getFechaNacimiento();
+            $fechaEntrada = $perro->getFechaEntrada();
+            $peso = $perro->getPeso();
+            $idPerrera = $perro->getIdPerrera();
+            $idRaza = $perro->getIdRaza();
+
+           
+            $sql1 = "UPDATE adopcion_perros SET adoptado = :adoptado where nChip = :nchip and dniPropietario=:dni";
+
+            $sql2= "update perro set nombrePerro = :nombrePerro,fechaNacimiento = :fechaNacimiento,
+            fechaEntrada = :fechaEntrada,peso=:peso,idperrera=:idPerrera,idRaza=:idRaza 
+            where nChip = :nChip";
+        try {
+
+            $this->conexion->beginTransaction();
+
+        
+            $consulta = $this->conexion->prepare($sql2);
+
+            $consulta->bindParam(':nombrePerro',$nombrePerro);
+            $consulta->bindParam(':fechaNacimiento',$fechaNacimiento);   
+            $consulta->bindParam(':fechaEntrada',$fechaEntrada); 
+            $consulta->bindParam(':peso',$peso);         
+            $consulta->bindParam(':idPerrera',$idPerrera);
+            $consulta->bindParam(':idRaza',$idRaza);
+            $consulta->bindParam(':nChip',$nchip);
+            $consulta->execute();      
+            
+            
+            $consulta = $this->conexion->prepare($sql1);
+
+            $consulta->bindParam(':adoptado',$adoptado);
+            $consulta->bindParam(':nchip',$nchip);
+            $consulta->bindParam(':dni',$dni);   
+            $consulta->execute();  
+
+            $this->conexion->commit();
+
+            return true;
+
+            }catch(PDOException $e){
+                    echo $e->getMessage();
+                
+
+                echo $e->getCode();
+                $this->conexion->rollBack();
+                
+
+                $code = $e->getCode();
+
+                switch($code){
+                    case 23000 :
+                        $this->errorMessage = "No se puede actualizar el mismo perro dos veces";
+                }
+
+                return false;
+            }
+        
+
+    }
+
+
+    
+    public  function updatePerroDevolver($nchip,$perro,$adoptado,$tramite,$dni){
+
+        $nombrePerro = $perro->getNombrePerro();
+        $fechaNacimiento = $perro->getFechaNacimiento();
+        $fechaEntrada = $perro->getFechaEntrada();
+        $peso = $perro->getPeso();
+        $idPerrera = $perro->getIdPerrera();
+        $idRaza = $perro->getIdRaza();
+
+       
+        $sql1 = "UPDATE adopcion_perros SET adoptado = :adoptado,entramite=:tramite where nChip = :nchip and dniPropietario=:dni";
+
+        $sql2= "update perro set nombrePerro = :nombrePerro,fechaNacimiento = :fechaNacimiento,
+        fechaEntrada = :fechaEntrada,peso=:peso,idperrera=:idPerrera,idRaza=:idRaza 
+        where nChip = :nChip";
+    try {
+
+        $this->conexion->beginTransaction();
+
+    
+        $consulta = $this->conexion->prepare($sql2);
+
+        $consulta->bindParam(':nombrePerro',$nombrePerro);
+        $consulta->bindParam(':fechaNacimiento',$fechaNacimiento);   
+        $consulta->bindParam(':fechaEntrada',$fechaEntrada); 
+        $consulta->bindParam(':peso',$peso);         
+        $consulta->bindParam(':idPerrera',$idPerrera);
+        $consulta->bindParam(':idRaza',$idRaza);
+        $consulta->bindParam(':nChip',$nchip);
+        $consulta->execute();      
+        
+        
+        $consulta = $this->conexion->prepare($sql1);
+
+        $consulta->bindParam(':adoptado',$adoptado);
+        $consulta->bindParam(':tramite',$tramite);
+        $consulta->bindParam(':nchip',$nchip);
+        $consulta->bindParam(':dni',$dni);   
+        $consulta->execute();  
+
+        $this->conexion->commit();
+
+        return true;
+
+        }catch(PDOException $e){
+                echo $e->getMessage();
+            
+
+            echo $e->getCode();
+            $this->conexion->rollBack();
+            
+
+            $code = $e->getCode();
+
+            switch($code){
+                case 23000 :
+                    $this->errorMessage = "No se puede actualizar el mismo perro dos veces";
+            }
+
+            return false;
+        }
+    
+
+}
+
 
         public  function deletePerro($nChip,$dni){
 
