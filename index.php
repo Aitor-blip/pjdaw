@@ -31,7 +31,7 @@
     <div class="container-fluid">
     <div class="row">
         <nav class="navbar navbar-expand navbar-light bg-info bg-gradient d-flex justify-content-end align-items-center">
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav d-flex justify-content-center align-items-center">
                 
                
                 <?php foreach($_SESSION['menu_lista'] as $id=>$item): ?>
@@ -55,15 +55,15 @@
                             else:
                                  echo $_SESSION['menu_lista'][$id];
                             
-                            endif;?>
+                            endif;?></a>
                 </li>
 
                 
 
                 <?php endforeach; ?>
                 <div class="login d-flex justify-content-center align-items-center">
-                    <a class="nav-link mx-2 text-light btn__login fs-6" href="./admin/secciones/login_usuario.php">Login</a>
-                    <a class="nav-link mx-2 text-light btn__registro fs-6" href="./admin/secciones/registro_usuario.php">Sign Up</a>        
+                    <a class="mx-3 text-white" href="./admin/secciones/login_usuario.php"><i class="fa-solid fa-user"></i></a>
+                    <a class="mx-3 text-white" href="./admin/secciones/registro_usuario.php"><i class="fa-solid fa-right-to-bracket"></i></a>        
                 </div>
                
                     

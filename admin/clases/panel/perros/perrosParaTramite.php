@@ -45,7 +45,7 @@
                 }
 
                 if($_SESSION['menu_lista'][$id]=="Cerrar Sesion"){
-                    $file = "cerrarSesion.php?logueado=$logueado";
+                    $file = "../usuarios/cerrarSesion.php?logueado=$logueado";
                 }
                                 
 
@@ -59,8 +59,6 @@
         </nav>
 
     </div>
-</div>
-<body>
 
 <div class="container">
     <div class="row">

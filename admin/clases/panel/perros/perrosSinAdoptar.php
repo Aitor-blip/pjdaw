@@ -47,7 +47,7 @@
                 }
 
                 if($_SESSION['menu_lista'][$id]=="Cerrar Sesion"){
-                    $file = "cerrarSesion.php?logueado=$logueado";
+                    $file = "../usuarios/cerrarSesion.php?logueado=$logueado";
                 }
                 ?>
                 <li class="nav-item mx-2">
