@@ -78,7 +78,7 @@
             FROM perro
             INNER JOIN adopcion_perros
             ON perro.nChip = adopcion_perros.nChip where
-             adopcion_perros.adoptado=1";
+             adopcion_perros.adoptado=0 and adopcion_perros.enTramite=0";
             $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
@@ -90,6 +90,31 @@
             INNER JOIN adopcion_perros
             ON perro.nChip = adopcion_perros.nChip where
              adopcion_perros.entramite=1 and adopcion_perros.adoptado=0";
+            $consulta = $this->conexion->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetchAll(); 
+        }
+
+        public function isAdoptado(){
+            $sql = "SELECT perro.nChip,perro.nombrePerro,perro.fechaNacimiento,perro.fechaEntrada,perro.idperrera,perro.peso,perro.idRaza
+            FROM perro
+            INNER JOIN adopcion_perros
+            ON perro.nChip = adopcion_perros.nChip where
+             (adopcion_perros.entramite=0 and adopcion_perros.adoptado=1) or 
+             (adopcion_perros.entramite=1 and adopcion_perros.adoptado=0) or
+             (adopcion_perros.entramite=1 and adopcion_perros.adoptado=1);";
+            $consulta = $this->conexion->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetchAll(); 
+        }
+
+        public function existenPerrosConDni($dni){
+            $sql = "SELECT dniPropietario 
+            FROM propietario
+            INNER JOIN adopcion_perros
+            ON propietario.dniPropietario = adopcion_perros.dniPropieatario
+            where adopcion_perros.dniPropietario='$dni'
+            and adopcion_perros.nChip";
             $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
             return $consulta->fetchAll(); 
@@ -158,7 +183,7 @@
     
 
 
-        public  function updatePerro($nchip,$perro,$adoptado,$dni){
+        public  function updatePerro($nchip,$perro,$adoptado,$enTramite=1,$dni){
 
                 $nombrePerro = $perro->getNombrePerro();
                 $fechaNacimiento = $perro->getFechaNacimiento();
@@ -168,7 +193,7 @@
                 $idRaza = $perro->getIdRaza();
 
                
-                $sql1 = "UPDATE adopcion_perros SET adoptado = :adoptado where nChip = :nchip and dniPropietario=:dni";
+                $sql1 = "UPDATE adopcion_perros SET adoptado = :adoptado,enTramite=:tramite  where nChip = :nchip and dniPropietario=:dni";
 
                 $sql2= "update perro set nombrePerro = :nombrePerro,fechaNacimiento = :fechaNacimiento,
                 fechaEntrada = :fechaEntrada,peso=:peso,idperrera=:idPerrera,idRaza=:idRaza 
@@ -180,6 +205,7 @@
             $consulta = $this->conexion->prepare($sql1);
 
                 $consulta->bindParam(':adoptado',$adoptado);
+                $consulta->bindParam(':tramite',$enTramite);
                 $consulta->bindParam(':nchip',$nchip);
                 $consulta->bindParam(':dni',$dni);   
                 $consulta->execute(); 
@@ -721,10 +747,10 @@
         }
         
         public  function getPerreraById($id){
-            $sql="SELECT * FROM PERRERA WHERE idperrera = $id";
+            $sql="SELECT nombrePerrera FROM PERRERA WHERE idperrera = $id";
             $consulta = $this->conexion->prepare($sql);
             $consulta->execute();
-            return $consulta->fetchAll(); 
+            return $consulta->fetch(PDO::FETCH_LAZY)['nombrePerrera'];
         }
 
         public  function getPerreraByIdPerro($id){

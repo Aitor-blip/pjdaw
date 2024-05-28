@@ -2,16 +2,12 @@
     session_start();
     include_once '../templates/headnocss.php';
     @include_once '../imagenes/variables.php';
-    @include_once '../clases/gestionPerros.php';
+    @include_once '../clases/perro.php';
     @include_once '../bd/conexion.php';              
     $bd = new BD();
+    $_SESSION['user'] = "logueado";
     $mensaje = "";
-    $insertado = $bd->insertPerroUsuario($_SESSION['nChip'],$_SESSION['dni'],1);
-    if($insertado){
-        $updatedRolUser = $bd->updateRolUser($_SESSION['email'],3);
-    }else{
-        $mensaje = "Fallo al adoptar.Consulte con el administrador";
-    }
+    $arrayDataAdoptadoOTramite = $bd->isAdoptado();
 ?>
     <header>
       <div class="container-fluid">
@@ -72,6 +68,8 @@
                     $nChip = $_GET['nChip'];
                     $_SESSION['nChip'] = $nChip;
                     $ruta = $_GET['ruta'];
+                    $perroData = $bd->getPerroByNchip($nChip);
+                    $_SESSION['perro_data'] = $perroData;
                 }
             ?>
             <img
@@ -100,27 +98,25 @@
                         </h2>
                         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="datosPerro" data-bs-parent="#accordionPerroData">
                             <div class="accordion-body">
-                                <div class="perro_data">
-                                    <?php
-                                        $perroData = $bd->getPerroByNchip($nChip);
-                                        $_SESSION['perro_data'] = $perroData;
-                                        foreach ($perroData as $id=>$perro):
-                                            $nombre = $perroData[$id]['nombrePerro'];
-                                            $idRaza = $perroData[$id]['idRaza']; 
-                                            $raza = $bd->getRazaByPerroIdRaza($idRaza);
-                                            $nombreRaza = $raza['nombreRaza'];
-                                            $peso = $perroData[$id]['peso'];
-                                            $fNacimiento = $perroData[$id]['fechaNacimiento'];
-                                            $idPerrera = $perroData[$id]['idperrera'];
-                                            $perrera = $bd->getPerreraById($idPerrera);
-                                            $nombrePerrera = $perrera[$id]['nombrePerrera'];
-                                        endforeach;
-                                    ?>
+                                     <?php
 
-                                    <p class="fw-bold fs-5">Nombre : <?php echo  $nombre ?></p>
-                                    <p class="fw-bold fs-5">Raza : <?php echo  $nombreRaza ?></p>
-                                    <p class="fw-bold fs-5">Perrera : <?php echo  $nombrePerrera ?></p>
-                                    <p class="fw-bold fs-5">Fecha de Nacimiento : <?php echo  $fNacimiento ?></p>
+                                        foreach ($perroData as $perro):
+                                            $nombrePerro = $perro['nombrePerro'];
+                                            $idRaza = $perro['idRaza']; 
+                                            $nombreRaza = $bd->getRazaByPerroIdRaza($idRaza);
+                                            $fNacimiento = $perro['fechaNacimiento'];
+                                            $idPerrera = $perro['idperrera'];
+                                            $peso = $perro['peso'];
+                                            $nombrePerrera = $bd->getPerreraById($idPerrera);
+                                        endforeach;?>
+                                           <div class="perro_data">
+                                   
+                                       
+                                          <p class="fw-bold fs-5">Nombre : <?php echo $nombrePerro; ?></p>
+                                            <p class="fw-bold fs-5">Raza : <?php echo  $nombreRaza; ?></p>
+                                            <p class="fw-bold fs-5">Perrera : <?php echo  $nombrePerrera; ?></p>
+                                            <p class="fw-bold fs-5">Fecha de Nacimiento : <?php echo  $fNacimiento; ?></p>
+                                    </div>                                    
 
 
                                 </div>
@@ -138,16 +134,15 @@
                                 value="Adoptame">
                                 
                             </input>
-                            <input
-                                type="submit"
-                                class="btn btn-primary w-45 p-5"
-                                value=" Añadir a favoritos">
-                               
-                            </input>
                             
                         </form>
 
-                        <?php if($insertado):?>
+                        <?php if(count($arrayDataAdoptadoOTramite)==0):
+                        echo count($arrayDataAdoptadoOTramite);
+                                $perro = new Perro($nombrePerro,$fNacimiento,$fNacimiento,$peso,$idPerrera,$idRaza);
+                                $updated = $bd->updatePerro($nChip,$perro,1,1,$_SESSION['dni']);
+                                var_dump($updated);
+                            ?>
                             <div
                                 class="alert alert-success alert-dismissible fade show"
                                 role="alert">
@@ -167,7 +162,8 @@
                                 });
                             </script>
                             
-                        <?php else:?>
+                        <?php else:
+                            ?>
 
                             <div
                                 class="alert alert-danger alert-dismissible fade show"
@@ -198,7 +194,9 @@
         </div>
         </div>
     </main>
-    
-</div>
 
-<?php include '../templates/footer.php';?>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+</body>
+</html>
