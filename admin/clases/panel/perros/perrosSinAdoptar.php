@@ -213,7 +213,6 @@
                                         <th scope="col">Nombre Perro</th>
                                         <th scope="col">Fecha Nacimiento</th>
                                         <th scope="col">Raza</th>
-                                        <th scope="col">Adoptado</th>
                                         <td scope="col">Acciones</td>
                                     </tr>
                                 </thead>
@@ -238,14 +237,6 @@
                                             <td><?php echo $nombrePerro;?></td>
                                             <td><?php echo $fNacimiento;?></td>
                                             <td><?php echo $nombreRaza;?></td>
-                                            <td>
-                                                <?php if($adoptado==0){
-                                                    echo "No";
-                                                }else{
-                                                    echo "Si";
-                                                }
-                                                ?>
-                                            </td>
                                             <td>
                                             <form action="" method="post">
                                                 <div class="botones">
