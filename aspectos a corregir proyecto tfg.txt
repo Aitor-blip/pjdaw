@@ -1,0 +1,11 @@
+Aspectos a corregir en el proyecto tfg:
+	
+	- Recuperar contraseña por correo
+	- Hacer presentación de tfg
+	- nombrePerrera en perro
+	- hacer 1:1 entre usuario y propietario en diagrama er
+	- perro y perrera tabla intermedia
+	- quitar select roles registo usuario (solo un administrador)
+	- usuario logueado puede 
+	- pedir informacion de las perreras con fotocopia del dni
+	- ver informacion dni
