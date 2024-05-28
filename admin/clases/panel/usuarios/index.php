@@ -126,7 +126,7 @@
                                     name="dni"
                                     aria-describedby="helpId"
                                     placeholder="Escribe el dni del usuario"
-                                    value="<?php echo $dniUsuario;?>"
+                                    value="<?php echo @$dniUsuario;?>"
                                     require
                                     />
                             </div>

@@ -16,9 +16,12 @@
     $adoptadoPost = $_POST['adoptado'];
     if($adoptadoPost != "on"){
         $adoptado = 0;
+        $tramite=0;
     }else{
-        $adoptado = 1;
+        $adoptado = 0;
+        $tramite=1;
     }
+    print_r($adoptado);
  switch($accion){
      case 'Agregar':
          $perro = new Perro($nombre,$fNac,$fEntr,$peso,$idPerrera,$idRaza);
@@ -26,7 +29,7 @@
      break;
      case 'Modificar':
         $perro = new Perro($nombre,$fNac,$fEntr,$peso,$idPerrera,$idRaza);
-        $perroModificado = $bd->updatePerro($nchip,$perro,$adoptado,$_SESSION['dni']);
+        $perroModificado = $bd->updatePerro($nchip,$perro,$adoptado,$tramite,$_SESSION['dni']);
          break;
      case 'Eliminar':
          $bd->deletePerro($nchip,$_SESSION['dni']);

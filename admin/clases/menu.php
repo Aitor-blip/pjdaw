@@ -30,8 +30,7 @@
             array_push($_SESSION['menu_lista'] , "Home");
             array_push($_SESSION['menu_lista'] , "Perros");
             array_push($_SESSION['menu_lista'] , "Centros de Adopcion");
-            array_push($_SESSION['menu_lista'] , "Perros En Tramite de Adopcion");
-            array_push($_SESSION['menu_lista'] , "Perros Adoptados");
+            array_push($_SESSION['menu_lista'] , "Tus Perros");
             array_push($_SESSION['menu_lista'] , "Cerrar Sesion");
         }
 

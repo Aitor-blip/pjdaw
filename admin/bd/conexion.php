@@ -8,7 +8,7 @@
         public $errorMessage = "";
 
         public function __construct(){
-            $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','aitor2002');
+            $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','');
         }
 
         public function getConexion(){
@@ -18,7 +18,7 @@
             if(!isset($this->conexion)){
                 //Activamos el control de errores de la bd 
                 //$this->conexion = new PDO('mysql:host='.SERVER.';dbname=perros;','root','aitor2002',$opciones);
-                $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','aitor2002');
+                $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','');
                 //echo "<p class='subtitle'>Conexión a base de datos realizada</p>";
                 
             }
@@ -84,6 +84,18 @@
             return $consulta->fetchAll(); 
         }
 
+        public function getPerrosAdoptados($dni){
+            $sql = "SELECT perro.nChip,perro.nombrePerro,perro.fechaNacimiento,perro.fechaEntrada,perro.idperrera,perro.peso,perro.idRaza
+            FROM perro
+            INNER JOIN adopcion_perros
+            ON perro.nChip = adopcion_perros.nChip where
+             adopcion_perros.adoptado=1 and adopcion_perros.enTramite=0
+             and adopcion_perros.dniPropietario = '$dni'";
+            $consulta = $this->conexion->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetchAll(); 
+        }
+
         public function getPerrosEnTramiteAdopcion(){
             $sql = "SELECT perro.nChip,perro.nombrePerro,perro.fechaNacimiento,perro.fechaEntrada,perro.idperrera,perro.peso,perro.idRaza
             FROM perro
@@ -108,6 +120,20 @@
             return $consulta->fetchAll(); 
         }
 
+        public function isAdoptadoDni($dni){
+            $sql = "SELECT perro.nChip,perro.nombrePerro,perro.fechaNacimiento,perro.fechaEntrada,perro.idperrera,perro.peso,perro.idRaza
+            FROM perro
+            INNER JOIN adopcion_perros
+            ON perro.nChip = adopcion_perros.nChip where
+             (adopcion_perros.entramite=0 and adopcion_perros.adoptado=1) or 
+             (adopcion_perros.entramite=1 and adopcion_perros.adoptado=0) or
+             (adopcion_perros.entramite=1 and adopcion_perros.adoptado=1)
+             and adopcion_perros.dniPropietario = '$dni';";
+            $consulta = $this->conexion->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetchAll(); 
+        }
+
         public function existenPerrosConDni($dni){
             $sql = "SELECT dniPropietario 
             FROM propietario
@@ -123,6 +149,7 @@
         public function insertPerro($nchip,$dni,$perro){
 
             $adoptado = 0;
+            $tramite =0;
             $nombre = $perro->getNombrePerro();
             $fNac = $perro->getFechaNacimiento();
             $fEntr = $perro->getFechaEntrada();
@@ -131,7 +158,7 @@
             $idRaza = $perro->getIdRaza();
 
             $sql1 = "INSERT INTO PERRO (nChip,nombrePerro,fechaNacimiento,fechaEntrada,idperrera,peso,idRaza) VALUES(:nchip,:nombre,:fNac,:fEntr,:idperrera,:peso,:idRaza)";
-            $sql2 = "INSERT INTO ADOPCION_PERROS (nChip,dniPropietario,fechaAdopcion,adoptado) VALUES (:nchip,:dni,:fAdopcion,:adoptado)";
+            $sql2 = "INSERT INTO ADOPCION_PERROS (nChip,dniPropietario,fechaAdopcion,adoptado,enTramite) VALUES (:nchip,:dni,:fAdopcion,:adoptado,:tramite)";
 
 
 
@@ -155,6 +182,7 @@
                 $consulta->bindParam(":dni",$dni);
                 $consulta->bindParam(":fAdopcion",$fEntr);
                 $consulta->bindParam(":adoptado",$adoptado);
+                $consulta->bindParam(":tramite",$tramite);
                 $consulta->execute();
 
 
@@ -202,15 +230,15 @@
 
                 $this->conexion->beginTransaction();
 
-            $consulta = $this->conexion->prepare($sql1);
+
+                $consulta = $this->conexion->prepare($sql1);
 
                 $consulta->bindParam(':adoptado',$adoptado);
                 $consulta->bindParam(':tramite',$enTramite);
                 $consulta->bindParam(':nchip',$nchip);
                 $consulta->bindParam(':dni',$dni);   
                 $consulta->execute(); 
-
-
+          
                 $consulta = $this->conexion->prepare($sql2);
 
                 $consulta->bindParam(':nombrePerro',$nombrePerro);
@@ -220,7 +248,12 @@
                 $consulta->bindParam(':idPerrera',$idPerrera);
                 $consulta->bindParam(':idRaza',$idRaza);
                 $consulta->bindParam(':nChip',$nchip);
-                $consulta->execute();      
+                $consulta->execute();   
+                
+                
+               
+
+     
                 
                 
                  
@@ -250,7 +283,7 @@
 
         }
 
-        public  function updatePerroPrincipal($nchip,$perro,$adoptado,$dni){
+        public  function updatePerroPrincipal($nchip,$perro,$adoptado,$tramite,$dni){
 
             $nombrePerro = $perro->getNombrePerro();
             $fechaNacimiento = $perro->getFechaNacimiento();
@@ -260,7 +293,7 @@
             $idRaza = $perro->getIdRaza();
 
            
-            $sql1 = "UPDATE adopcion_perros SET entramite = :tramite where nChip = :nchip and dniPropietario=:dni";
+            $sql1 = "UPDATE adopcion_perros SET adoptado=:adoptado,entramite = :tramite where nChip = :nchip and dniPropietario=:dni";
 
             $sql2= "update perro set nombrePerro = :nombrePerro,fechaNacimiento = :fechaNacimiento,
             fechaEntrada = :fechaEntrada,peso=:peso,idperrera=:idPerrera,idRaza=:idRaza 
@@ -283,7 +316,8 @@
 
             $consulta = $this->conexion->prepare($sql1);
 
-            $consulta->bindParam(':tramite',$adoptado);
+            $consulta->bindParam(':adoptado',$adoptado);
+            $consulta->bindParam(':tramite',$tramite);
             $consulta->bindParam(':nchip',$nchip);
             $consulta->bindParam(':dni',$dni);   
             $consulta->execute(); 
@@ -320,7 +354,7 @@
     }
 
 
-        public  function updatePerroTramiteAdopcion($nchip,$perro,$adoptado,$dni){
+        public  function updatePerroTramiteAdopcion($nchip,$perro,$adoptado,$tramite,$dni){
 
             $nombrePerro = $perro->getNombrePerro();
             $fechaNacimiento = $perro->getFechaNacimiento();
@@ -330,7 +364,7 @@
             $idRaza = $perro->getIdRaza();
 
            
-            $sql1 = "UPDATE adopcion_perros SET adoptado = :adoptado where nChip = :nchip and dniPropietario=:dni";
+            $sql1 = "UPDATE adopcion_perros SET adoptado = :adoptado,enTramite=:tramite where nChip = :nchip and dniPropietario=:dni";
 
             $sql2= "update perro set nombrePerro = :nombrePerro,fechaNacimiento = :fechaNacimiento,
             fechaEntrada = :fechaEntrada,peso=:peso,idperrera=:idPerrera,idRaza=:idRaza 
@@ -355,6 +389,7 @@
             $consulta = $this->conexion->prepare($sql1);
 
             $consulta->bindParam(':adoptado',$adoptado);
+            $consulta->bindParam(':tramite',$tramite);
             $consulta->bindParam(':nchip',$nchip);
             $consulta->bindParam(':dni',$dni);   
             $consulta->execute();  
@@ -452,11 +487,11 @@
 }
 
 
-        public  function deletePerro($nChip,$dni){
+        public  function deletePerro($nChip){
 
             $sql1="DELETE FROM PERRO WHERE nChip = :nChip";
             $sql2 = "DELETE FROM FOTO WHERE nChip = :nChip";
-            $sql3 = "DELETE FROM ADOPCION_PERROS WHERE nChip=:nChip and dniPropietario=:dni"; 
+            $sql3 = "DELETE FROM ADOPCION_PERROS WHERE nChip=:nChip"; 
 
 
             try {
@@ -465,7 +500,6 @@
             
                 $consulta = $this->conexion->prepare($sql3);
                 $consulta->bindParam(':nChip',$nChip);
-                $consulta->bindParam(':dni',$dni);
                 $consulta->execute();
 
 
@@ -1129,24 +1163,29 @@
             return $consulta->fetchAll(); 
         }
 
-        public  function insertAdopcionPerro($adopcionPerro){
+        public  function insertAdopcionPerro($adopcionPerro,$adoptado,$tramite){
 
             try {
                 $nChipAdopcionPerros = $adopcionPerro->getNChipAdopcionPerros();
                 $dniPropietarioAdopcionPerros = $adopcionPerro->getDniPropietarioAdopcionPerros();
                 $fechaAdopcionPerros = $adopcionPerro->getFechaAdopcionPerros();
 
-                $sql="INSERT INTO adopcion_perros (nChip,dniPropietario,fechaAdopcion)
-                 VALUES (:nchip,:dni,:fecha)";
+                $sql="INSERT INTO adopcion_perros (nChip,dniPropietario,fechaAdopcion,adoptado,enTramite)
+                 VALUES (:nchip,:dni,:fecha,:adoptado,:tramite)";
 
                 $consulta = $this->conexion->prepare($sql);
                 $consulta->bindParam(':nchip',$nChipAdopcionPerros);
                 $consulta->bindParam(':dni',$dniPropietarioAdopcionPerros);
                 $consulta->bindParam(':fecha',$fechaAdopcionPerros);
+                $consulta->bindParam(':adoptado',$adoptado);
+                $consulta->bindParam(':tramite',$tramite);
                 $consulta->execute();
                 return true;
 
             }catch(PDOException $e){
+
+
+                echo $e->getMessage();
 
                 $code = $e->getCode();
 
@@ -1323,16 +1362,27 @@
 
 
 
-    public  function deleteUsuario($id){
-
+    public  function deleteUsuario($id,$dni){
+            $sql="DELETE FROM usuario WHERE idUsuario = :id"; 
+            $sql2 = "DELETE FROM PROPIETARIO WHERE dniPropietario = :dni";
         try {
-        $sql="DELETE FROM usuario WHERE idUsuario = :id"; 
-        $consulta = $this->conexion->prepare($sql);
-        $consulta->bindParam(':id',$id);
-        $consulta->execute();
+
+            $this->conexion->beginTransaction();
+
+            $consulta = $this->conexion->prepare($sql);
+            $consulta->bindParam(':id',$id);
+            $consulta->execute();
+
+            $consulta = $this->conexion->prepare($sql2);
+            $consulta->bindParam(':dni',$dni);
+            $consulta->execute();
+
+            $this->conexion->commit();
         return true;
 
         }catch(PDOException $e){
+
+            $this->conexion->rollBack();
            // echo $e->getMessage();
 
             $code = $e->getCode();

@@ -43,7 +43,7 @@
             }
          break;
      case 'Eliminar':
-         $bd->deleteUsuario($idUsuario);
+         $bd->deleteUsuario($idUsuario,$dni);
          break; 
      }
     }

@@ -97,7 +97,7 @@
                 </form>
 
             </div>
-            <p class="header__form__paragraph">Si eres un protector o asociación <a href="#"><span>Regístrate</span></a> y publica tus adoptables.</p>
+            <p class="header__form__paragraph">Si eres un protector o asociación <a href="./admin/secciones/registro_usuario.php"><span>Regístrate</span></a> y publica tus adoptables.</p>
         </div>
     </header>
 

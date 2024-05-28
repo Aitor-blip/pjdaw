@@ -6,7 +6,7 @@
     @include_once '../perros/gestorPerrosAdoptados.php';
     $bd = new BD();
     $logueado = 1;
-    $listaPerros = $bd->getPerrosParaAdoptar();
+    $listaPerros = $bd->getPerrosAdoptados($_SESSION['dni']);
     ?>
 <body>
 

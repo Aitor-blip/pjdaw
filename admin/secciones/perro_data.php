@@ -8,6 +8,8 @@
     $_SESSION['user'] = "logueado";
     $mensaje = "";
     $arrayDataAdoptadoOTramite = $bd->isAdoptado();
+    $arrayDatosPerroPropieatrio = $bd->isAdoptadoDni($_SESSION['dni']);
+    
 ?>
     <header>
       <div class="container-fluid">
@@ -137,11 +139,15 @@
                             
                         </form>
 
-                        <?php if(count($arrayDataAdoptadoOTramite)==0):
-                        echo count($arrayDataAdoptadoOTramite);
-                                $perro = new Perro($nombrePerro,$fNacimiento,$fNacimiento,$peso,$idPerrera,$idRaza);
-                                $updated = $bd->updatePerro($nChip,$perro,1,1,$_SESSION['dni']);
-                                var_dump($updated);
+                        <?php 
+                            if(count($arrayDataAdoptadoOTramite)==0  ){
+                                if(count($arrayDatosPerroPropieatrio)==0):
+                                $perro = new Adopcion($nChip,$_SESSION['dni'],$fNacimiento);
+                                $insertado = $bd->insertAdopcionPerro($perro,0,1);
+                                if($insertado):
+                                $_SESSION['user'] = "solicitador";
+                                $_SESSION['logueado'] = true;
+                                $bd->updateRolUser($_SESSION['email'],3);
                             ?>
                             <div
                                 class="alert alert-success alert-dismissible fade show"
@@ -161,10 +167,9 @@
                                     new bootstrap.Alert(alert);
                                 });
                             </script>
-                            
-                        <?php else:
-                            ?>
 
+                            <?php else: ?>
+                    
                             <div
                                 class="alert alert-danger alert-dismissible fade show"
                                 role="alert">
@@ -184,7 +189,8 @@
                                 });
                             </script>
 
-                        <?php endif;?>
+                        <?php 
+                        endif;endif;}?>
                     </div>
                 </div>
 

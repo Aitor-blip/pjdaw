@@ -16,6 +16,8 @@
     $adoptadoPost = $_POST['adoptado'];
     $enTramitePost = $_POST['tramite'];
     if($adoptadoPost != "on"){
+        $adoptado=1;
+        $tramite=0;
     }else{
         $adoptado = 0;
         $tramite = 0;

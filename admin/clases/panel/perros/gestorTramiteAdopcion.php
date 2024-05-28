@@ -16,8 +16,10 @@
     $adoptadoPost = $_POST['adoptado'];
     $enTramitePost = $_POST['tramite'];
     if($adoptadoPost != "on"){
+        $tramite = 1;
         $adoptado = 0;
     }else{
+        $tramite=0;
         $adoptado = 1;
     }
 
@@ -29,7 +31,7 @@
      break;
      case 'Modificar':
         $perro = new Perro($nombre,$fNac,$fEntr,$peso,$idPerrera,$idRaza);
-        $perroModificado = $bd->updatePerroTramiteAdopcion($nchip,$perro,$adoptado,$_SESSION['dni']);
+        $perroModificado = $bd->updatePerroTramiteAdopcion($nchip,$perro,$adoptado,$tramite,$_SESSION['dni']);
         break;
      case 'Eliminar':
          $bd->deletePerro($nchip,$_SESSION['dni']);

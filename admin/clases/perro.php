@@ -1,6 +1,5 @@
 <?php
     class Perro{
-        public $nChip;
         public $nombrePerro;
         public $fechaNacimiento;
         public $fechaEntrada;
