@@ -779,6 +779,13 @@
             $consulta->execute();
             return $consulta->fetchAll(); 
         }
+
+        public  function getPerrerasById($id){
+            $sql="SELECT * FROM PERRERA where idperrera = $id";
+            $consulta = $this->conexion->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetchAll(); 
+        }
         
         public  function getPerreraById($id){
             $sql="SELECT nombrePerrera FROM PERRERA WHERE idperrera = $id";
@@ -1262,7 +1269,6 @@
         
            $sql1="INSERT INTO usuario (email,password,dni,idRol) VALUES (:email,:pass,:dni,:idRol)";
            $sql2 = "INSERT INTO propietario (dniPropietario,email) VALUES (:dni,:email)";
-
            try {
 
                $this->conexion->beginTransaction();

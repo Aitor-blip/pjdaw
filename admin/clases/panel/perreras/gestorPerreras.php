@@ -9,7 +9,7 @@
     $direccion = $_POST['pais'];
     $valoracion = $_POST['valoracion'];
     $idPerrera = $_POST['idPerrera'];
-    @$listaPerrerasPorId = $bd->getPerreraById($idPerrera);
+    @$listaPerrerasPorId = $bd->getPerrerasById($idPerrera);
 
     switch($accion){
         case 'Agregar':

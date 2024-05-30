@@ -5,7 +5,21 @@
     include_once './admin/templates/headnocss.php';
     include_once './admin/clases/menu.php';
     include_once './admin/bd/conexion.php';
+    if($_POST){
+        @$action = $_POST['action'];
+        @$dni = $_POST['dni'];
+    }
+        @$nombreFoto = $_FILES["dni"]["name"];
+        @$imagenTemporal = $_FILES["dni"]["tmp_name"];
+        @$ruta = "./imagenes/img_bd/".$nombreFoto;
 
+        if(@$action=="Save Changes"){
+            if(move_uploaded_file($imagenTemporal, $ruta)){
+                $_SESSION['dniFoto'] = $nombreFoto;
+            }else{
+                echo "Fallo al cargar el dni";
+            }
+        }
 
     $bd = new BD();
 
@@ -73,7 +87,85 @@
         
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Dni</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+         <form action="" method="post" enctype="multipart/form-data">
+            <h5 class="text-center">Parte Delantera</h5>
+            <input type="file" name="dni">
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-secondary" name="action" data-bs-dismiss="modal" value="Close"/>
+                <input type="submit" class="btn btn-primary" name="action" value="Save Changes"/>
+            </div>
+         </form>
+      
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <div class="header__container">
+
+            <!-- Button trigger modal -->
+        <button type="button" id="modalBtn" class="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Pedir Informacion
+        </button>
+
 
             <div class="header__textos">
                 <h2 class="header__title">Find your new best friend</h2>
@@ -114,8 +206,7 @@
                 @$nChip = $listaPerros[$id]['nChip']; 
                 $nombre = $listaPerros[$id]['nombrePerro'];
                 $idRaza = $listaPerros[$id]['idRaza'];
-                $raza = $bd->getRazaByPerroIdRaza($idRaza);
-                $nombreRaza = $raza['nombreRaza'];
+                $nombreRaza = $bd->getRazaByPerroIdRaza($idRaza);
                 $fotos = $bd->getFotosByNchip($nChip); 
                 $rutaBase = trim(isset($fotos['ruta'])?$fotos['ruta']:'');
                 $ruta = $rutaBase;?>

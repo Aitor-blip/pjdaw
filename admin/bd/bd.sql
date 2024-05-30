@@ -75,6 +75,8 @@ CREATE TABLE USUARIO(
     email varchar(70) not null unique,
     password varchar(70) not null,
     dni varchar(9) not null unique,
+    dniImagenDelantera varchar(50) default null,
+    dniImagenTrasera varchar(50) default null,
     idRol int not null
 );
 

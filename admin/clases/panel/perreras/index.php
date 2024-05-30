@@ -7,7 +7,7 @@
     @include_once '../../../clases/perrera.php';
     $bd = new BD();
     $logueado = 1;
-    $listaPerreras = $bd->getPerreras();
+    @$listaPerreras = $bd->getPerreras();
    
     ?>
 <body>
@@ -83,6 +83,7 @@
                             </div>
 
                         <?php 
+                        
                             if(is_null(@$listaPerrerasPorId)){
 
                             }else{
