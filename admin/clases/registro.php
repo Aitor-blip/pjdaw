@@ -11,7 +11,7 @@
         $email = $_POST['email'];
         $password = $_POST['password'];
         $_SESSION['password'] = $password;
-        $rol = $_POST['rol'];
+        $rol = 2;
         $_SESSION['rol'] = $rol;
         $dni = $_POST['dni'];
 

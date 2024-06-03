@@ -1291,11 +1291,8 @@
 
            }catch(PDOException $e){
 
-
                $code = $e->getCode();
-
                
-
                switch($code){
                    case 23000 :
                         $this->errorMessage = "No se puede repetir el dni del usuario";

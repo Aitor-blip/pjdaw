@@ -1,8 +1,11 @@
 <?php
     session_start();
     $_SESSION['user'] = "invitado";
+    $ruta = "../../js/";
     include_once '../templates/headnocss.php';
     include_once '../clases/registro.php';
+    
+    
 ?>
 
 <div class="container mt-5">
@@ -10,24 +13,30 @@
         <div class="col-4 col-md-4 col-sm-2"></div>
         <div class="col-4 col-md-4 col-sm-2">
             <div class="card">
-                <?php if(@$insertado){
-                    $_SESSION['user'] = "usuario";
-                    header("Location:../secciones/login_usuario.php");
-                }else{?>
+                
+                <?php
+                
+                if($_POST){
+                    if(@$insertado){
+                        $_SESSION['user'] = "usuario";
+                        header("Location:../secciones/login_usuario.php");
+                    }else{?>
+              
 
-                <div
-                    class="alert alert-danger"
-                    role="alert"
-                >
-                    <strong><?php echo $bd->errorMessage;?></strong>
-                </div>
+                    <div
+                        class="alert alert-danger"
+                        role="alert"
+                    >
+                        <strong><?php echo $bd->errorMessage;?></strong>
+                    </div>
+                <?php } ?>
                 
             <?php } ?>
                 <div class="card-header">
                     <h3 class="text-center fw-bold">Sign Up</h3>
                 </div>
                 <div class="card-body">
-                    <form action="" method="post">
+                    <form action="" method="post" id="registroForm">
                        
                     <div class="mb-3">
                             <label for="dni" class="form-label"><span class="fw-bold">Dni</span></label>
@@ -37,6 +46,7 @@
                                 name="dni"
                                 minlength="1"
                                 maxlength="9"
+                                id="dni"
                                
                             />
                         </div>
@@ -44,9 +54,10 @@
                     <div class="mb-3">
                             <label for="email" class="form-label"><span class="fw-bold">Email</span></label>
                             <input
-                                type="email"
+                                type="text"
                                 class="form-control"
                                 name="email"
+                                id="email"
                             />
                         </div>
                         <div class="mb-3">
@@ -55,20 +66,9 @@
                                 type="password"
                                 class="form-control"
                                 name="password"
+                                id="password"
                             />
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="rol" class="form-label">Rol Usuario</label>
-                            <select
-                                class="form-select form-select-lg"
-                                name="rol">
-                                <option selected value = "2">Selecciona un rol</option>
-                                <option value="1">Administrador</option>
-                                <option value="2">Usuario</option>
-                            </select>
-                        </div>
-                        
+                        </div>                        
 
                         <div class="mb-3 d-flex justify-content-center">
                             <input
