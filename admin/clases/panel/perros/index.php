@@ -9,6 +9,10 @@
     $listaPerreras = $bd->consultar("select * from perrera");
     $listaRazas = $bd->consultar("select * from raza");
     $listaPerros = $bd->getPerrosSinAdoptarAll();
+
+    
+
+    
     ?>
 <body>
 
@@ -68,7 +72,7 @@
             <div class="col-4 mx-5 mt-5">
                 <div class="row">
                     <div class="col-12">
-                        <form action="" method="post">
+                        <form action="" method="post" enctype="multipart/form-data">
 
 
                                 <div class="mb-3">
@@ -135,9 +139,8 @@
                             />
                     </div>
 
-                    <div class="mb-3">
-                        
-                    </div>
+                    <h5 class="text-center">Foto Perro</h5>
+                    <input type="file" name="foto">
 
                    <div class="mb-3">
                     <label for="perrera" class="form-label">Perrera</label>
@@ -209,6 +212,12 @@
             <div class="col-6 mx-3">
                 <div class="row">
                     <div class="col-12">
+                            <div class="card">
+                                
+                                <!-- Modal Body -->
+                                <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+                                
+                            </div>
                         <div class="table-responsive">
                             <table class="table table">
                                 <thead>
@@ -250,6 +259,75 @@
                                                         value="Seleccionar"
                                                     />
 
+                                                    <div class="mb-3 mt-3">
+                                                    <input
+                                                        type="button"
+                                                        class="btn btn-success"
+                                                        value="Ver Foto"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#fotoPerro"
+                                                    />
+                                                    </div>
+
+                                                    <div
+                                    class="modal fade"
+                                    id="fotoPerro"
+                                    tabindex="-1"
+                                    data-bs-backdrop="static"
+                                    data-bs-keyboard="false"
+                                    
+                                    role="dialog"
+                                    aria-labelledby="modalTitleId"
+                                    aria-hidden="true"
+                                >
+                                    <div
+                                        class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg"
+                                        role="document"
+                                    >
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="modalTitleId">
+                                                    Foto del Perro
+                                                </h5>
+                                                <button
+                                                    type="button"
+                                                    class="btn-close"
+                                                    data-bs-dismiss="modal"
+                                                    aria-label="Close"
+                                                ></button>
+                                            </div>
+                                            <div class="modal-body w-100">
+                                              
+                                                    <img
+                                                        src="<?php echo @$ruta;?>"
+                                                        class="img-fluid"
+                                                        alt="Imagen Perro"
+                                                    />
+                                               
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-secondary"
+                                                    data-bs-dismiss="modal"
+                                                >
+                                                    Close
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Optional: Place to the bottom of scripts -->
+                                <script>
+                                    const myModal = new bootstrap.Modal(
+                                        document.getElementById("modalId"),
+                                        options,
+                                    );
+                                </script>
+                                
+
                                                     <input type="hidden" name="nChip" value="<?php echo $nChip;?>">
                                                 </div>
 
@@ -269,4 +347,4 @@
             </div>
         </div>
 </div>
-<?php @include_once '../../templates/footer.php';?>
+<?php @include_once '../../../templates/footer.php';?>

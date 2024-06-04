@@ -15,6 +15,15 @@
     $idRaza = $_POST['raza'];
     $adoptadoPost = $_POST['adoptado'];
     $enTramitePost = $_POST['tramite'];
+    if($nombreFoto==null || $nombreFoto==""){
+        $nombreFoto = $nombreFotoBd;
+    }else{
+        @$ruta = "../../../../imagenes/img_bd/".$nombreFotoBd;
+        $_SESSION['ruta'] = $ruta;
+        if($ruta == null || $ruta == ""){
+            $ruta = $_SESSION['ruta'];
+        }
+    }
     if($adoptadoPost != "on"){
         $adoptado=1;
         $tramite=0;
@@ -27,11 +36,11 @@
  switch($accion){
      case 'Agregar':
          $perro = new Perro($nombre,$fNac,$fEntr,$peso,$idPerrera,$idRaza);
-         $perroInsertado = $bd->insertPerro($nchip,$_SESSION['dni'],$perro);
+         $perroInsertado = $bd->insertPerro($nchip,$_SESSION['dni'],$perro,$nombreFoto);
      break;
      case 'Modificar':
         $perro = new Perro($nombre,$fNac,$fEntr,$peso,$idPerrera,$idRaza);
-        $perroModificado = $bd->updatePerroDevolver($nchip,$perro,$adoptado,$tramite,$_SESSION['dni']);
+        $perroModificado = $bd->updatePerroDevolver($nchip,$perro,$adoptado,$tramite,$_SESSION['dni'],$nombreFoto);
         if($perroModificado){
             header("Location:../index.php");
         }

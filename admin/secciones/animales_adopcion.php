@@ -151,7 +151,7 @@
                         $nombreRaza = $bd->getRazaByPerroIdRaza($idRaza);
                         $fotos = $bd->getFotosByNchip($nChip); 
                         $rutaBase = trim(isset($fotos['ruta'])?$fotos['ruta']:'');
-                        $ruta = RUTA_ANIMALES_ADOPCION.$rutaBase;?>
+                        $ruta = "../../imagenes/".$rutaBase;?>
             <div class="card" style="width: 18rem;">
             <?php if(!isset($ruta) || !isset($rutaBase)){
 

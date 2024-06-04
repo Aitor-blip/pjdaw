@@ -5,6 +5,7 @@
     include_once './admin/templates/headnocss.php';
     include_once './admin/clases/menu.php';
     include_once './admin/bd/conexion.php';
+    $bd = new BD();
     if($_POST){
         @$action = $_POST['action'];
         @$dni = $_POST['dni'];
@@ -16,6 +17,7 @@
         if(@$action=="Save Changes"){
             if(move_uploaded_file($imagenTemporal, $ruta)){
                 $_SESSION['dniFoto'] = $nombreFoto;
+                
             }else{
                 echo "Fallo al cargar el dni";
             }
@@ -38,7 +40,9 @@
     <title>Landing page project dogs daw</title>
     <link rel="stylesheet" href="./css/estilos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="./js/script.js" defer></script>
 </head>
 <body>
     <header class="header header-min">
@@ -138,27 +142,6 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <div class="header__container">
 
             <!-- Button trigger modal -->
@@ -193,38 +176,19 @@
         </div>
     </header>
 
-    <main>
-
-        
-
-    <section class="hype">
-        <h2>Hype de la semana</h2>
-        <div class="animales__landing container">
+    <section class="adoptables mb-5" id="adoptables">
+        <h2>Perros de la Semana</h2>
+        <div class="animales container">
             
-          <div class="animal">
-            <?php foreach($listaPerros as $id=>$perro):
-                @$nChip = $listaPerros[$id]['nChip']; 
-                $nombre = $listaPerros[$id]['nombrePerro'];
-                $idRaza = $listaPerros[$id]['idRaza'];
-                $nombreRaza = $bd->getRazaByPerroIdRaza($idRaza);
-                $fotos = $bd->getFotosByNchip($nChip); 
-                $rutaBase = trim(isset($fotos['ruta'])?$fotos['ruta']:'');
-                $ruta = $rutaBase;?>
-            <img class="animal__img" src="./admin/imagenes/img_bd/dog.jpg" alt="Perro">
-            <div class="animal__info">
-                <p class="animal__name">Nombre perro : <?php echo $nombre;?></p>
-                <div class="animal__data"></div>
-            </div>
-          <?php endforeach;?>
-
+            <div class="animales_adoptables_special" id="animales__animal">
+                
                 
             </div>
-          
             
         </div>
     </section>
 
-
+    
     <div class="banner banner--test">
         <h3>Encuentra tu mascota ideal</h3>
         <p>¿Has pensado qué personalidad de mascota estás buscando?</p>
@@ -233,52 +197,48 @@
         <a href="" class="btn__banner btn__banner--test"></a>
     </div>
 
-    </main>
-    <section class="adoptables">
-        <h2>Adoptables de la semana</h2>
-        <div class="animales container">
-            
-            <div class="animal">
-                <img src="./imagenes/dog5.jpg" class="animal__img" alt="Imagen animal">
-                <div class="header__textos">
-                    <p class="animal__info">Animal Info</p>
+    <h2>Nuestros Patrocinadores</h2>
+            <div class="patrocinadores-lista">
+                <div class="patrocinador">
+                    <img src="patrocinador1.jpg" alt="Patrocinador 1">
+                </div>
+                <div class="patrocinador">
+                    <img src="patrocinador2.jpg" alt="Patrocinador 2">
+                </div>
+                <div class="patrocinador">
+                    <img src="patrocinador3.jpg" alt="Patrocinador 3">
+                </div>
+                <!-- Agrega más patrocinadores según sea necesario -->
+            </div>
+
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <div class="row">
+                <div class="col">
+                    <ul class="list-unstyled">
+                        <li><a href="index.php" class="text-white fs-5">Home</a></li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <ul class="list-unstyled">
+                        <li><a href="./admin/secciones/animales_adopcion.php" class="text-white fs-5">Perros</a></li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <ul class="list-unstyled">
+                        <li><a href="politicaPrivacidad.html" class="text-white fs-5">Politica de Privacidad</a></li>
+                        <li><a href="./admin/secciones/perreras.php" class="text-white fs-5">Centros de Adopción</a></li>
+                    </ul>
                 </div>
             </div>
-            <div class="animal">
-                <img src="./imagenes/dog5.jpg" class="animal__img" alt="Imagen animal">
-                <div class="header__textos">
-                    <p class="animal__info">Animal Info</p>
-                </div>
-            </div>
-            <div class="animal">
-                <img src="./imagenes/dog5.jpg" class="animal__img" alt="Imagen animal">
-                <div class="header__textos">
-                    <p class="animal__info">Animal Info</p>
-                </div>
-            </div>
-            <div class="animal">
-                <img src="./imagenes/dog5.jpg" class="animal__img" alt="Imagen animal">
-                <div class="header__textos">
-                    <p class="animal__info">Animal Info</p>
+            <div class="row">
+                <div class="col">
+                    <p class="mb-0">&copy; 2024 PETSFINDER. Todos los derechos reservados.</p>
                 </div>
             </div>
         </div>
-    </section>
-
-    <div class="banner banner--patrocinadores">
-            <h3>Nuestros patrocinadores</h3>
-        </div>
-
-
-    <footer class="footer">
-        <nav>
-            <ul class="lista__nav">
-                <li class="lista__element"><a href="#">Blog</a></li>
-                <li class="lista__element"><a href="#">Política de privacidad</a></li>
-                <li class="lista__element"><a href="#">Derechos Reservados 2024, Fundación BuscaFuska A.C.</a></li>
-            </ul>
-        </nav>
     </footer>
+
 
     <?php include './admin/templates/footer.php'; ?>
     

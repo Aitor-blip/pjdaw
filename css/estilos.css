@@ -9,9 +9,9 @@
 }
 
 body{
+    scroll-behavior: smooth; 
     background-color: #ffffff;
     font-family: Arial, Helvetica, sans-serif;
-    
 }
 
 input[type="submit"],button{
@@ -255,7 +255,10 @@ a{
 }
 
 .animal__img{
+    min-width: 250px;
     width: 80%;
+    height: auto;
+    object-fit: cover;
 }
 
 .header__textos{
@@ -270,24 +273,13 @@ a{
     color: orange;
 }
 
-@media(min-width:768px){
-    .animal{
-        margin: 0 1rem;
-    }
-
-
-    .hype{
-        padding-top: 80rem;
-    }
-}
-
 /*Banner*/
 
 
 .banner{
     width: 100%;
     height: 20rem;
-    margin: 5rem 0;
+    margin: 2rem 0;
     padding: 2rem 0;
 }
 
@@ -312,9 +304,39 @@ a{
     padding-top: 50rem;
 }
 
+.animales{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.animales_adoptables_special{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 1rem;
+}
+
 @media(min-width:768px){
     .adoptables{
-        padding-top: 20rem;
+        margin-top: 22rem;
+        width: 100%;
+    }
+
+    .animales_container{
+        width: 100%;
+    }
+
+    .animales_adoptables_special{
+        width: 90vw;
+        display: grid;
+        grid-template-columns: repeat(4,1fr);
+        gap: 1rem;
     }
 }
 
@@ -563,4 +585,33 @@ hr{
 .btn__login,.btn__registro{
     width: 40px;
     max-height: 40px;
+}
+
+.patrocinadores {
+    background-color: #f9f9f9;
+    padding: 50px 0;
+    text-align: center;
+}
+.patrocinadores h2 {
+    color: #333;
+    margin-bottom: 30px;
+}
+.patrocinadores-lista {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.patrocinador {
+    width: 150px;
+    margin: 20px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+.patrocinador:hover {
+    opacity: 1;
+}
+.patrocinador img {
+    width: 100%;
+    height: auto;
 }

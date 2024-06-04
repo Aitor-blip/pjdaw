@@ -135,6 +135,9 @@
                             />
                     </div>
 
+                    <h5 class="text-center">Foto Perro</h5>
+                    <input type="file" name="foto">
+
                    <div class="mb-3">
                     <label for="perrera" class="form-label">Perrera</label>
                     <select

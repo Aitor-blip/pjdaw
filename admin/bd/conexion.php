@@ -146,7 +146,7 @@
             return $consulta->fetchAll(); 
         }
 
-        public function insertPerro($nchip,$dni,$perro){
+        public function insertPerro($nchip,$dni,$perro,$foto){
 
             $adoptado = 0;
             $tramite =0;
@@ -158,7 +158,8 @@
             $idRaza = $perro->getIdRaza();
 
             $sql1 = "INSERT INTO PERRO (nChip,nombrePerro,fechaNacimiento,fechaEntrada,idperrera,peso,idRaza) VALUES(:nchip,:nombre,:fNac,:fEntr,:idperrera,:peso,:idRaza)";
-            $sql2 = "INSERT INTO ADOPCION_PERROS (nChip,dniPropietario,fechaAdopcion,adoptado,enTramite) VALUES (:nchip,:dni,:fAdopcion,:adoptado,:tramite)";
+            $sql2 = "INSERT INTO FOTO (ruta) VALUES (:foto)";
+            $sql3 = "INSERT INTO ADOPCION_PERROS (nChip,dniPropietario,fechaAdopcion,adoptado,enTramite) VALUES (:nchip,:dni,:fAdopcion,:adoptado,:tramite)";
 
 
 
@@ -166,7 +167,7 @@
 
                 $this->conexion->beginTransaction();
 
-                 $consulta =$this->conexion->prepare($sql1);
+                $consulta =$this->conexion->prepare($sql1);
                 $consulta->bindParam(":nchip",$nchip);
                 $consulta->bindParam(":nombre",$nombre);
                 $consulta->bindParam(":fNac",$fNac);
@@ -176,18 +177,17 @@
                 $consulta->bindParam(":idRaza",$idRaza);
                 $consulta->execute();
 
+                $consulta = $this->conexion->prepare($sql2);
+                $consulta->bindParam(":foto",$foto);
+                $consulta->execute();
 
-                $consulta =$this->conexion->prepare($sql2);
+                $consulta =$this->conexion->prepare($sql3);
                 $consulta->bindParam(":nchip",$nchip);
                 $consulta->bindParam(":dni",$dni);
                 $consulta->bindParam(":fAdopcion",$fEntr);
                 $consulta->bindParam(":adoptado",$adoptado);
                 $consulta->bindParam(":tramite",$tramite);
                 $consulta->execute();
-
-
-
-
 
 
                 $this->conexion->commit();
@@ -211,7 +211,7 @@
     
 
 
-        public  function updatePerro($nchip,$perro,$adoptado,$enTramite=1,$dni){
+        public  function updatePerro($nchip,$perro,$adoptado,$enTramite=1,$dni,$foto){
 
                 $nombrePerro = $perro->getNombrePerro();
                 $fechaNacimiento = $perro->getFechaNacimiento();
@@ -226,6 +226,8 @@
                 $sql2= "update perro set nombrePerro = :nombrePerro,fechaNacimiento = :fechaNacimiento,
                 fechaEntrada = :fechaEntrada,peso=:peso,idperrera=:idPerrera,idRaza=:idRaza 
                 where nChip = :nChip";
+
+                $sql3 = "update foto set ruta = :ruta where nChip=:nChip";
             try {
 
                 $this->conexion->beginTransaction();
@@ -249,15 +251,14 @@
                 $consulta->bindParam(':idRaza',$idRaza);
                 $consulta->bindParam(':nChip',$nchip);
                 $consulta->execute();   
-                
-                
-               
 
-     
                 
-                
-                 
+                $consulta = $this->conexion->prepare($sql3);
 
+                $consulta->bindParam(':ruta',$foto);
+                $consulta->bindParam(':nChip',$nchip);  
+                $consulta->execute(); 
+                
                 $this->conexion->commit();
 
                 return true;
@@ -369,6 +370,8 @@
             $sql2= "update perro set nombrePerro = :nombrePerro,fechaNacimiento = :fechaNacimiento,
             fechaEntrada = :fechaEntrada,peso=:peso,idperrera=:idPerrera,idRaza=:idRaza 
             where nChip = :nChip";
+
+            $sql3 = "update foto set ruta = :ruta where nChip=:nChip";
         try {
 
             $this->conexion->beginTransaction();
@@ -393,6 +396,12 @@
             $consulta->bindParam(':nchip',$nchip);
             $consulta->bindParam(':dni',$dni);   
             $consulta->execute();  
+
+            $consulta = $this->conexion->prepare($sql3);
+
+                $consulta->bindParam(':ruta',$foto);
+                $consulta->bindParam(':nChip',$nchip);  
+                $consulta->execute(); 
 
             $this->conexion->commit();
 
@@ -1131,6 +1140,14 @@
 
         }
 
+        public  function getFotoByNChip($nchip){
+            $sql="SELECT ruta FROM FOTO WHERE nChip = '$nchip'";
+            $consulta = $this->conexion->prepare($sql);
+            $consulta->execute();
+            return $consulta->fetch(PDO::FETCH_LAZY)['ruta'];
+        }
+
+
 
         /*Adopcion Perros*/
 
@@ -1303,6 +1320,8 @@
 
         }
     }
+
+
 
     public function updateUsuario($usuario,$id){
 

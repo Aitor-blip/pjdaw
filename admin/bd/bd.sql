@@ -75,8 +75,6 @@ CREATE TABLE USUARIO(
     email varchar(70) not null unique,
     password varchar(70) not null,
     dni varchar(9) not null unique,
-    dniImagenDelantera varchar(50) default null,
-    dniImagenTrasera varchar(50) default null,
     idRol int not null
 );
 
@@ -129,4 +127,4 @@ INSERT INTO USUARIO_ROL (idRol,nombre) VALUES(1,'Administrador');
 INSERT INTO USUARIO_ROL (idRol,nombre) VALUES(2,'Usuario Logueado');
 INSERT INTO USUARIO_ROL (idRol,nombre) VALUES(3,'Usuario Solicitador');
 
-INSERT INTO USUARIO(email,password,idRol) VALUES("a@gmail.com","aitor2002",2);
+INSERT INTO USUARIO(email,password,idRol) VALUES("Alfredo@gmail.com","aitor2002",1);

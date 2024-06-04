@@ -15,14 +15,21 @@
                 </div>
                 <div class="card-body">
                     <form action="" method="post">
-                        <?php if(@$logueado):
-                            else:?>
-                             <div
-                                class="alert alert-danger"
-                                role="alert">
-                                <strong><?php echo  @$_SESSION['loginError'];?></strong>
-                            </div>
-                        <?php endif;?>
+                        <?php  if($_POST){
+                    if(@$logueado){
+                        $_SESSION['user'] = "usuario";
+                        header("Location:../secciones/login_usuario.php");
+                        
+                    }else{?>
+                    <div
+                        class="alert alert-danger"
+                        role="alert">
+                        <strong><?php
+                        if($bd->errorMessage==null){
+                            echo "Fallo al loguearse";
+                        } ?></strong>
+                    </div>
+                <?php }} ?>
 
                         <div class="mb-3">
                             <label for="email" class="form-label"><span class="fw-bold">Email</span></label>
