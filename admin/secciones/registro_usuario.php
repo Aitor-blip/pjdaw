@@ -1,10 +1,9 @@
 <?php
     session_start();
     $_SESSION['user'] = "invitado";
-    $ruta = "../../js/";
     include_once '../templates/headnocss.php';
     include_once '../clases/registro.php';
-    
+   
     
 ?>
 
@@ -20,6 +19,7 @@
                     if(@$insertado){
                         $_SESSION['user'] = "usuario";
                         header("Location:../secciones/login_usuario.php");
+                        
                     }else{?>
               
 
