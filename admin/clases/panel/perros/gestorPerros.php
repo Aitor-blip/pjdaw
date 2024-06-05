@@ -30,7 +30,6 @@
         $adoptado = 0;
         $tramite=1;
     }
-    print_r($adoptado);
  switch($accion){
      case 'Agregar':
          $perro = new Perro($nombre,$fNac,$fEntr,$peso,$idPerrera,$idRaza);

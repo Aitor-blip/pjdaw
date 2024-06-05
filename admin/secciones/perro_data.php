@@ -1,6 +1,6 @@
 <?php 
     session_start();
-    include_once '../templates/head.php';
+    include_once '../templates/headnocss.php';
     @include_once '../imagenes/variables.php';
     @include_once '../clases/perro.php';
     @include_once '../bd/conexion.php';              
@@ -17,7 +17,7 @@
         <nav class="navbar navbar-expand navbar-light bg-info bg-gradient d-flex justify-content-center align-items-center">
 
             <a href="#" class="logo d-flex justify-content-start">
-                <img src="../../imagenes/logo.png" class="logo__img" alt="" width="200" height="200">
+            <img src="./imagenes/logo.png" class="logo__img" alt="" width="200" height="200">
             </a>
 
             <ul class="nav navbar-nav d-flex justify-content-end align-items-center w-100">
@@ -205,35 +205,9 @@
         </div>
         </div>
     </main>
-    <?php include '../templates/footer.php';?>
 
-    <footer class="bg-dark footer-menutext-white py-4 mt-5">
-        <div class="container text-center">
-            <div class="row">
-                <div class="col">
-                    <ul class="list-unstyled">
-                        <li><a href="perro_data.php" class="text-white fs-5">Home</a></li>
-                    </ul>
-                </div>
-                <div class="col">
-                    <ul class="list-unstyled">
-                        <li><a href="animales_adopcion.php" class="text-white fs-5">Perros</a></li>
-                    </ul>
-                </div>
-                <div class="col">
-                    <ul class="list-unstyled">
-                        <li><a href="politicaPrivacidad.html" class="text-white fs-5">Politica de Privacidad</a></li>
-                        <li><a href="perreras.php" class="text-white fs-5">Centros de Adopción</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <p class="mb-0">&copy; 2024 PETSFINDER. Todos los derechos reservados.</p>
-                </div>
-            </div>
-        </div>
-    </footer>  
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
 </body>
 </html>

@@ -158,7 +158,7 @@
             $idRaza = $perro->getIdRaza();
 
             $sql1 = "INSERT INTO PERRO (nChip,nombrePerro,fechaNacimiento,fechaEntrada,idperrera,peso,idRaza) VALUES(:nchip,:nombre,:fNac,:fEntr,:idperrera,:peso,:idRaza)";
-            $sql2 = "INSERT INTO FOTO (ruta) VALUES (:foto)";
+            $sql2 = "INSERT INTO FOTO (ruta,nChip) VALUES (:foto,:nChip)";
             $sql3 = "INSERT INTO ADOPCION_PERROS (nChip,dniPropietario,fechaAdopcion,adoptado,enTramite) VALUES (:nchip,:dni,:fAdopcion,:adoptado,:tramite)";
 
 
@@ -166,6 +166,7 @@
             try{
 
                 $this->conexion->beginTransaction();
+
 
                 $consulta =$this->conexion->prepare($sql1);
                 $consulta->bindParam(":nchip",$nchip);
@@ -176,11 +177,20 @@
                 $consulta->bindParam(":peso",$peso);
                 $consulta->bindParam(":idRaza",$idRaza);
                 $consulta->execute();
-
+           
+           
+           
                 $consulta = $this->conexion->prepare($sql2);
                 $consulta->bindParam(":foto",$foto);
+                $consulta->bindParam(":nChip",$nchip);
                 $consulta->execute();
 
+
+               
+           
+                
+                
+                
                 $consulta =$this->conexion->prepare($sql3);
                 $consulta->bindParam(":nchip",$nchip);
                 $consulta->bindParam(":dni",$dni);
@@ -188,6 +198,10 @@
                 $consulta->bindParam(":adoptado",$adoptado);
                 $consulta->bindParam(":tramite",$tramite);
                 $consulta->execute();
+               
+                
+
+               
 
 
                 $this->conexion->commit();

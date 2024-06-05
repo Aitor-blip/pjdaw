@@ -1,8 +1,6 @@
 <?php
     session_start();
-    $_SESSION['user'] ="invitado";
     include_once '../templates/head.php';
-    include_once '../clases/menu.php';
     @include_once '../imagenes/variables.php';
     @include_once '../bd/conexion.php';              
     $bd = new BD();
@@ -47,10 +45,6 @@
                   
 
                   <?php endforeach; ?>     
-                  <div class="login d-flex justify-content-center align-items-center">
-                      <a class="mx-3 text-white" href="./admin/secciones/login_usuario.php"><i class="fa-solid fa-user"></i></a>
-                      <a class="mx-3 text-white" href="./admin/secciones/registro_usuario.php"><i class="fa-solid fa-right-to-bracket"></i></a>        
-                </div>  
                   </div>
               </ul>
           </nav>
