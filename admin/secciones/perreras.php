@@ -1,17 +1,22 @@
 <?php
     session_start();
-    include_once '../templates/headnocss.php';
+    include_once '../templates/head.php';
     @include_once '../imagenes/variables.php';
     @include_once '../bd/conexion.php';              
     $bd = new BD();
 ?>
 <header>
-    <nav class="navbar navbar-expand navbar-light bg-info bg-gradient d-flex justify-content-end align-items-center">
-        <ul class="nav navbar-nav">
+    <nav class="navbar navbar-expand navbar-light bg-info bg-gradient d-flex justify-content-center align-items-center">
+
+    <a href="#" class="logo d-flex justify-content-start">
+    <img src="../../imagenes/logo.png" class="logo__img" alt="" width="200" height="200">
+    </a>
+
+    <ul class="nav navbar-nav d-flex justify-content-end align-items-center w-100">
         <?php foreach($_SESSION['menu_lista'] as $id=>$item): ?>
 
             <li class="nav-item mx-2">
-            <a class="nav-link fw-bold text-light" href="<?php 
+            <a class="nav-link fw-bold text-light fs-6" href="<?php 
                 if($_SESSION['menu_lista'][$id]=="Perros"){
                     $file = "animales_adopcion.php";
                     echo $file;

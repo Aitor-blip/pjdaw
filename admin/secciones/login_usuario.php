@@ -17,8 +17,17 @@
                     <form action="" method="post">
                         <?php  if($_POST){
                     if(@$logueado){
-                        $_SESSION['user'] = "usuario";
-                        header("Location:../secciones/login_usuario.php");
+                        if($_SESSION['user'] == "administrador"){
+                            $_SESSION['user'] = "administrador";
+                            header("Location:../clases/panel/index.php");
+                        }else{
+                            if($_SESSION['user'] == "usuario"){
+                                $_SESSION['user'] = "logueado";
+                                header("Location:menu_usuario.php");
+                            }
+                        }
+                        
+                        
                         
                     }else{?>
                     <div

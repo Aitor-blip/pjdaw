@@ -30,7 +30,6 @@
                         if($_SESSION['rol'] == 2){
                             $_SESSION['user'] = "usuario";
                             $_SESSION['logueado'] = true;
-                            $token = getToken();
                             header("Location:../secciones/menu_usuario.php?token=$token");
                         }
                     }

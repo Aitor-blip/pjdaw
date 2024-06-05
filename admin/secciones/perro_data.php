@@ -14,8 +14,13 @@
     <header>
       <div class="container-fluid">
         <div class="row">
-          <nav class="navbar navbar-expand navbar-light bg-info bg-gradient d-flex justify-content-end align-items-center">
-              <ul class="nav navbar-nav">
+        <nav class="navbar navbar-expand navbar-light bg-info bg-gradient d-flex justify-content-center align-items-center">
+
+            <a href="#" class="logo d-flex justify-content-start">
+            <img src="./imagenes/logo.png" class="logo__img" alt="" width="200" height="200">
+            </a>
+
+            <ul class="nav navbar-nav d-flex justify-content-end align-items-center w-100">
                   <?php foreach($_SESSION['menu_lista'] as $id=>$item): ?>
 
                   <li class="nav-item mx-2">

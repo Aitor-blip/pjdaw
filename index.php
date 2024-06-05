@@ -2,7 +2,7 @@
     session_start();
     $_SESSION['user'] = "invitado";
     $_SESSION['logueado'] = false;
-    include_once './admin/templates/headnocss.php';
+    include_once './admin/templates/head.php';
     include_once './admin/clases/menu.php';
     include_once './admin/bd/conexion.php';
     $bd = new BD();
@@ -46,10 +46,16 @@
 </head>
 <body>
     <header class="header header-min">
-    <div class="container-fluid">
     <div class="row">
-        <nav class="navbar navbar-expand navbar-light bg-info bg-gradient d-flex justify-content-end align-items-center">
-            <ul class="nav navbar-nav d-flex justify-content-center align-items-center">
+        
+       
+        <nav class=" navbar navbar-expand navbar-light bg-info bg-gradient d-flex justify-content-center align-items-center">
+
+             <a href="#" class="logo d-flex justify-content-start">
+                <img src="./imagenes/logo.png" class="logo__img" alt="" width="200" height="200">
+            </a>
+        
+            <ul class="nav-menu nav navbar-nav d-flex flex-column flex-lg-row h-100 justify-content-center justify-content-lg-end align-items-center w-100-lg">
                 
                
                 <?php foreach($_SESSION['menu_lista'] as $id=>$item): ?>
@@ -89,36 +95,9 @@
             </ul>
         </nav>
         
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        </div>
+        </div>
+    </header>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -211,7 +190,7 @@
                 <!-- Agrega más patrocinadores según sea necesario -->
             </div>
 
-    <footer class="bg-dark text-white py-4 mt-5">
+    <footer class="bg-dark footer-menutext-white py-4 mt-5">
         <div class="container text-center">
             <div class="row">
                 <div class="col">
@@ -237,10 +216,6 @@
                 </div>
             </div>
         </div>
-    </footer>
-
-
-    <?php include './admin/templates/footer.php'; ?>
-    
+    </footer>    
 </body>
 </html>

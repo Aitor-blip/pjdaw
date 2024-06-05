@@ -46,6 +46,7 @@ input[type="submit"],button{
 img{
     display: block;
     max-width: 100%;
+    cursor: pointer;
 }
 
 h1{
@@ -67,15 +68,15 @@ a{
 
 .header{
     width: 100%;
-    height: 80vh;
 }
 
 .logo__img{
-    width: 100px;
-    max-width: 100px;
-    height: 100px;
-    max-height: 100px;
-    border-radius: 50%;
+    width: 150px;
+    height: 110px;
+    border-radius: 20%;
+    object-fit: cover;
+    background-color: white;
+    box-shadow: 2px 0 10px 0 rgba(0,0,0,.5);
 }
 
 .nav-menu{
@@ -84,16 +85,24 @@ a{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
+}
+
+.logo__img{
+    display: none;
 }
 
 
-@media(min-width:768px){
+
+@media(min-width:818px){
+
+    .logo__img{
+        display: block;
+    }
 
     .nav-menu{
-        width: 90%;
-        height: 150px;
         flex-direction: row;
-        justify-content: center;
+        justify-content: flex-end;
     }
 
     .header{
@@ -137,7 +146,7 @@ a{
 }
 
 .header__container{
-    height: 60rem;
+    height: 40rem;
     width: 100%;
     background-image: url(../imagenes/dog1.jpg);
     background-position: center center;
@@ -221,7 +230,7 @@ a{
 
 /*btn btn--enviar*/
 
-@media(min-width:768px){
+@media(min-width:818px){
     .header__form input,.header__form select{
         width: auto;
     }
@@ -243,7 +252,7 @@ a{
     margin: auto;
 }
 
-@media(min-width:768px){
+@media(min-width:818px){
     .animales__landing{
         grid-template-columns: repeat(3,1fr);
         grid-template-rows: repeat(2,1fr);
@@ -259,6 +268,7 @@ a{
     width: 80%;
     height: auto;
     object-fit: cover;
+    cursor: pointer;
 }
 
 .header__textos{
@@ -301,7 +311,15 @@ a{
 
 /*Adoptables de la semana*/
 .adoptables{
-    padding-top: 50rem;
+    padding-top: 40rem;
+}
+
+.adoptables > *{
+    margin-bottom: 1.1rem;
+}
+
+.animales_adoptables_special > .animal__img{
+    margin-bottom: 1rem;
 }
 
 .animales{
@@ -322,9 +340,10 @@ a{
     margin: 0 1rem;
 }
 
-@media(min-width:768px){
+@media(min-width:818px){
     .adoptables{
         margin-top: 22rem;
+        height: 50%;
         width: 100%;
     }
 
@@ -335,8 +354,8 @@ a{
     .animales_adoptables_special{
         width: 90vw;
         display: grid;
-        grid-template-columns: repeat(4,1fr);
-        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 3rem;
     }
 }
 
@@ -363,7 +382,7 @@ a{
     margin: 1rem 0;
 }
 
-@media(min-width:768px){
+@media(min-width:818px){
 
     .footer{
         width: 100%;
@@ -418,7 +437,7 @@ a{
 }
 
 
-@media(min-width:768px){
+@media(min-width:818px){
     .nav__adopcion{
         flex-direction: row;
         justify-content: space-between;
@@ -521,7 +540,7 @@ a{
     width: 90%;
 }
 
-@media(min-width:768px){
+@media(min-width:818px){
     .animales{
         grid-template-columns: repeat(3,1fr);
     }
@@ -614,4 +633,107 @@ hr{
 .patrocinador img {
     width: 100%;
     height: auto;
+}
+
+/*Menu Usuario*/
+
+.caracteristicas{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin-top: 40rem;
+}
+
+.dog__info__car{
+    width: 90%;
+    flex: 1; 
+    line-height: 1.5rem;
+    text-align: left;
+    margin-top: 1.2rem;
+}
+
+.img{
+    width: 100%;
+    margin: 10px 0  2px auto;
+}
+
+.img img{
+    display: block;
+    max-width: 300px;
+    max-height: 300px;
+    height: auto;
+    object-fit: cover;
+}
+
+@media(min-width:818px){
+    .caracteristicas{
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .img{
+        width: 50%;
+    }
+
+    .img img{
+        max-width:800px;
+        max-height: 400px; /
+    }
+}
+
+/*Atributos*/
+
+.atributos{
+    width: 100%;
+    height: auto;
+    margin-top: 5rem;
+
+}
+
+.atributos__data{
+    width: 100%;
+    flex-direction: row;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.attributo{
+    flex: 1;
+    max-width: 70%;
+    width: auto;
+    max-height: 90%;
+    height: auto;
+    font-size: 1rem;
+    margin-left: 1.2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 4rem;
+}
+
+.attributo__name{
+    width: 100%;
+    max-width: 70%;
+    font-size: 1.5rem;
+}
+
+.attributo__info{
+    width: 100%;
+    max-width: 70%;
+}
+
+.icono{
+    margin-bottom: 2rem;
+}
+
+
+
+/*Footer*/
+.footer-menu{
+    padding-top: 70rem;
 }

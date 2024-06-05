@@ -1,6 +1,6 @@
 <?php
    session_start();
-    include_once '../../../templates/headnocss.php';
+    include_once '../../../templates/headforms.php';
     include_once '../../../clases/menu.php';
     @include_once '../../../bd/conexion.php';
     @include_once '../usuarios/gestorUsuarios.php';
@@ -69,7 +69,7 @@
             <div class="col-4 mx-5 mt-5">
                 <div class="row">
                     <div class="col-12">
-                        <form action="" method="post">
+                        <form action="" method="post" id="userForm">
 
                         <?php if(is_null(@$listaUsuariosById)){?>
                             <h2><?php echo $bd->errorMessage;?></h2>
@@ -99,6 +99,7 @@
                                     type="text"
                                     class="form-control"
                                     name="email"
+                                    id="email"
                                     aria-describedby="helpId"
                                     placeholder="Escribe el email del usuario"
                                     value="<?php echo @$emailUsuario;?>"
@@ -112,6 +113,7 @@
                                     type="text"
                                     class="form-control"
                                     name="password"
+                                    id="password"
                                     aria-describedby="helpId"
                                     placeholder="Escribe el password del usuario"
                                     value="*******"
@@ -125,12 +127,37 @@
                                     type="text"
                                     class="form-control"
                                     name="dni"
+                                    id="dni"
                                     aria-describedby="helpId"
                                     placeholder="Escribe el dni del usuario"
                                     value="<?php echo @$dniUsuario;?>"
                                     require
                                     />
                             </div>
+
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Launch demo modal
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Dni del Usuario</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="<?php echo "../../../../imagenes/img_bd/".$_SESSION['dniFoto'];?>" class="img-fluid" alt="Foto Dni Usuario">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+
 
                             <div class="mb-3">
                                 <label for="rol" class="form-label">Rol del Usuario</label>
@@ -221,38 +248,6 @@
                                     </tr><?php endforeach;}?>
                                 </tbody>
                             </table>
-
-
-                                        <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Dni del Usuario</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <img src="<?php echo "../../../../imagenes/img_bd/".$_SESSION['dniFoto'];?>" class="img-fluid" alt="Foto Dni Usuario">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
-
-
                         </div>
 
                     </div>

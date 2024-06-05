@@ -8,7 +8,7 @@
         public $errorMessage = "";
 
         public function __construct(){
-            $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','');
+            $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','aitor2002');
         }
 
         public function getConexion(){
@@ -18,7 +18,7 @@
             if(!isset($this->conexion)){
                 //Activamos el control de errores de la bd 
                 //$this->conexion = new PDO('mysql:host='.SERVER.';dbname=perros;','root','aitor2002',$opciones);
-                $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','');
+                $this->conexion = new PDO('mysql:host=localhost;dbname=perros;','root','aitor2002');
                 //echo "<p class='subtitle'>Conexión a base de datos realizada</p>";
                 
             }

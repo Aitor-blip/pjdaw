@@ -1,3 +1,4 @@
+'use strict';
 window.onload = fetchDogImages();
     async function fetchDogImages() {
         const apiURL = "https://api.thedogapi.com/v1/images/search?limit=5&&order=ASC";
@@ -20,14 +21,12 @@ window.onload = fetchDogImages();
                 img.src = dog.url;
                 img.width = 300;
                 img.height=350;
+                img.addEventListener("click",(e)=>{
+                    window.location.href="./admin/secciones/animales_adopcion.php";
+                })
                 img.classList.add("animal__img");
                 console.log(img);
                 divAnimales.appendChild(img);
- 
-
-                
-            
-            
             
             });
 
