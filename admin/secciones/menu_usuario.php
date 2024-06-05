@@ -59,16 +59,16 @@
                     <?php
                         
                         if($_SESSION['menu_lista'][$id] == "Home"){
-                            $file = "../../index.php?logueado=0";
+                            $file = "../../index.php?logueado=1";
                             echo $file;
                         }
                         
                         if($_SESSION['menu_lista'][$id] == "Perros"){
-                            $file = "animales_adopcion.php?logueado=0";
+                            $file = "animales_adopcion.php?logueado=1";
                             echo $file;
                         }
                         if($_SESSION['menu_lista'][$id]=="Centros de adopcion"):
-                            $file = "perreras.php?logueado=0";
+                            $file = "perreras.php?logueado=1";
                             echo $file;
                        endif;
 
@@ -197,18 +197,18 @@ Pedir Informacion
             <div class="row">
                 <div class="col">
                     <ul class="list-unstyled">
-                        <li><a href="index.php" class="text-white fs-5">Home</a></li>
+                        <li><a href="../../index.php" class="text-white fs-5">Home</a></li>
                     </ul>
                 </div>
                 <div class="col">
                     <ul class="list-unstyled">
-                        <li><a href="./admin/secciones/animales_adopcion.php" class="text-white fs-5">Perros</a></li>
+                        <li><a href="../secciones/animales_adopcion.php" class="text-white fs-5">Perros</a></li>
                     </ul>
                 </div>
                 <div class="col">
                     <ul class="list-unstyled">
-                        <li><a href="politicaPrivacidad.html" class="text-white fs-5">Politica de Privacidad</a></li>
-                        <li><a href="./admin/secciones/perreras.php" class="text-white fs-5">Centros de Adopción</a></li>
+                        <li><a href="../../politicaPrivacidad.html" class="text-white fs-5">Politica de Privacidad</a></li>
+                        <li><a href="../secciones/perreras.php" class="text-white fs-5">Centros de Adopción</a></li>
                     </ul>
                 </div>
             </div>

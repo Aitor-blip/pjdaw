@@ -61,7 +61,11 @@
                     <li class="nav-item mx-2">
                         <a class="nav-link fw-bold text-light fs-6" href="<?php echo $file;?>"><?php echo $_SESSION['menu_lista'][$id];?></a>
                     </li>
-                    <?php endforeach; ?>    
+                    <?php endforeach; ?>  
+                    <div class="login d-flex justify-content-center align-items-center">
+                      <a class="mx-3 text-white" href="./admin/secciones/login_usuario.php"><i class="fa-solid fa-user"></i></a>
+                      <a class="mx-3 text-white" href="./admin/secciones/registro_usuario.php"><i class="fa-solid fa-right-to-bracket"></i></a>        
+                    </div>  
               </ul>
           </nav>
     

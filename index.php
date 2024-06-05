@@ -98,35 +98,9 @@
         </div>
         </div>
     </header>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Dni</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-         <form action="" method="post" enctype="multipart/form-data">
-            <h5 class="text-center">Parte Delantera</h5>
-            <input type="file" name="dni">
-            <div class="modal-footer">
-                <input type="submit" class="btn btn-secondary" name="action" data-bs-dismiss="modal" value="Close"/>
-                <input type="submit" class="btn btn-primary" name="action" value="Save Changes"/>
-            </div>
-         </form>
-      
-      </div>
-      
-    </div>
-  </div>
-</div>
+
     <div class="header__container">
 
-            <!-- Button trigger modal -->
-        <button type="button" id="modalBtn" class="btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Pedir Informacion
-        </button>
 
 
             <div class="header__textos">

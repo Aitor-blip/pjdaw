@@ -136,7 +136,7 @@
                             </div>
 
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Launch demo modal
+                            Ver Dni
                             </button>
 
                             <!-- Modal -->
@@ -148,7 +148,13 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <img src="<?php echo "../../../../imagenes/img_bd/".$_SESSION['dniFoto'];?>" class="img-fluid" alt="Foto Dni Usuario">
+                                    <img src="
+                                    <?php if($_SESSION['dniFoto'] == null){
+                                        $_SESSION['dniFoto'] = "";
+                                        echo "No hay foto de dni";
+                                    }else{?>
+                                      <?php  echo "../../../../imagenes/img_bd/".$_SESSION['dniFoto'];?>" class="img-fluid" alt="Foto Dni Usuario">
+                                  <?php  } ?>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
