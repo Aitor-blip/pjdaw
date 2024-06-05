@@ -2,6 +2,7 @@
     session_start();
     include_once '../templates/head.php';
     @include_once '../imagenes/variables.php';
+    include_once '../clases/menu.php';
     @include_once '../bd/conexion.php';              
     $bd = new BD();
 ?>

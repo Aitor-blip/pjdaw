@@ -16,45 +16,31 @@
     <div class="row">
         <nav class="navbar navbar-expand navbar-light bg-info bg-gradient d-flex justify-content-end">
             <ul class="nav navbar-nav">
-                <?php foreach($_SESSION['menu_lista'] as $id=>$item): 
-
-                if($_SESSION['menu_lista'][$id]=="Home"){
-                    $file = "../index.php?logueado=$logueado";
-                }     
-
-                if($_SESSION['menu_lista'][$id]=="Perreras"){
-                    $file = "../perreras/index.php?logueado=$logueado";
-                }   
-
-                if($_SESSION['menu_lista'][$id]=="Perros"){
-                    $file = "../perros/index.php?logueado=$logueado";
-                }
-
-                if($_SESSION['menu_lista'][$id]=="Perros Sin Adoptar"){
-                    $file = "../perros/perrosSinAdoptar.php?logueado=$logueado";
-                }
-
-                if($_SESSION['menu_lista'][$id]=="Perros En Tramite de Adopcion"){
-                    $file = "../perros/perrosParaTramite.php?logueado=$logueado";
-                }
-
-                if($_SESSION['menu_lista'][$id]=="Perros Adoptados"){
-                    $file = "../perros/perrosParaAdoptar.php?logueado=$logueado";
-                }
-
-                if($_SESSION['menu_lista'][$id]=="Usuarios"){
-                    $file = "../usuarios/index.php?logueado=$logueado";
-                }
-
-                if($_SESSION['menu_lista'][$id]=="Cerrar Sesion"){
-                    $file = "../usuarios/cerrarSesion.php?logueado=$logueado";
-                }
-
-                ?>
-                <li class="nav-item mx-2">
-                    <a class="nav-link fw-bold text-light" href="<?php echo $file;?>"><?php echo $_SESSION['menu_lista'][$id];?></a>
+            <li class="nav-item mx-2">
+                    <a class="nav-link fw-bold text-light" href="../index.php?logueado=<?php echo $logueado;?>">Home</a>
                 </li>
-                <?php endforeach; ?>     
+                <li class="nav-item mx-2">
+                    <a class="nav-link fw-bold text-light" href="../perreras/index.php?logueado=<?php echo $logueado;?>">Perreras</a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="nav-link fw-bold text-light" href="../perros/index.php?logueado=<?php echo $logueado;?>">Perros</a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="nav-link fw-bold text-light" href="../perros/perrosSinAdoptar.php?logueado=<?php echo $logueado;?>">Perros Sin Adoptar</a>
+                </li>
+
+                <li class="nav-item mx-2">
+                    <a class="nav-link fw-bold text-light" href="../perros/perrosParaTramite.php?logueado=<?php echo $logueado;?>">Perros En Tramite de Adopcion</a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="nav-link fw-bold text-light" href="../perros/perrosParaAdoptar.php?logueado=<?php echo $logueado;?>">Perros Adoptados</a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="nav-link fw-bold text-light" href="../usuarios/index.php?logueado=<?php echo $logueado;?>">Usuarios</a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="nav-link fw-bold text-light" href="../usuarios/cerrarSesion.php?logueado=<?php echo $logueado;?>">Cerrar Sesoón</a>
+                </li>     
                 </div>
             </ul>
         </nav>

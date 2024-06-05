@@ -5,7 +5,10 @@
   @include_once '../imagenes/variables.php';
   @include_once '../bd/conexion.php';
   @include_once '../clases/gestionPerros.php';
-  $logueado = $_SESSION['logueado'];
+  @$logueado = $_SESSION['logueado'];
+  if($_SESSION['logueado']==null){
+    $logueado=0;
+  }
   $bd = new BD();
   $perros = $bd->getPerrosParaAdoptar();
   if(@$_GET['logueado']==1){
@@ -48,10 +51,11 @@
                     if($_SESSION['menu_lista'][$id]=="Home"){
                     $file = "../../index.php";
                     }
-    
-                    if($_SESSION['menu_lista'][$id]=="Favoritos"){
-                    $file = "favoritos.php";
-                    }
+                    if($_SESSION['menu_lista'][$id]=="Cerrar Sesion"):
+                      session_destroy();
+                      $logueado=1;
+                      $file = "../../index.php?logueado=$logueado";
+                    endif;
                     //
                     if($_SESSION['menu_lista'][$id]=="Centros de adopcion"):
                     $file = "perreras.php";

@@ -1,5 +1,4 @@
 <?php
-    @session_start();
     include_once '../snippets/clases.php';
     include '../bd/conexion.php';
     $bd = new BD();

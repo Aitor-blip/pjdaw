@@ -7,6 +7,7 @@
     $bd = new BD();
     $_SESSION['user'] = "logueado";
     $mensaje = "";
+    $logueado =1;
     $arrayDataAdoptadoOTramite = $bd->isAdoptado();
     $arrayDatosPerroPropieatrio = $bd->isAdoptadoDni($_SESSION['dni']);
     
@@ -30,34 +31,31 @@
                          echo $file;
                       }
                       if($_SESSION['menu_lista'][$id]=="Home"){
-                        $file = "../../index.php";
+                        $file = "../../index.php?logueado=$logueado";
                         echo $file;
                      }
 
-                     if($_SESSION['menu_lista'][$id]=="Favoritos"){
-                        $file = "favoritos.php";
-                        echo $file;
-                     }
+
                      //
                      if($_SESSION['menu_lista'][$id]=="Centros de adopcion"):
-                        $file = "perreras.php";
+                        $file = "perreras.php?logueado=$logueado";
                         echo $file;
                     endif;
 
-                      ?>"><?php 
-                      if($_SESSION['menu_lista'][$id]=="Favoritos"):?>
-                        <img src="<?php echo "../imagenes/svg/heart.svg"?>" alt="">
-                        <?php
-                        else:
-                             echo $_SESSION['menu_lista'][$id];
+                    if($_SESSION['menu_lista'][$id]=="Cerrar Sesion"):
+                        session_destroy();
+                        $logueado=1;
+                        $file = "../../../index.php?logueado=$logueado";
+                        echo $file;
                         
-                        endif;?>
-                     </a>
-                  </li>
+                    endif;
 
-                  
 
-                  <?php endforeach; ?>     
+                    ?>"></a>
+                    <a class="nav-link fw-bold text-light fs-6" href="<?php echo $file;?>"><?php echo $_SESSION['menu_lista'][$id];?></a>
+                </li>
+                <?php endforeach; ?>    
+                </li>   
                   </div>
               </ul>
           </nav>
