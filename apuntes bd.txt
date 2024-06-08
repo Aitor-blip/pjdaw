@@ -1,5 +1,0 @@
-modificar atributo adoptado de adopcion_perros  en el cual habra 3 estados para cada perro:
-
-- sin adoptar
-- en proceso de adopcion
-- adoptado
