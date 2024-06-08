@@ -170,18 +170,18 @@ Pedir Informacion
             <div class="row">
                 <div class="col">
                     <ul class="list-unstyled">
-                        <li><a href="index.php" class="text-white fs-5">Home</a></li>
+                        <li><a href="menu_usuario.php" class="text-white fs-5">Home</a></li>
                     </ul>
                 </div>
                 <div class="col">
                     <ul class="list-unstyled">
-                        <li><a href="./admin/secciones/animales_adopcion.php" class="text-white fs-5">Perros</a></li>
+                        <li><a href="animales_adopcion.php" class="text-white fs-5">Perros</a></li>
                     </ul>
                 </div>
                 <div class="col">
                     <ul class="list-unstyled">
-                        <li><a href="politicaPrivacidad.html" class="text-white fs-5">Politica de Privacidad</a></li>
-                        <li><a href="./admin/secciones/perreras.php" class="text-white fs-5">Centros de Adopción</a></li>
+                        <li><a href="../../politicaPrivacidad.html" class="text-white fs-5">Politica de Privacidad</a></li>
+                        <li><a href="perreras.php" class="text-white fs-5">Centros de Adopción</a></li>
                     </ul>
                 </div>
             </div>
